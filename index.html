@@ -4,12 +4,34 @@
   <meta charset="UTF-8" />
   <title>My Portfolio</title>
   <link rel="stylesheet" href="assets/css/style.css" />
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
 </head>
 <body>
 
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <h1 class="logo">Honggildong</h1>
+
+    <nav class="nav">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
 <!-- HERO -->
+
 <section id="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+  <spline-viewer 
+    url="https://prod.spline.design/EekrAXUFLZrNigg0/scene.splinecode">
+  </spline-viewer>
+</div>
 
   <div class="hero-content">
     <span class="hero-subtitle">Web Developer</span>
@@ -25,7 +47,7 @@
 
 
 <!-- ABOUT -->
-<section id="about">
+<section id="about" class="reveal">
   <div class="about-wrap">
     <div class="about-text">
       <h2>About Me</h2>
@@ -41,11 +63,27 @@
     <div class="about-meta">
       <div class="meta-card">
         <h3>Skills</h3>
-        <ul>
-          <li>HTML / CSS</li>
-          <li>JavaScript (Basic)</li>
-          <li>Git / GitHub</li>
-        </ul>
+     <ul class="skill-list">
+  <!-- Core Frontend -->
+  <li><i class="fa-brands fa-html5"></i><span>HTML / HTML5</span></li>
+  <li><i class="fa-brands fa-css3-alt"></i><span>CSS3</span></li>
+  <li><i class="fa-brands fa-js"></i><span>JavaScript</span></li>
+
+  <!-- Design Tools -->
+  <li><i class="fa-brands fa-adobe"></i><span>Adobe Illustrator</span></li>
+  <li><i class="fa-brands fa-adobe"></i><span>Adobe Photoshop</span></li>
+
+  <!-- Platform -->
+  <li><i class="fa-solid fa-store"></i><span>Cafe24</span></li>
+
+  <!-- Certificates -->
+  <li><i class="fa-solid fa-certificate"></i><span>GTQ 자격</span></li>
+  <li><i class="fa-solid fa-certificate"></i><span>웹디자인기능사 자격</span></li>
+
+  <!-- Legacy Experience -->
+  <li><i class="fa-solid fa-bolt"></i><span>Flash</span></li>
+  <li><i class="fa-solid fa-code"></i><span>ActionScript</span></li>
+</ul>
       </div>
 
       <div class="meta-card">
@@ -61,41 +99,96 @@
 </section>
 
   <!-- PROJECTS -->
-<section id="projects">
+<section id="projects" class="reveal">
   <h2>Projects</h2>
 
   <div class="project-list">
     <article class="project-card">
-      <div class="project-thumb"></div>
-      <div class="project-info">
-        <h3>Project Title</h3>
-        <p>간단한 프로젝트 설명이 들어갑니다.</p>
-      </div>
-    </article>
+  <div class="project-thumb"></div>
+
+  <div class="project-info">
+    <h3>Project Title</h3>
+    <p>
+      개인 프로젝트로 진행한 웹 페이지입니다.
+      레이아웃 구성과 반응형 설계에 집중했습니다.
+    </p>
+
+    <ul class="project-tags">
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+    </ul>
+
+    <div class="project-links">
+      <a href="#" class="btn">Demo</a>
+      <a href="#" class="btn outline">GitHub</a>
+    </div>
+  </div>
+</article>
 
     <article class="project-card">
-      <div class="project-thumb"></div>
-      <div class="project-info">
-        <h3>Project Title</h3>
-        <p>간단한 프로젝트 설명이 들어갑니다.</p>
-      </div>
-    </article>
+  <div class="project-thumb"></div>
 
-    <article class="project-card">
-      <div class="project-thumb"></div>
-      <div class="project-info">
-        <h3>Project Title</h3>
-        <p>간단한 프로젝트 설명이 들어갑니다.</p>
-      </div>
-    </article>
+  <div class="project-info">
+    <h3>Project Title</h3>
+    <p>
+      개인 프로젝트로 진행한 웹 페이지입니다.
+      레이아웃 구성과 반응형 설계에 집중했습니다.
+    </p>
+
+    <ul class="project-tags">
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+    </ul>
+
+    <div class="project-links">
+      <a href="#" class="btn">Demo</a>
+      <a href="#" class="btn outline">GitHub</a>
+    </div>
+  </div>
+</article>
+
+   <article class="project-card">
+  <div class="project-thumb"></div>
+
+  <div class="project-info">
+    <h3>Project Title</h3>
+    <p>
+      개인 프로젝트로 진행한 웹 페이지입니다.
+      레이아웃 구성과 반응형 설계에 집중했습니다.
+    </p>
+
+    <ul class="project-tags">
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+    </ul>
+
+    <div class="project-links">
+      <a href="#" class="btn">Demo</a>
+      <a href="#" class="btn outline">GitHub</a>
+    </div>
+  </div>
+</article>
   </div>
 </section>
 
-  <!-- CONTACT -->
-  <section id="contact">
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
     <h2>Contact</h2>
-    <p>Email: example@email.com</p>
-  </section>
+    <p class="contact-desc">
+      아래 이메일로 편하게 연락 주세요.
+    </p>
 
+    <a href="mailto:example@email.com" class="contact-mail">
+      example@email.com
+    </a>
+  </div>
+</section>
+
+<script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.41/build/spline-viewer.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>

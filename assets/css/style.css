@@ -10,11 +10,49 @@ body {
   color: #111;
 }
 
+/* HEADER */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.nav a {
+  margin-left: 24px;
+  text-decoration: none;
+  color: #111;
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.nav a:hover {
+  opacity: 1;
+}
+
 /* HERO */
 #hero {
   position: relative;
   height: 100vh; /* 화면 전체 높이 */
   overflow: hidden;
+  padding-top: 80px;
 }
 
 .hero-bg {
@@ -99,14 +137,46 @@ section {
   opacity: 0.8;
 }
 
-.project-card {
-  flex: 1;
-  height: 200px;
-  background: #eee;
+/* Project tags */
+.project-tags {
+  list-style: none;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  gap: 8px;
+  margin: 16px 0 20px;
+  padding: 0;
 }
+
+.project-tags li {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #eee;
+}
+
+/* Project links */
+.project-links {
+  display: flex;
+  gap: 12px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 16px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: #111;
+  background: #ddd;
+  border-radius: 8px;
+}
+
+.btn.outline {
+  background: transparent;
+  border: 1px solid #ddd;
+}
+
+
+
+
 
 /* 설명 */
 .hero-desc {
@@ -117,9 +187,14 @@ section {
 /* ABOUT */
 #about {
   background: #f7f7f8;
+  border-top: 1px solid #eaeaea;
   box-shadow: inset 0 1px 0 rgba(0,0,0,0.04);
   padding-top: 140px;
   padding-bottom: 140px;
+}
+
+.about-wrap {
+  row-gap: 60px;
 }
 
 .about-text {
@@ -129,6 +204,16 @@ section {
 .about-text h2 {
   font-size: 2.6rem;
   margin-bottom: 24px;
+}
+
+.about-text h2::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  background: #111;
+  opacity: 0.08;
+  margin-top: 16px;
 }
 
 .about-lead {
@@ -141,11 +226,41 @@ section {
   line-height: 1.8;
 }
 
+/* =========================
+   About Layout Upgrade
+========================= */
+
+.about-wrap {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  .about-wrap {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
 .meta-card {
   background: #fff;
   border: 1px solid #eee;
   border-radius: 20px;
   padding: 28px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+}
+
+.meta-card + .meta-card {
+  margin-top: 12px;
 }
 
 .meta-card h3 {
@@ -153,10 +268,66 @@ section {
   margin-bottom: 16px;
 }
 
+.meta-card ul {
+  padding-left: 4px;
+}
+
 .meta-card ul li {
   font-size: 0.95rem;
 }
 
+
+/* CONTACT */
+#contact {
+  background: #111;
+  color: #fff;
+  text-align: center;
+}
+
+.contact-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+#contact h2 {
+  font-size: 2.4rem;
+  margin-bottom: 16px;
+}
+
+.contact-desc {
+  opacity: 0.7;
+  margin-bottom: 32px;
+}
+
+.contact-mail {
+  display: inline-block;
+  font-size: 1.1rem;
+  color: #fff;
+  text-decoration: none;
+  padding: 14px 28px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 999px;
+}
+
+
+/* =========================
+   반응형 - HEADER
+========================= */
+
+@media (max-width: 768px) {
+  .header-inner {
+    padding: 16px 6%;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .nav a {
+    margin-left: 16px;
+    font-size: 0.9rem;
+  }
+}
 
 /* =========================
    반응형 - Projects
@@ -213,4 +384,78 @@ section {
   .hero-desc {
     font-size: 1rem;
   }
+}
+
+/* =========================
+   Hero Intro Animation
+========================= */
+
+.hero-content > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+
+.hero-content.is-active > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-content.is-active > *:nth-child(1) {
+  transition-delay: 0.1s;
+}
+.hero-content.is-active > *:nth-child(2) {
+  transition-delay: 0.3s;
+}
+.hero-content.is-active > *:nth-child(3) {
+  transition-delay: 0.5s;
+}
+
+/* =========================
+   Scroll Reveal
+========================= */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   Spline Hero
+========================= */
+
+.hero-bg spline-viewer {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* =========================
+   Skills Icons
+========================= */
+
+.skill-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skill-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+
+.skill-list i {
+  font-size: 1.2rem;
+  opacity: 0.8;
 }

@@ -2,6 +2,8 @@ const scenes = document.querySelectorAll(".scene");
 let currentIndex = 0;
 let isScrolling = false;
 
+const isMobile = window.innerWidth <= 768;
+
 function scrollToScene(index) {
   if (index < 0 || index >= scenes.length) return;
 
@@ -18,27 +20,36 @@ function scrollToScene(index) {
   }, 700);
 }
 
-// 마우스 휠 제어
-window.addEventListener(
-  "wheel",
-  (e) => {
-    if (isScrolling) return;
+if (!isMobile) {
+  window.addEventListener(
+    "wheel",
+    (e) => {
+      if (isScrolling) return;
 
-    if (e.deltaY > 0) {
-      scrollToScene(currentIndex + 1);
-    } else {
-      scrollToScene(currentIndex - 1);
-    }
-  },
-  { passive: false }
-);
+      if (e.deltaY > 0) {
+        scrollToScene(currentIndex + 1);
+      } else {
+        scrollToScene(currentIndex - 1);
+      }
+    },
+    { passive: false }
+  );
+}
 
-// 새로고침 시 현재 위치 보정
-window.addEventListener("load", () => {
-  const scrollY = window.scrollY;
-  scenes.forEach((scene, index) => {
-    if (scrollY >= scene.offsetTop) {
-      currentIndex = index;
+const reveals = document.querySelectorAll(".reveal");
+
+function revealOnScroll() {
+  const triggerPoint = window.innerHeight * 0.85;
+
+  reveals.forEach((el) => {
+    const top = el.getBoundingClientRect().top;
+
+    if (top < triggerPoint) {
+      el.classList.add("active");
     }
   });
-});
+}
+
+window.addEventListener("scroll", revealOnScroll);
+revealOnScroll();
+

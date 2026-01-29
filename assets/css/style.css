@@ -12,7 +12,7 @@ html, body {
 body {
   font-family: Arial, sans-serif;
   color: #111;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* HEADER */
@@ -26,6 +26,17 @@ body {
 
 .logo {
   font-size: 1rem;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* SCENE */
@@ -147,18 +158,34 @@ body {
   text-decoration: none;
 }
 
+
 /* MOBILE */
 @media (max-width: 768px) {
   .scene {
     padding: 100px 6% 0;
     flex-direction: column;
   }
-
+  
+  .scene.project-scene {
+    padding-top: 140px;
+  }
   .about-wrap {
     grid-template-columns: 1fr;
   }
 
   .project-scene {
     gap: 40px;
+  }
+  
+  body {
+    overflow: auto;
+  }
+
+  .project-text {
+    margin-bottom: 16px;
+  }
+
+  .project-text h3 {
+    margin-bottom: 8px;
   }
 }

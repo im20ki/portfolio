@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Portfolio</title>
+
   <link rel="stylesheet" href="assets/css/style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
@@ -13,41 +14,26 @@
 
   <!-- HEADER -->
   <header class="site-header">
-    <div class="header-inner">
-      <h1 class="logo">Honggildong</h1>
-
-      <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </div>
+    <h1 class="logo">Honggildong</h1>
   </header>
 
   <!-- HERO -->
-
-  <section id="hero">
+  <section id="hero" class="scene">
     <div class="hero-bg">
-      <spline-viewer url="https://prod.spline.design/EekrAXUFLZrNigg0/scene.splinecode">
-      </spline-viewer>
+      <spline-viewer url="https://prod.spline.design/EekrAXUFLZrNigg0/scene.splinecode"></spline-viewer>
     </div>
 
-    <div class="hero-content">
+    <div class="hero-content reveal">
       <span class="hero-subtitle">Web Developer</span>
-      <h1>
-        안녕하세요,<br />
-        저는 홍길동입니다
-      </h1>
-      <p class="hero-desc">
-        트렌디한 웹 UI와 인터랙션을 만듭니다
-      </p>
+      <h1>안녕하세요,<br>저는 홍길동입니다</h1>
+      <p>트렌디한 웹 UI와 인터랙션을 만듭니다</p>
     </div>
   </section>
 
-
-  <!-- ABOUT -->
-  <section id="about" class="reveal">
+  <!-- ABOUT (원래 Skills/Focus 그대로 복구) -->
+  <section id="about" class="scene">
     <div class="about-wrap">
+
       <div class="about-text">
         <h2>About Me</h2>
         <p class="about-lead">
@@ -62,6 +48,8 @@
       <div class="about-meta">
         <div class="meta-card">
           <h3>Skills</h3>
+
+          <!-- ✅ 여기: 네 원본 스킬 목록 100% 복구 -->
           <ul class="skill-list">
             <li><i class="fa-brands fa-html5"></i><span>HTML / HTML5</span></li>
             <li><i class="fa-brands fa-css3-alt"></i><span>CSS3</span></li>
@@ -92,119 +80,45 @@
 
         <div class="meta-card">
           <h3>Focus</h3>
-          <ul>
+          <ul class="focus-list">
             <li>반응형 UI</li>
             <li>카드형 레이아웃</li>
             <li>인터랙션 기초</li>
           </ul>
         </div>
       </div>
+
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section id="projects" class="reveal">
-    <h2>Projects</h2>
+  <!-- PROJECT 01 -->
+  <section class="scene project-scene">
+    <div class="project-text">
+      <h3>Project Title</h3>
+      <p>개인 프로젝트로 진행한 웹 페이지입니다.</p>
+    </div>
 
-    <div class="project-list">
-      <article class="project-card">
-        <div class="project-thumb project-gallery">
-          <img src="assets/images/projects-01/01.jpg" alt="김치 브랜드 디자인 프로젝트 1" />
-          <img src="assets/images/projects-01/02.jpg" alt="김치 브랜드 디자인 프로젝트 2" />
-          <img src="assets/images/projects-01/03.jpg" alt="김치 브랜드 디자인 프로젝트 3" />
-          <img src="assets/images/projects-01/04.jpg" alt="김치 브랜드 디자인 프로젝트 4" />
-        </div>
+    <div class="project-image">
+      <img src="assets/images/projects-01/01.jpg" alt="프로젝트 이미지 1">
+    </div>
+  </section>
 
-        <div class="project-info">
-          <h3>Project Title</h3>
-          <p>
-            개인 프로젝트로 진행한 웹 페이지입니다.
-            레이아웃 구성과 반응형 설계에 집중했습니다.
-          </p>
+  <!-- PROJECT 02 -->
+  <section class="scene project-scene">
+    <div class="project-text">
+      <h3>Project Title</h3>
+      <p>개인 프로젝트로 진행한 웹 페이지입니다.</p>
+    </div>
 
-          <ul class="project-tags">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-          </ul>
-
-          <div class="project-links">
-            <a href="#" class="btn">Demo</a>
-            <a href="#" class="btn outline">GitHub</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-thumb project-gallery">
-          <img src="assets/images/projects-01/01.jpg" alt="김치 브랜드 디자인 프로젝트 1" />
-          <img src="assets/images/projects-01/02.jpg" alt="김치 브랜드 디자인 프로젝트 2" />
-          <img src="assets/images/projects-01/03.jpg" alt="김치 브랜드 디자인 프로젝트 3" />
-          <img src="assets/images/projects-01/04.jpg" alt="김치 브랜드 디자인 프로젝트 4" />
-        </div>
-
-        <div class="project-info">
-          <h3>Project Title</h3>
-          <p>
-            개인 프로젝트로 진행한 웹 페이지입니다.
-            레이아웃 구성과 반응형 설계에 집중했습니다.
-          </p>
-
-          <ul class="project-tags">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-          </ul>
-
-          <div class="project-links">
-            <a href="#" class="btn">Demo</a>
-            <a href="#" class="btn outline">GitHub</a>
-          </div>
-        </div>
-      </article>
-
-      <article class="project-card">
-        <div class="project-thumb project-gallery">
-          <img src="assets/images/projects-01/01.jpg" alt="김치 브랜드 디자인 프로젝트 1" />
-          <img src="assets/images/projects-01/02.jpg" alt="김치 브랜드 디자인 프로젝트 2" />
-          <img src="assets/images/projects-01/03.jpg" alt="김치 브랜드 디자인 프로젝트 3" />
-          <img src="assets/images/projects-01/04.jpg" alt="김치 브랜드 디자인 프로젝트 4" />
-        </div>
-
-        <div class="project-info">
-          <h3>Project Title</h3>
-          <p>
-            개인 프로젝트로 진행한 웹 페이지입니다.
-            레이아웃 구성과 반응형 설계에 집중했습니다.
-          </p>
-
-          <ul class="project-tags">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JavaScript</li>
-          </ul>
-
-          <div class="project-links">
-            <a href="#" class="btn">Demo</a>
-            <a href="#" class="btn outline">GitHub</a>
-          </div>
-        </div>
-      </article>
+    <div class="project-image">
+      <img src="assets/images/projects-01/02.jpg" alt="프로젝트 이미지 2">
     </div>
   </section>
 
   <!-- CONTACT -->
-  <section id="contact">
-    <div class="contact-inner">
-      <h2>Contact</h2>
-      <p class="contact-desc">
-        아래 이메일로 편하게 연락 주세요.
-      </p>
-
-      <a href="mailto:example@email.com" class="contact-mail">
-        example@email.com
-      </a>
-    </div>
+  <section id="contact" class="scene">
+    <h2>Contact</h2>
+    <a href="mailto:example@email.com">example@email.com</a>
   </section>
 
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.41/build/spline-viewer.js"></script>

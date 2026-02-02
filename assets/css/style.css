@@ -306,6 +306,7 @@ body {
 
 /* LEFT TEXT */
 .project-text-area {
+  font-size: 1.4rem;
   flex: 1;
   position: sticky;
   top: 120px;
@@ -352,32 +353,52 @@ body {
   opacity: 1;
 }
 
+/* =========================
+   MOBILE
+   ========================= */
 
-
-
-
-
-/* 모바일 비활성화 */
 @media (max-width: 768px) {
+
   .project-sticky {
     flex-direction: column;
+    gap: 32px;
   }
 
+  /* 텍스트 영역 */
+  .project-text-area {
+    position: relative;
+    top: auto;
+    height: auto;
+  }
+
+  .project-text-area .step {
+    position: relative;
+    opacity: 1;
+    margin-bottom: 24px;
+  }
+
+  .project-text-area p {
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  /* 이미지 영역 */
   .project-image-area {
     position: relative;
+    top: auto;
     height: auto;
   }
 
   .project-image-area img {
     position: relative;
     opacity: 1;
-    margin-bottom: 20px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin-bottom: 24px;
+    border-radius: 8px;
   }
 }
 
-/* =========================
-   MOBILE
-   ========================= */
 @media (max-width: 768px) {
 
   /* HERO */
@@ -421,5 +442,13 @@ body {
   /* CONTACT */
   #contact {
     padding-top: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .scene {
+    height: auto;
+    min-height: 100vh;
+    align-items: flex-start;
   }
 }

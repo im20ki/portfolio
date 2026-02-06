@@ -42,7 +42,7 @@ body {
 }
 
 .scene:not(#hero) {
-  padding: 120px 10% 0;
+  padding: 0 10%;
 }
 
 /* =========================
@@ -54,10 +54,84 @@ body {
   left: 0;
   padding: 20px 40px;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
+
+.project-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.project-nav button {
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #111;
+  cursor: pointer;
+  opacity: 0.6;
+  position: relative;
+  font-weight: 500;
+}
+
+/* =========================
+   PROJECT NAV BASE
+   ========================= */
+
+.project-nav button {
+  position: relative;
+}
+
+/* 대괄호 기본 설정 */
+.project-nav button::before,
+.project-nav button::after {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.project-nav button::before {
+  content: "[ ";
+}
+
+.project-nav button::after {
+  content: " ]";
+}
+
+/* hover */
+.project-nav button:hover {
+  opacity: 1;
+}
+
+/* =========================
+   PROJECT NAV ACTIVE = LOGO LEVEL
+   ========================= */
+
+.project-nav button.active,
+.project-nav button.active::before,
+.project-nav button.active::after {
+  color: #111;        /* 로고와 동일 */
+  font-weight: 600;
+}
+
+.project-nav button.active {
+  opacity: 1;
+  letter-spacing: 0.22em;
+}
+
+/* active 상태에서만 [ ] 표시 */
+.project-nav button.active::before,
+.project-nav button.active::after {
+  opacity: 1;
+}
+
 
 .logo {
   font-size: 1rem;
+  cursor: pointer;
 }
 
 /* =========================
@@ -200,6 +274,7 @@ body {
 #about {
   background: #f6f6f6;
   color: #111;
+  padding-top: 120px;
 }
 
 #about h2 {
@@ -280,19 +355,35 @@ body {
 }
 
 /* =========================
-   CONTACT
+   CONTACT – COMPACT ENDING
    ========================= */
+
 #contact {
+  height: auto;                 /* scene의 100vh 무력화 */
+  padding: 80px 0 60px;         /* 엔딩 여백 */
   background: #111;
   color: #fff;
+  display: flex;                /* scene 구조 유지 */
   flex-direction: column;
+  align-items: center;
+}
+
+#contact h2 {
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  font-weight: 500;
+  margin-bottom: 16px;
+  opacity: 0.6;
+  text-transform: uppercase;
 }
 
 #contact a {
+  font-size: 0.95rem;
   color: #fff;
-  margin-top: 20px;
+  opacity: 0.85;
   text-decoration: none;
 }
+
 
 /* =========================
    STICKY PROJECT (FINAL)
@@ -302,6 +393,8 @@ body {
   display: flex;
   align-items: flex-start;
   gap: 80px;
+  padding-bottom: 120px;
+  margin-bottom: 120px;
 }
 
 /* LEFT TEXT */
@@ -346,12 +439,62 @@ body {
   object-fit: cover;
 
   opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+
   transition: opacity 0.4s ease;
 }
 
 .project-image-area img.active {
   opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
 }
+
+/* =========================
+   FOOTER TAKEOVER (END SCENE)
+   ========================= */
+
+.footer-takeover {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  background: #111;
+  color: #fff;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 0.4s ease;
+}
+
+/* 활성화 되었을 때 */
+.footer-takeover.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* =========================
    MOBILE
@@ -359,9 +502,27 @@ body {
 
 @media (max-width: 768px) {
 
+  /* project 전체를 일반 블록처럼 */
   .project-sticky {
-    flex-direction: column;
-    gap: 32px;
+    display: block;
+  }
+
+   /* 기본: NEXT PROJECT 없음 */
+  .project-sticky::before {
+    content: none;
+  }
+
+  /* 두 번째 프로젝트부터만 표시 */
+  .project-sticky + .project-sticky::before {
+    content: "NEXT PROJECT";
+    display: block;
+    text-align: center;
+
+    margin: 64px 0 32px;
+
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    color: #999;
   }
 
   /* 텍스트 영역 */
@@ -373,13 +534,9 @@ body {
 
   .project-text-area .step {
     position: relative;
+    inset: auto;
     opacity: 1;
     margin-bottom: 24px;
-  }
-
-  .project-text-area p {
-    font-size: 0.95rem;
-    color: #555;
   }
 
   /* 이미지 영역 */
@@ -387,17 +544,23 @@ body {
     position: relative;
     top: auto;
     height: auto;
+    overflow: hidden;
   }
 
   .project-image-area img {
     position: relative;
-    opacity: 1;
+    inset: auto;
+
+    width: 100%;
     height: auto;
     aspect-ratio: 16 / 9;
+
+    opacity: 1;
     margin-bottom: 24px;
-    border-radius: 8px;
   }
+
 }
+
 
 @media (max-width: 768px) {
 

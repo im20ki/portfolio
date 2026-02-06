@@ -452,6 +452,14 @@ body {
 }
 
 /* =========================
+   CONTACT SCROLL TRIGGER
+========================= */
+
+#contactTrigger {
+  height: 100vh;
+}
+
+/* =========================
    FOOTER TAKEOVER (END SCENE)
    ========================= */
 
@@ -459,19 +467,25 @@ body {
   position: fixed;
   inset: 0;
   z-index: 200;
-
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
   background: #111;
   color: #fff;
-
   opacity: 0;
   pointer-events: none;
 
   transition: opacity 0.4s ease;
+}
+
+.footer-takeover .contact-email {
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 12px;
+  cursor: default;
+  user-select: text;
 }
 
 /* 활성화 되었을 때 */

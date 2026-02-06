@@ -255,3 +255,22 @@ if (logo) {
     }, 700);
   });
 }
+
+/* =========================
+   CONTACT TAKEOVER CONTROL
+========================= */
+
+const contactTakeover = document.getElementById("contactTakeover");
+const contactTrigger = document.getElementById("contactTrigger");
+
+window.addEventListener("scroll", () => {
+  if (!contactTakeover || !contactTrigger) return;
+
+  const triggerTop = contactTrigger.getBoundingClientRect().top;
+
+  if (triggerTop <= 0) {
+    contactTakeover.classList.add("active");
+  } else {
+    contactTakeover.classList.remove("active");
+  }
+});

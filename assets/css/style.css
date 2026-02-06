@@ -7,15 +7,23 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: Arial, sans-serif;
+  color: #111;
+  overflow-x: hidden;
+}
+
 html,
 body {
   height: 100%;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  color: #111;
-  overflow-x: hidden;
+body.contact-open .site-header {
+  z-index: 300;
+}
+
+body.contact-open .site-header .logo {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 /* =========================
@@ -43,6 +51,18 @@ body {
 
 .scene:not(#hero) {
   padding: 0 10%;
+}
+
+/* =========================
+   CONTACT SCROLL TRIGGER
+========================= */
+
+#contactTrigger {
+  height: 100vh;
+  background: transparent;
+  pointer-events: none;
+   padding: 0 !important;
+  margin: 0;
 }
 
 /* =========================
@@ -452,14 +472,6 @@ body {
 }
 
 /* =========================
-   CONTACT SCROLL TRIGGER
-========================= */
-
-#contactTrigger {
-  height: 100vh;
-}
-
-/* =========================
    FOOTER TAKEOVER (END SCENE)
    ========================= */
 
@@ -467,16 +479,28 @@ body {
   position: fixed;
   inset: 0;
   z-index: 200;
+
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
   background: #111;
   color: #fff;
+
   opacity: 0;
+  transform: scale(0.96);
   pointer-events: none;
 
-  transition: opacity 0.4s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s ease;
+}
+
+.footer-takeover.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
 }
 
 .footer-takeover .contact-email {

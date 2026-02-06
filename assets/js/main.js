@@ -268,9 +268,11 @@ window.addEventListener("scroll", () => {
 
   const triggerTop = contactTrigger.getBoundingClientRect().top;
 
-  if (triggerTop <= 0) {
+  if (triggerTop <= window.innerHeight * 0.3) {
     contactTakeover.classList.add("active");
+    document.body.classList.add("contact-open");
   } else {
     contactTakeover.classList.remove("active");
+    document.body.classList.remove("contact-open");
   }
 });

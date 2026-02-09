@@ -355,6 +355,72 @@ function handleMobileHeader() {
   }
 }
 
+/* =========================
+   IMAGE MODAL SYSTEM
+========================= */
+
+const modal = document.getElementById("imageModal");
+const modalBody = document.querySelector(".img-modal-body");
+const modalDim = document.querySelector(".img-modal-dim");
+const modalClose = document.querySelector(".img-modal-close");
+
+function openImageModal(projectSection, clickedSrc) {
+  modalBody.innerHTML = "";
+
+  const imgs = projectSection.querySelectorAll(".project-image-area img");
+
+  imgs.forEach((img) => {
+    const wrapper = document.createElement("div");
+
+    const clone = img.cloneNode(true);
+
+    // 캡션 예시 (나중에 커스텀 가능)
+    const caption = document.createElement("div");
+    caption.className = "modal-caption";
+    caption.innerHTML = `
+      • 프로젝트 이미지<br>
+      • 클릭 확대 가능
+    `;
+
+    wrapper.appendChild(clone);
+    wrapper.appendChild(caption);
+
+    modalBody.appendChild(wrapper);
+  });
+
+  modal.classList.add("active");
+
+  // 클릭한 이미지 위치로 스크롤
+  const index = Array.from(imgs).findIndex(i => i.src === clickedSrc);
+  if (index > 0) {
+    const target = modalBody.children[index];
+    target?.scrollIntoView({ behavior: "auto" });
+  }
+
+  document.body.style.overflow = "hidden";
+}
+
+function closeImageModal() {
+  modal.classList.remove("active");
+  document.body.style.overflow = "";
+}
+
+modalDim.addEventListener("click", closeImageModal);
+modalClose.addEventListener("click", closeImageModal);
+
+window.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeImageModal();
+});
+
+/* 클릭 연결 */
+document.querySelectorAll(".project-image-area img").forEach((img) => {
+  img.addEventListener("click", () => {
+    const section = img.closest(".project-sticky");
+    openImageModal(section, img.src);
+  });
+});
+
+
 window.addEventListener("scroll", handleMobileHeader);
 window.addEventListener("resize", handleMobileHeader);
 handleMobileHeader();

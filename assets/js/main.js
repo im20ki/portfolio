@@ -210,6 +210,7 @@ if (heroUI && !isMobile()) {
   animateHero();
 }
 
+
 /* =========================
    SPLINE LOADER
 ========================= */

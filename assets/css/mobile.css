@@ -1,0 +1,188 @@
+/* =========================
+   MOBILE (≤ 768px) – CLEAN PACK
+   기능 절대 삭제 X / 중복만 정리
+   ========================= */
+@media (max-width: 768px) {
+
+  /* HEADER (mobile scroll state) */
+  .site-header {
+    transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  }
+
+  body.mobile-header-scrolled .site-header {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+  }
+
+  /* CONTACT TRIGGER (disable on mobile) */
+  #contactTrigger {
+    height: 0;
+    min-height: 0;
+  }
+
+  /* RESPONSIVE UTILITIES */
+  .pc-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: inline;
+    letter-spacing: 0.2em;
+  }
+
+  /* GLOBAL SCENE (mobile behavior) */
+  .scene {
+    height: auto;
+    min-height: 100vh;
+    align-items: flex-start;
+  }
+
+  /* HERO → ABOUT SPACING */
+  #hero {
+    padding-bottom: 80px; /* Hero → About 숨 고르기 */
+  }
+
+  #about {
+    margin-top: 80px; /* Hero → About 여백 (모바일 전용) */
+  }
+
+  /* =========================
+     PROJECT (MOBILE – FINAL)
+     ========================= */
+
+  .project-sticky {
+    display: block;
+    margin-bottom: 56px;
+    padding: 0;
+  }
+
+  .project-sticky::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin-top: 40px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  /* 텍스트 영역 */
+  .project-text-area {
+    position: relative; /* PC sticky 해제 포함 */
+    top: auto;
+    height: auto;
+    padding: 0 20px 16px;
+  }
+
+  .project-text-area .step {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    margin-bottom: 12px;
+  }
+
+  /* 이미지 영역 (PC sticky + absolute 해제 포함) */
+  .project-image-area {
+    position: relative; /* PC sticky 해제 */
+    top: auto;
+    height: auto;
+
+    display: flex;
+    gap: 12px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    padding: 0 20px;
+
+    scrollbar-width: none;     /* Firefox */
+    -ms-overflow-style: none;  /* IE, Edge */
+  }
+
+  .project-image-area::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  .project-image-area img {
+    position: relative; /* PC absolute 해제 */
+    inset: auto;
+
+    flex: 0 0 70%;
+    max-width: 70%;
+    width: 100%;
+
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+
+    scroll-snap-align: start;
+    border-radius: 14px;
+
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* =========================
+     HERO (MOBILE)
+     ========================= */
+  .hero-content.cyber-ui {
+    bottom: 6%;
+    padding: 24px 28px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  /* =========================
+     ABOUT (MOBILE)
+     ========================= */
+  .about-wrap {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .about-meta {
+    justify-content: flex-start;
+  }
+
+  .meta-card {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* =========================
+     PROJECT TEXT (legacy selector 유지)
+     ========================= */
+  .project-text {
+    padding: 24px;
+    border-left: none;
+    border-top: 2px solid rgba(0, 0, 0, 0.6);
+  }
+
+  /* =========================
+     CONTACT (MOBILE)
+     ========================= */
+  #contact {
+    padding-top: 80px;
+  }
+
+  /* =========================
+     MOBILE CONTACT HEADER (PC STYLE)
+     ========================= */
+  body.contact-open .site-header {
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  body.contact-open .project-nav {
+    display: none;
+  }
+
+  body.contact-open .logo {
+    opacity: 1;
+  }
+
+}

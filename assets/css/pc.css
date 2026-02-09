@@ -1,0 +1,92 @@
+/* =========================
+   LAYOUT (PC ONLY)
+   ========================= */
+.scene {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.scene:not(#hero) {
+  padding: 0 10%;
+}
+
+/* =========================
+   PROJECT (PC STICKY)
+   ========================= */
+.project-sticky {
+  display: flex;
+  align-items: flex-start;
+  gap: 80px;
+  padding-bottom: 120px;
+  margin-bottom: 120px;
+}
+
+/* LEFT TEXT */
+.project-text-area {
+  flex: 1;
+  font-size: 1.4rem;
+
+  position: sticky;
+  top: 120px;
+
+  height: calc(100vh - 160px);
+}
+
+.project-text-area .step {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.project-text-area .step.active {
+  opacity: 1;
+}
+
+/* RIGHT IMAGE */
+.project-image-area {
+  flex: 1;
+
+  position: sticky;
+  top: 120px;
+
+  height: calc(100vh - 160px);
+}
+
+.project-image-area img {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  transition: opacity 0.4s ease;
+}
+
+.project-image-area img.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* =========================
+   CONTACT SCROLL TRIGGER (PC)
+   ========================= */
+#contactTrigger {
+  height: 100vh;
+  background: transparent;
+  pointer-events: none;
+  padding: 0 !important;
+  margin: 0;
+}

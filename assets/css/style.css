@@ -18,6 +18,7 @@ body {
   height: 100%;
 }
 
+/* contact takeover 상태일 때 header 처리 */
 body.contact-open .site-header {
   z-index: 300;
 }
@@ -51,18 +52,6 @@ body.contact-open .site-header .logo {
 
 .scene:not(#hero) {
   padding: 0 10%;
-}
-
-/* =========================
-   CONTACT SCROLL TRIGGER
-========================= */
-
-#contactTrigger {
-  height: 100vh;
-  background: transparent;
-  pointer-events: none;
-   padding: 0 !important;
-  margin: 0;
 }
 
 /* =========================
@@ -102,10 +91,6 @@ body.contact-open .site-header .logo {
    PROJECT NAV BASE
    ========================= */
 
-.project-nav button {
-  position: relative;
-}
-
 /* 대괄호 기본 설정 */
 .project-nav button::before,
 .project-nav button::after {
@@ -129,11 +114,11 @@ body.contact-open .site-header .logo {
 /* =========================
    PROJECT NAV ACTIVE = LOGO LEVEL
    ========================= */
-
 .project-nav button.active,
 .project-nav button.active::before,
 .project-nav button.active::after {
-  color: #111;        /* 로고와 동일 */
+  color: #111;
+  /* 로고와 동일 */
   font-weight: 600;
 }
 
@@ -148,10 +133,20 @@ body.contact-open .site-header .logo {
   opacity: 1;
 }
 
-
 .logo {
   font-size: 1rem;
   cursor: pointer;
+}
+
+/* =========================
+   RESPONSIVE UTILITIES
+   ========================= */
+.pc-only {
+  display: inline;
+}
+
+.mobile-only {
+  display: none;
 }
 
 /* =========================
@@ -168,8 +163,8 @@ body.contact-open .site-header .logo {
   pointer-events: none;
 
   background:
-    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+    linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
   background-size: 40px 40px;
 
   z-index: 3;
@@ -246,8 +241,8 @@ body.contact-open .site-header .logo {
   left: -6px;
   width: 16px;
   height: 16px;
-  border-top: 2px solid rgba(0,0,0,0.6);
-  border-left: 2px solid rgba(0,0,0,0.6);
+  border-top: 2px solid rgba(0, 0, 0, 0.6);
+  border-left: 2px solid rgba(0, 0, 0, 0.6);
 }
 
 /* Hero Text */
@@ -273,12 +268,10 @@ body.contact-open .site-header .logo {
   width: 160px;
   height: 1px;
   margin: 22px auto;
-  background: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.4),
-    transparent
-  );
+  background: linear-gradient(to right,
+      transparent,
+      rgba(0, 0, 0, 0.4),
+      transparent);
 }
 
 .hero-hint {
@@ -350,15 +343,8 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
-   PROJECT
+   PROJECT (GENERIC)
    ========================= */
-.project-scene {
-  gap: 80px;
-  position: relative;
-  background: #f2f2f2;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-}
-
 .project-image,
 .project-text {
   flex: 1;
@@ -375,40 +361,8 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
-   CONTACT – COMPACT ENDING
-   ========================= */
-
-#contact {
-  height: auto;                 /* scene의 100vh 무력화 */
-  padding: 80px 0 60px;         /* 엔딩 여백 */
-  background: #111;
-  color: #fff;
-  display: flex;                /* scene 구조 유지 */
-  flex-direction: column;
-  align-items: center;
-}
-
-#contact h2 {
-  font-size: 0.9rem;
-  letter-spacing: 0.3em;
-  font-weight: 500;
-  margin-bottom: 16px;
-  opacity: 0.6;
-  text-transform: uppercase;
-}
-
-#contact a {
-  font-size: 0.95rem;
-  color: #fff;
-  opacity: 0.85;
-  text-decoration: none;
-}
-
-
-/* =========================
    STICKY PROJECT (FINAL)
    ========================= */
-
 .project-sticky {
   display: flex;
   align-items: flex-start;
@@ -472,9 +426,19 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
+   CONTACT SCROLL TRIGGER
+   ========================= */
+#contactTrigger {
+  height: 100vh;
+  background: transparent;
+  pointer-events: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+/* =========================
    FOOTER TAKEOVER (END SCENE)
    ========================= */
-
 .footer-takeover {
   position: fixed;
   inset: 0;
@@ -512,46 +476,85 @@ body.contact-open .site-header .logo {
   user-select: text;
 }
 
-/* 활성화 되었을 때 */
-.footer-takeover.active {
-  opacity: 1;
-  pointer-events: auto;
+/* =========================
+   CONTACT – COMPACT ENDING
+   ========================= */
+#contact {
+  height: auto;
+  /* scene의 100vh 무력화 */
+  padding: 80px 0 60px;
+  /* 엔딩 여백 */
+  background: #111;
+  color: #fff;
+  display: flex;
+  /* scene 구조 유지 */
+  flex-direction: column;
+  align-items: center;
 }
 
+#contact h2 {
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  font-weight: 500;
+  margin-bottom: 16px;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#contact a {
+  font-size: 0.95rem;
+  color: #fff;
+  opacity: 0.85;
+  text-decoration: none;
+}
 
 /* =========================
    MOBILE
    ========================= */
+@media (max-width: 768px) {
+  .site-header {
+    transition: background 0.3s ease, backdrop-filter 0.3s ease;
+  }
+
+  body.mobile-header-scrolled .site-header {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+  }
+}
+
+@media (max-width: 768px) {
+  #contactTrigger {
+    height: 0;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .pc-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: inline;
+    letter-spacing: 0.2em;
+  }
+}
 
 @media (max-width: 768px) {
 
   /* project 전체를 일반 블록처럼 */
   .project-sticky {
-    display: block;
+    padding-bottom: 0;
+    margin-bottom: 0;
   }
 
-   /* 기본: NEXT PROJECT 없음 */
+  /* 기본: NEXT PROJECT 없음 */
   .project-sticky::before {
     content: none;
   }
 
   /* 두 번째 프로젝트부터만 표시 */
-  .project-sticky + .project-sticky::before {
+  .project-sticky+.project-sticky::before {
     content: "NEXT PROJECT";
     display: block;
     text-align: center;
@@ -599,7 +602,6 @@ body.contact-open .site-header .logo {
 
 }
 
-
 @media (max-width: 768px) {
 
   /* HERO */
@@ -628,12 +630,6 @@ body.contact-open .site-header .logo {
     margin: 0 auto;
   }
 
-  /* PROJECT */
-  .project-scene {
-    flex-direction: column;
-    gap: 32px;
-  }
-
   .project-text {
     padding: 24px;
     border-left: none;
@@ -652,4 +648,27 @@ body.contact-open .site-header .logo {
     min-height: 100vh;
     align-items: flex-start;
   }
+}
+
+/* =========================
+   MOBILE CONTACT HEADER (PC STYLE)
+   ========================= */
+@media (max-width: 768px) {
+
+  /* contact 진입 시: 헤더 배경 제거 */
+  body.contact-open .site-header {
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  /* contact 진입 시: project nav 숨김 */
+  body.contact-open .project-nav {
+    display: none;
+  }
+
+  /* 로고는 항상 보이게 */
+  body.contact-open .logo {
+    opacity: 1;
+  }
+
 }

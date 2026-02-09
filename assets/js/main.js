@@ -22,25 +22,50 @@ function getCurrentSceneIndex() {
   return index;
 }
 
+let currentAnimation = null;
+
 function scrollToScene(index) {
   if (index < 0 || index >= scenes.length) return;
-
   if (isScrolling) return;
+
   isScrolling = true;
 
   const scene = scenes[index];
   const style = getComputedStyle(scene);
   const paddingTop = parseInt(style.paddingTop, 10) || 0;
 
-  window.scrollTo({
-    top: scene.offsetTop - paddingTop,
-    behavior: "smooth",
-  });
+  const startY = window.scrollY;
+  const targetY = scene.offsetTop - paddingTop;
+  const distance = targetY - startY;
+  const duration = 850;
+  let startTime = null;
 
-  setTimeout(() => {
-    isScrolling = false;
-  }, 700);
+  function easeInOutCubic(t) {
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function animateScroll(timestamp) {
+    if (!startTime) startTime = timestamp;
+
+    const progress = Math.min((timestamp - startTime) / duration, 1);
+    const eased = easeInOutCubic(progress);
+
+    window.scrollTo(0, startY + distance * eased);
+
+    if (progress < 1) {
+      currentAnimation = requestAnimationFrame(animateScroll);
+    } else {
+      isScrolling = false;
+      currentAnimation = null;
+    }
+  }
+
+  currentAnimation = requestAnimationFrame(animateScroll);
 }
+
+
 
 /* =========================
    PROJECT SECTIONS SETUP
@@ -88,6 +113,7 @@ if (!isMobile()) {
   window.addEventListener(
     "wheel",
     (e) => {
+      if (Math.abs(e.deltaY) < 30) return;
       const currentSceneIndex = getCurrentSceneIndex();
       const currentScene = scenes[currentSceneIndex];
 
@@ -155,18 +181,33 @@ window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
 
 /* =========================
-   HERO MICRO MOVE
+   HERO MICRO MOVE (SMOOTH)
 ========================= */
 const heroUI = document.querySelector(".hero-content.cyber-ui");
 
+let targetX = 0;
+let targetY = 0;
+let currentX = 0;
+let currentY = 0;
+
 if (heroUI && !isMobile()) {
   window.addEventListener("mousemove", (e) => {
-    const x = (e.clientX / window.innerWidth - 0.5) * 12;
-    const y = (e.clientY / window.innerHeight - 0.5) * 12;
+    targetX = (e.clientX / window.innerWidth - 0.5) * 12;
+    targetY = (e.clientY / window.innerHeight - 0.5) * 12;
+  });
+
+  function animateHero() {
+    // 👉 부드럽게 따라가게 만드는 핵심
+    currentX += (targetX - currentX) * 0.08;
+    currentY += (targetY - currentY) * 0.08;
 
     heroUI.style.transform =
-      `translate(-50%, 0) translate(${x}px, ${-y}px)`;
-  });
+      `translate(-50%, 0) translate(${currentX}px, ${-currentY}px)`;
+
+    requestAnimationFrame(animateHero);
+  }
+
+  animateHero();
 }
 
 /* =========================
@@ -264,7 +305,26 @@ const contactTakeover = document.getElementById("contactTakeover");
 const contactTrigger = document.getElementById("contactTrigger");
 
 window.addEventListener("scroll", () => {
-  if (!contactTakeover || !contactTrigger) return;
+  if (!contactTakeover) return;
+
+  // ✅ 모바일
+  if (window.innerWidth <= 768) {
+    const isBottom =
+      window.scrollY + window.innerHeight >= document.body.scrollHeight - 5;
+
+    if (isBottom) {
+      contactTakeover.classList.add("active");
+      document.body.classList.add("contact-open");
+    } else {
+      contactTakeover.classList.remove("active");
+      document.body.classList.remove("contact-open");
+    }
+
+    return;
+  }
+
+  // ✅ PC
+  if (!contactTrigger) return;
 
   const triggerTop = contactTrigger.getBoundingClientRect().top;
 
@@ -276,3 +336,24 @@ window.addEventListener("scroll", () => {
     document.body.classList.remove("contact-open");
   }
 });
+
+/* =========================
+   MOBILE HEADER SCROLL STATE
+========================= */
+
+function handleMobileHeader() {
+  if (window.innerWidth > 768) {
+    document.body.classList.remove("mobile-header-scrolled");
+    return;
+  }
+
+  if (window.scrollY > 20) {
+    document.body.classList.add("mobile-header-scrolled");
+  } else {
+    document.body.classList.remove("mobile-header-scrolled");
+  }
+}
+
+window.addEventListener("scroll", handleMobileHeader);
+window.addEventListener("resize", handleMobileHeader);
+handleMobileHeader();

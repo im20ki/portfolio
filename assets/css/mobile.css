@@ -4,6 +4,15 @@
    ========================= */
 @media (max-width: 768px) {
 
+    .scene {
+        display: block;
+        /* 🔥 flex 완전 해제 */
+        height: auto;
+        /* 100vh 해제 */
+        min-height: auto;
+        /* 안전 */
+    }
+
     /* HEADER (mobile scroll state) */
     .site-header {
         transition: background 0.3s ease, backdrop-filter 0.3s ease;
@@ -30,57 +39,136 @@
         letter-spacing: 0.2em;
     }
 
-    /* GLOBAL SCENE (mobile behavior) */
-    .scene {
-        height: auto;
-        min-height: 100vh;
-        align-items: flex-start;
-    }
-
-    /* HERO → ABOUT SPACING */
     #hero {
-        padding-bottom: 80px;
-        /* Hero → About 숨 고르기 */
-    }
-
-    #about {
-        margin-top: 80px;
-        /* Hero → About 여백 (모바일 전용) */
+        min-height: 100vh;
+        /* 🔥 히어로는 다시 풀스크린 */
+        display: block;
     }
 
     /* =========================
-     PROJECT (MOBILE – FINAL)
+     HERO (MOBILE)
      ========================= */
+    .hero-content.cyber-ui {
+        bottom: 6%;
+        padding: 24px 28px;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: 16px;
+    }
+
+    #about {
+        position: relative;
+    }
+
+    #about::before {
+        content: "";
+        display: block;
+        height: 80px;
+        background: #f6f6f6;
+    }
+
+    #about::after {
+        content: "";
+        display: block;
+        height: 80px;
+        /* 👈 아래쪽 숨 */
+        background: #f6f6f6;
+    }
+
+    /* =========================
+   ABOUT = PROJECT (MOBILE)
+   ========================= */
+
+    /* About 제목 → Project h3 */
+    #about h2 {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    /* About 모든 문단 → Project p */
+    #about .about-lead,
+    #about .about-desc {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        color: rgba(0, 0, 0, 0.7);
+    }
+
+    /* 문단 사이 간격만 Project 카드 느낌 */
+    #about .about-lead {
+        margin-bottom: 12px;
+    }
+
+
+    /* =========================
+ PROJECT (MOBILE – FINAL)
+ ========================= */
+
+    .project-divider {
+        height: 1px;
+        width: calc(100% - 40px);
+        margin: 32px auto 0;
+
+        background: linear-gradient(to right,
+                transparent,
+                rgba(0, 0, 0, 0.25),
+                transparent);
+    }
 
     .project-sticky {
         display: block;
-        margin-bottom: 56px;
+        margin-bottom: 50px;
+        /* 👈 넉넉한 프로젝트 간 호흡 */
         padding: 0;
     }
 
-    .project-sticky::after {
-        content: "";
-        display: block;
-        width: 100%;
-        height: 1px;
-        margin-top: 40px;
-        background: rgba(0, 0, 0, 0.08);
+    /* ABOUT 바로 다음 첫 프로젝트 */
+    #about+.project-sticky {
+        margin-top: 50px;
     }
 
     /* 텍스트 영역 */
     .project-text-area {
         position: relative;
-        /* PC sticky 해제 포함 */
         top: auto;
         height: auto;
-        padding: 0 20px 16px;
+
+        padding: 0px;
+        /* ✅ 좌우만 */
+        margin-bottom: 32px;
+        /* ✅ 텍스트↔이미지 간격(모든 프로젝트 동일) */
     }
+
 
     .project-text-area .step {
         position: relative;
         inset: auto;
         opacity: 1;
         margin-bottom: 12px;
+        background: #f9f9f9;
+        border-radius: 14px;
+        padding: 20px 18px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .project-text-area .step h3 {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
+
+    .project-text-area .step p {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        color: rgba(0, 0, 0, 0.7);
+        word-break: keep-all;
+        /* 단어 쪼개지 않음 (특히 한글) */
+        overflow-wrap: break-word;
+        /* 너무 길면 줄바꿈 */
     }
 
     /* 이미지 영역 (PC sticky + absolute 해제 포함) */
@@ -98,7 +186,7 @@
 
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-
+        margin-bottom: 0px;
         padding: 0 20px;
 
         scrollbar-width: none;
@@ -132,25 +220,12 @@
         pointer-events: auto;
     }
 
-
-    /* =========================
-     HERO (MOBILE)
-     ========================= */
-    .hero-content.cyber-ui {
-        bottom: 6%;
-        padding: 24px 28px;
-    }
-
-    .hero-title {
-        font-size: 2rem;
-    }
-
     /* =========================
      ABOUT (MOBILE)
      ========================= */
     .about-wrap {
         grid-template-columns: 1fr;
-        gap: 4px;
+        gap: 20px;
     }
 
     .about-meta {

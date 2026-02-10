@@ -14,6 +14,36 @@
 /* =========================
    PROJECT (PC STICKY)
    ========================= */
+/* =========================
+   ABOUT → PROJECT TONE MATCH
+   ========================= */
+
+/* About 제목 */
+#about h2 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 28px;
+}
+
+/* About 리드 문장 */
+#about .about-lead {
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.9;
+  margin-bottom: 18px;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* About 본문 */
+#about .about-desc {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  letter-spacing: -0.01em;
+  color: rgba(0, 0, 0, 0.75);
+}
+
+   
 .project-sticky {
   display: flex;
   align-items: flex-start;
@@ -26,10 +56,11 @@
 .project-text-area {
   flex: 1;
   font-size: 1.4rem;
-
+  line-height: 1.8; /* ✅ 기본 행간 */
+  letter-spacing: -0.01em; /* 살짝 조밀 */
+  
   position: sticky;
   top: 120px;
-
   height: calc(100vh - 160px);
 }
 
@@ -49,15 +80,30 @@
   opacity: 1;
 }
 
+.project-text-area .step h3 {
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+  letter-spacing: 0.04em;
+}
+
+.project-text-area .step p {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: rgba(0, 0, 0, 0.75);
+}
+
 /* RIGHT IMAGE */
 .project-image-area {
-  flex: 1;
-
+  flex: 1;              /* ⬅️ 이거 유지 */
   position: sticky;
   top: 120px;
 
   height: calc(100vh - 160px);
+  padding: 40px 0;      /* ⬅️ 이 줄만 추가 */
+  box-sizing: border-box;
 }
+
 
 .project-image-area img {
   position: absolute;

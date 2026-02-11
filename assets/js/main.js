@@ -397,7 +397,9 @@ function openImageModal(projectSection, clickedSrc) {
     target?.scrollIntoView({ behavior: "auto" });
   }
 
+  if (window.innerWidth <= 768) {
   document.body.style.overflow = "hidden";
+}
 }
 
 function closeImageModal() {
@@ -415,10 +417,13 @@ window.addEventListener("keydown", (e) => {
 /* 클릭 연결 */
 document.querySelectorAll(".project-image-area img").forEach((img) => {
   img.addEventListener("click", () => {
+    if (window.innerWidth > 768) return; // ✅ PC에서는 무시
+
     const section = img.closest(".project-sticky");
     openImageModal(section, img.src);
   });
 });
+
 
 
 window.addEventListener("scroll", handleMobileHeader);

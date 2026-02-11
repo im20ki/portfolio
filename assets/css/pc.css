@@ -8,15 +8,34 @@
 }
 
 .scene:not(#hero) {
-  padding: 0 10%;
+  padding: 0;
 }
 
 /* =========================
-   PROJECT (PC STICKY)
+   ABOUT – 50 / 50 + 10% GAP
    ========================= */
-/* =========================
-   ABOUT → PROJECT TONE MATCH
-   ========================= */
+
+#about .about-wrap {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  /* 중앙 탈출 */
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+/* LEFT */
+#about .about-text {
+  padding-left: 10vw;
+  padding-right: 5vw;
+  /* 중앙 숨쉬기 */
+}
+
+/* RIGHT */
+#about .about-meta {
+  padding-right: 10vw;
+  padding-left: 5vw;
+  justify-content: flex-start;
+}
 
 /* About 제목 */
 #about h2 {
@@ -43,41 +62,76 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-   
-.project-sticky {
+.project-wrap {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   display: flex;
-  align-items: flex-start;
-  gap: 80px;
-  padding-bottom: 120px;
-  margin-bottom: 120px;
+  position: relative;
+  height: 100vh;
 }
 
-/* LEFT TEXT */
-.project-text-area {
-  flex: 1;
-  font-size: 1.4rem;
-  line-height: 1.8; /* ✅ 기본 행간 */
-  letter-spacing: -0.01em; /* 살짝 조밀 */
-  
+/* =========================
+   PROJECT – SHARED FRAME
+   ========================= */
+
+.project-text-area,
+.project-image-area {
+  flex: 0 0 50%;
+
   position: sticky;
   top: 120px;
   height: calc(100vh - 160px);
+
+  display: flex;
+  align-items: center;
+}
+
+/* =========================
+   PROJECT – LEFT / RIGHT
+   ========================= */
+.project-sticky {
+  align-items: flex-start;
+  /* scene 중앙정렬 해제 */
+}
+
+/* LEFT – TEXT */
+.project-text-area {
+  display: flex;
+  align-items: center;
+  /* 이게 진짜 중앙 */
+  position: relative;
+  box-sizing: border-box;
+  padding: 0;
+  /* ✅ 핵심: 부모 padding 제거 */
+}
+
+.project-text-area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
 }
 
 .project-text-area .step {
   position: absolute;
   inset: 0;
 
+  padding: 0 5vw 0 10vw;
+  /* ✅ 추가 */
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  opacity: 0;
-  transition: opacity 0.4s ease;
 }
+
 
 .project-text-area .step.active {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .project-text-area .step h3 {
@@ -93,17 +147,13 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-/* RIGHT IMAGE */
-.project-image-area {
-  flex: 1;              /* ⬅️ 이거 유지 */
-  position: sticky;
-  top: 120px;
-
-  height: calc(100vh - 160px);
-  padding: 40px 0;      /* ⬅️ 이 줄만 추가 */
-  box-sizing: border-box;
+.project-image-inner {
+  padding-left: 5vw;
+  padding-right: 10vw;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
-
 
 .project-image-area img {
   position: absolute;

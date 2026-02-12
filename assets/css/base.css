@@ -359,17 +359,78 @@ body.contact-open .site-header .logo {
   align-items: center;
 }
 
-#contact h2 {
-  font-size: 0.9rem;
-  letter-spacing: 0.3em;
-  margin-bottom: 16px;
-  opacity: 0.6;
-  text-transform: uppercase;
-}
-
 #contact a {
   font-size: 0.95rem;
   color: #fff;
   opacity: 0.85;
   text-decoration: none;
 }
+
+/* =========================
+   INDUSTRIAL WARNING CONTACT
+========================= */
+
+.contact-center {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.contact-center h2 {
+  font-size: 1rem;
+  letter-spacing: 0.4em;
+  margin-bottom: 20px;
+  opacity: 0.6;
+}
+
+.contact-center .contact-email {
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+
+/* 경고 라인 공통 */
+.warning-line {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  background: #f5c400;
+  color: #111;
+  white-space: nowrap;
+
+  height: 40px;              /* 👈 두께 조절 */
+  display: flex;
+  align-items: center;       /* 텍스트 수직 중앙 */
+}
+
+.warning-top {
+  top: 15%;
+}
+
+.warning-bottom {
+  bottom: 15%;
+}
+
+.warning-track {
+  display: inline-block;
+  white-space: nowrap;
+  padding-left: 100%; /* 오른쪽 바깥에서 시작 */
+  animation: warningMove 18s linear infinite;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.warning-track span {
+  display: inline-block;
+  margin-right: 120px;   /* 👈 문장 간격 조절 */
+}
+
+@keyframes warningMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+

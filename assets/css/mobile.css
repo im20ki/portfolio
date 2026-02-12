@@ -23,11 +23,10 @@
         backdrop-filter: blur(8px);
     }
 
-    /* CONTACT TRIGGER (disable on mobile) */
-    #contactTrigger {
-        height: 0;
-        min-height: 0;
-    }
+   /* CONTACT TRIGGER HEIGHT TUNE */
+#contactTrigger {
+  height: 20vh;
+}
 
     /* RESPONSIVE UTILITIES */
     .pc-only {
@@ -122,7 +121,6 @@
         display: block;
         margin-bottom: 50px;
         /* 👈 넉넉한 프로젝트 간 호흡 */
-        padding: 0;
     }
 
     /* ABOUT 바로 다음 첫 프로젝트 */
@@ -150,7 +148,7 @@
         margin-bottom: 12px;
         background: #f9f9f9;
         border-radius: 14px;
-        padding: 20px 18px;
+        padding: 20px 0px;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
     }
 
@@ -181,8 +179,9 @@
         display: flex;
         gap: 6px;
 
-        overflow-x: auto;
-        overflow-y: hidden;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        justify-content: flex-start !important;
 
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
@@ -201,15 +200,15 @@
     }
 
     .project-image-area img {
-        position: relative;
-        inset: auto;
+        position: relative !important;
+        inset: auto !important;
 
         /* 핵심 변경 */
         flex: 0 0 98%;
         /* 100%에 가깝게 */
         max-width: 98%;
-        width: 100%;
-
+        width: 100% !important;
+        height: auto !important;
         aspect-ratio: 1 / 1;
         object-fit: cover;
 
@@ -223,20 +222,27 @@
     /* =========================
      ABOUT (MOBILE)
      ========================= */
-    .about-wrap {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .about-meta {
-        justify-content: flex-start;
-    }
-
-    .meta-card {
+    #about .about-wrap {
         width: 100%;
-        max-width: 420px;
-        margin: 0 auto;
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        gap: 40px;
+        /* 🔥 텍스트와 스킬 박스 사이 간격 */
     }
+
+    #about .about-meta {
+        width: 100%;
+        display: block;
+        /* ✅ flex 영향 제거 */
+    }
+
+    #about .meta-card {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
+
 
     /* =========================
      PROJECT TEXT (legacy selector 유지)
@@ -332,6 +338,7 @@
     }
 
     /* body */
+    
     .img-modal-body {
         padding: 16px;
         display: flex;

@@ -100,7 +100,7 @@ body.contact-open .site-header .logo {
 .project-nav button::before,
 .project-nav button::after {
   opacity: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.08s ease;
 }
 
 .project-nav button::before {
@@ -284,7 +284,6 @@ body.contact-open .site-header .logo {
 
 .about-meta {
   display: flex;
-  justify-content: flex-end;
 }
 
 .meta-card {

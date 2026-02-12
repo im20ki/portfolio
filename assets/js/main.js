@@ -82,9 +82,11 @@ const projects = Array.from(projectSections).map((section) => {
   };
 });
 
-projects.forEach((project) => {
-  updateProjectView(project);
-});
+if (!isMobile()) {
+  projects.forEach((project) => {
+    updateProjectView(project);
+  });
+}
 
 /* =========================
    PROJECT VIEW UPDATE
@@ -240,8 +242,11 @@ projectNavButtons.forEach((btn) => {
 
     setActiveProjectNav(projectIndex); // ✅ 추가
 
+    const header = document.querySelector(".site-header");
+    const headerHeight = header ? header.offsetHeight : 0;
+
     window.scrollTo({
-      top: targetProject.offsetTop,
+      top: targetProject.offsetTop - headerHeight - 10,
       behavior: "smooth",
     });
   });
@@ -308,12 +313,13 @@ const contactTrigger = document.getElementById("contactTrigger");
 window.addEventListener("scroll", () => {
   if (!contactTakeover) return;
 
-  // ✅ 모바일
+  // ✅ 모바일 (trigger 기준으로 변경)
   if (window.innerWidth <= 768) {
-    const isBottom =
-      window.scrollY + window.innerHeight >= document.body.scrollHeight - 5;
+    if (!contactTrigger) return;
 
-    if (isBottom) {
+    const triggerTop = contactTrigger.getBoundingClientRect().top;
+
+    if (triggerTop <= window.innerHeight * 0.8) {
       contactTakeover.classList.add("active");
       document.body.classList.add("contact-open");
     } else {
@@ -323,6 +329,7 @@ window.addEventListener("scroll", () => {
 
     return;
   }
+
 
   // ✅ PC
   if (!contactTrigger) return;
@@ -398,8 +405,8 @@ function openImageModal(projectSection, clickedSrc) {
   }
 
   if (window.innerWidth <= 768) {
-  document.body.style.overflow = "hidden";
-}
+    document.body.style.overflow = "hidden";
+  }
 }
 
 function closeImageModal() {

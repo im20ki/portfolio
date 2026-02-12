@@ -8,33 +8,34 @@
 }
 
 .scene:not(#hero) {
-  padding: 0;
+  padding: 0 10%;
 }
 
 /* =========================
-   ABOUT – 50 / 50 + 10% GAP
+   ABOUT 50 : 50 (PC ALIGN FIX)
    ========================= */
 
 #about .about-wrap {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  /* 중앙 탈출 */
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
+  width: 100%;
+  align-items: start;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 정확히 반반 */
+  gap: 0;            /* 간격 제거 */
 }
 
-/* LEFT */
-#about .about-text {
-  padding-left: 10vw;
-  padding-right: 5vw;
-  /* 중앙 숨쉬기 */
-}
-
-/* RIGHT */
+#about .about-text,
 #about .about-meta {
-  padding-right: 10vw;
-  padding-left: 5vw;
+  flex: 1;           /* 정확히 50 : 50 */
+}
+
+#about .about-meta {
+  display: flex;
   justify-content: flex-start;
+}
+
+#about .meta-card{
+  width: 100%;      /* 오른쪽 50% 칼럼을 꽉 채우기 */
+  margin: 0;        /* 혹시 남아있는 바깥 여백 제거 */
 }
 
 /* About 제목 */
@@ -62,84 +63,39 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-.project-wrap {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+   
+.project-sticky {
   display: flex;
-  position: relative;
-  height: 100vh;
+  align-items: flex-start;
+  padding-bottom: 120px;
+  margin-bottom: 120px;
 }
 
-/* =========================
-   PROJECT – SHARED FRAME
-   ========================= */
-.project-image-area {
-  aspect-ratio: 1 / 1;
-  background: #f6f6f6;
-
-  flex: 0 0 50%;
-  padding-right: 10vw; /* ✅ 여백은 padding으로 */
-  box-sizing: border-box;
-}
-
-.project-text-area,
-.project-image-area {
-  flex: 0 0 50%;
-
+/* LEFT TEXT */
+.project-text-area {
+  flex: 1;
+  font-size: 1.4rem;
+  line-height: 1.8; /* ✅ 기본 행간 */
+  letter-spacing: -0.01em; /* 살짝 조밀 */
   position: sticky;
   top: 120px;
   height: calc(100vh - 160px);
-
-  display: flex;
-  align-items: center;
-}
-
-/* =========================
-   PROJECT – LEFT / RIGHT
-   ========================= */
-.project-sticky {
-  align-items: flex-start;
-  /* scene 중앙정렬 해제 */
-}
-
-/* LEFT – TEXT */
-.project-text-area {
-  display: flex;
-  align-items: center;
-  /* 이게 진짜 중앙 */
-  position: relative;
-  box-sizing: border-box;
-  padding: 0;
-  /* ✅ 핵심: 부모 padding 제거 */
-}
-
-.project-text-area::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
 }
 
 .project-text-area .step {
   position: absolute;
   inset: 0;
 
-  padding: 0 5vw 0 10vw;
-  /* ✅ 추가 */
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
 
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
 
 .project-text-area .step.active {
   opacity: 1;
-  pointer-events: auto;
 }
 
 .project-text-area .step h3 {
@@ -155,23 +111,29 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-.project-image-inner {
-  padding-left: 5vw;
-  padding-right: 10vw;
-  width: 100%;
-  height: auto;              /* ✅ 교체 */
-  aspect-ratio: 1 / 1;       /* ✅ 추가 */
-  max-height: 100%;          /* ✅ 추가 */
-  position: relative;
+/* RIGHT IMAGE */
+.project-image-area {
+  flex: 1;
+
+  position: sticky;
+  top: 120px;
+
+  height: calc(100vh - 160px);
+
+  display: flex;              /* ✅ 추가 */
+  justify-content: flex-end;  /* ✅ 오른쪽 정렬 */
+  overflow: hidden;           /* ✅ 마스크 역할 */
 }
 
 .project-image-area img {
   position: absolute;
-  inset: 0;
+  inset: 0;          /* 🔥 다시 전체 채우기 */
 
   width: 100%;
-  height: 100%;
+  height: 100%;      /* 🔥 부모 높이 기준 */
+
   object-fit: cover;
+  object-position: center;
 
   opacity: 0;
   pointer-events: none;
@@ -179,6 +141,9 @@
 
   transition: opacity 0.4s ease;
 }
+
+
+
 
 .project-image-area img.active {
   opacity: 1;
@@ -196,3 +161,4 @@
   padding: 0 !important;
   margin: 0;
 }
+

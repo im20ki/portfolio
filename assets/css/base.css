@@ -78,6 +78,7 @@ body.contact-open .site-header .logo {
 /* =========================
    PROJECT NAV (BASE)
    ========================= */
+
 .project-nav {
   display: flex;
   gap: 20px;
@@ -256,8 +257,12 @@ body.contact-open .site-header .logo {
    ABOUT (BASE)
    ========================= */
 #about {
-  background: #f6f6f6;
-  padding-top: 120px;
+  background-image:
+    linear-gradient(rgba(246, 246, 246, 0.88), rgba(246, 246, 246, 0.88)),
+    url("../../back.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 #about h2 {

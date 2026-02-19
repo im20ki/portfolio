@@ -291,31 +291,39 @@
   <div class="footer-takeover" id="contactTakeover">
 
     <!-- 상단 경고 라인 -->
+    <!-- 원형 텍스트 링 (반시계 회전) -->
     <div class="warning-line warning-top">
-      <div class="warning-track">
-        <span>⚠ 운전 경력 장기 무사고 유지 중. [보험사 안심 등급 보유자]</span>
-        <span>⚠ 헌혈 70회 이상 금장 달성. [생명 연장 기여자]</span>
-        <span>⚠ 진로하이트에서 인증된 소맥 자격증 보유. [황금비율 설계 마스터]</span>
-        <span>⚠ 14개국 해외여행 다수 경험. [프로 생존 전문가]</span>
-        <span>⚠ 이게 더 엄청나지 않습니까</span>
-      </div>
+      <svg class="orbit-svg" viewBox="0 0 380 380" aria-hidden="true">
+        <defs>
+          <!-- 안쪽 링 -->
+          <path id="orbitInner" d="M190,190 m-140,0 a140,140 0 1,1 280,0 a140,140 0 1,1 -280,0" />
+
+          <!-- 바깥 링 -->
+          <path id="orbitOuter" d="M190,190 m-175,0 a175,175 0 1,1 350,0 a175,175 0 1,1 -350,0" />
+        </defs>
+
+        <!-- OUTER RING (시계 방향) -->
+        <text class="orbit-text outer-ring">
+          <textPath href="#orbitOuter" startOffset="0%">
+            ⚠ 운전 경력 장기 무사고 유지 중 • ⚠ 진로하이트 인증 소맥 자격증 보유 • ⚠ 주식·코인 단타 기술 보유 •
+          </textPath>
+        </text>
+
+        <!-- INNER RING (반시계 방향) -->
+        <text class="orbit-text inner-ring">
+          <textPath href="#orbitInner" startOffset="0%">
+            ⚠ 14개국 해외여행 다수 경험, 프로 생존 전문가 • ⚠ 총 구독자 수 190명 유튜버&틱톡커(26.02 기준) • ⚠ 헌혈 70회 이상 금장 달성, 마음 고운 헌혈인 • 
+          </textPath>
+        </text>
+
+      </svg>
     </div>
+
 
     <!-- 중앙 핵심 -->
     <div class="contact-center">
       <h2>CONTACT</h2>
       <p class="contact-email">inglyki2@gmail.com</p>
-    </div>
-
-    <!-- 하단 경고 라인 -->
-    <div class="warning-line warning-bottom">
-      <div class="warning-track">
-        <span>⚠ 운전 경력 장기 무사고 유지 중. [보험사 안심 등급 보유자]</span>
-        <span>⚠ 헌혈 70회 이상 금장 달성. [생명 연장 기여자]</span>
-        <span>⚠ 진로하이트에서 인증된 소맥 자격증 보유. [황금비율 설계 마스터]</span>
-        <span>⚠ 14개국 해외여행 다수 경험. [프로 생존 전문가]</span>
-        <span>⚠ 이게 더 엄청나지 않습니까</span>
-      </div>
     </div>
 
   </div>

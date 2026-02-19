@@ -394,48 +394,66 @@ body.contact-open .site-header .logo {
   color: #fff;
 }
 
-/* 경고 라인 공통 */
+/* =========================
+   CONTACT - CIRCULAR TEXT RING (CCW)
+========================= */
+
 .warning-line {
   position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 1;
+
+  /* 링 크기 */
+  width: clamp(260px, 55vw, 640px);
+  height: clamp(260px, 55vw, 640px);
+
+  background: transparent;
+  overflow: visible;
+}
+
+/* SVG가 링 전체를 차지 */
+/* SVG 전체 */
+.orbit-svg {
   width: 100%;
-  overflow: hidden;
-  background: #f5c400;
-  color: #111;
-  white-space: nowrap;
-
-  height: 40px;              /* 👈 두께 조절 */
-  display: flex;
-  align-items: center;       /* 텍스트 수직 중앙 */
+  height: 100%;
 }
 
-.warning-top {
-  top: 15%;
-}
-
-.warning-bottom {
-  bottom: 15%;
-}
-
-.warning-track {
-  display: inline-block;
-  white-space: nowrap;
-  padding-left: 100%; /* 오른쪽 바깥에서 시작 */
-  animation: warningMove 18s linear infinite;
+/* 원형 텍스트 스타일 */
+.orbit-text {
+  fill: #f5c400;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.08em;
+  font-size: 10px;
 }
 
-.warning-track span {
-  display: inline-block;
-  margin-right: 120px;   /* 👈 문장 간격 조절 */
+/* 안쪽 링 (반시계) */
+.inner-ring {
+  animation: rotateInner 22s linear infinite;
+  transform-origin: 50% 50%;
 }
 
-@keyframes warningMove {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+/* 바깥 링 (시계) */
+.outer-ring {
+  animation: rotateOuter 30s linear infinite;
+  transform-origin: 50% 50%;
 }
 
+/* CONTACT 중앙 텍스트가 위에 오도록 */
+.contact-center {
+  position: relative;
+  z-index: 2;
+}
+
+/* 애니메이션 */
+@keyframes rotateInner {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes rotateOuter {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

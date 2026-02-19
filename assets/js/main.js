@@ -436,3 +436,17 @@ document.querySelectorAll(".project-image-area img").forEach((img) => {
 window.addEventListener("scroll", handleMobileHeader);
 window.addEventListener("resize", handleMobileHeader);
 handleMobileHeader();
+
+/* =========================
+   CONTACT WARNING ORBIT SETUP
+========================= */
+const orbitTracks = document.querySelectorAll(".footer-takeover .warning-track");
+
+orbitTracks.forEach((track) => {
+  const spans = track.querySelectorAll("span");
+  track.style.setProperty("--count", spans.length);
+
+  spans.forEach((sp, i) => {
+    sp.style.setProperty("--i", i);
+  });
+});

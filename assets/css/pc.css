@@ -19,13 +19,16 @@
   width: 100%;
   align-items: start;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 정확히 반반 */
-  gap: 0;            /* 간격 제거 */
+  grid-template-columns: 1fr 1fr;
+  /* 정확히 반반 */
+  gap: 0;
+  /* 간격 제거 */
 }
 
 #about .about-text,
 #about .about-meta {
-  flex: 1;           /* 정확히 50 : 50 */
+  flex: 1;
+  /* 정확히 50 : 50 */
 }
 
 #about .about-meta {
@@ -33,9 +36,11 @@
   justify-content: flex-start;
 }
 
-#about .meta-card{
-  width: 100%;      /* 오른쪽 50% 칼럼을 꽉 채우기 */
-  margin: 0;        /* 혹시 남아있는 바깥 여백 제거 */
+#about .meta-card {
+  width: 100%;
+  /* 오른쪽 50% 칼럼을 꽉 채우기 */
+  margin: 0;
+  /* 혹시 남아있는 바깥 여백 제거 */
 }
 
 /* About 제목 */
@@ -63,7 +68,7 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-   
+
 .project-sticky {
   display: flex;
   align-items: flex-start;
@@ -75,10 +80,13 @@
 .project-text-area {
   flex: 1;
   font-size: 1.4rem;
-  line-height: 1.8; /* ✅ 기본 행간 */
-  letter-spacing: -0.01em; /* 살짝 조밀 */
+  line-height: 1.8;
+  /* ✅ 기본 행간 */
+  letter-spacing: -0.01em;
+  /* 살짝 조밀 */
   position: sticky;
-  top: 120px;
+  top: 115px;
+
   height: calc(100vh - 160px);
 }
 
@@ -120,35 +128,12 @@
 
   height: calc(100vh - 160px);
 
-  display: flex;              /* ✅ 추가 */
-  justify-content: flex-end;  /* ✅ 오른쪽 정렬 */
-  overflow: hidden;           /* ✅ 마스크 역할 */
-}
-
-.project-image-area img {
-  position: absolute;
-  inset: 0;          /* 🔥 다시 전체 채우기 */
-
-  width: 100%;
-  height: 100%;      /* 🔥 부모 높이 기준 */
-
-  object-fit: cover;
-  object-position: center;
-
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
-
-  transition: opacity 0.4s ease;
-}
-
-
-
-
-.project-image-area img.active {
-  opacity: 1;
-  pointer-events: auto;
-  z-index: 1;
+  display: flex;
+  /* ✅ 추가 */
+  justify-content: flex-end;
+  /* ✅ 오른쪽 정렬 */
+  overflow: hidden;
+  /* ✅ 마스크 역할 */
 }
 
 /* =========================
@@ -164,8 +149,10 @@
 
 /* 링크 스타일 초기화 */
 .portfolio-link {
-  color: inherit;        /* 파란색 제거 */
-  text-decoration: none; /* 언더라인 제거 */
+  color: inherit;
+  /* 파란색 제거 */
+  text-decoration: none;
+  /* 언더라인 제거 */
 }
 
 /* 필요하면 hover도 완전 동일하게 */
@@ -176,6 +163,79 @@
 
 /* 하단 안내문 작게 */
 .site-notice {
-  font-size: 0.85em;     /* 본문 대비 작게 */
-  opacity: 0.7;          /* 정보성 문구 느낌 */
+  font-size: 0.85em;
+  /* 본문 대비 작게 */
+  opacity: 0.7;
+  /* 정보성 문구 느낌 */
+}
+
+.project-hover-caption {
+
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: flex-end;
+  /* 🔥 오른쪽 정렬 */
+
+  text-align: right;
+  /* 🔥 텍스트 오른쪽 */
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  padding-right: 40px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.project-hover-caption.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   PROJECT MEDIA (IMG + YOUTUBE)
+========================= */
+
+/* img도 div도 동일하게 "한 장"처럼 겹치게 */
+.project-image-area .media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* active면 보이게 */
+.project-image-area .media.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+/* 기존 img 스타일 유지(겹침 기준) */
+.project-image-area img.media {
+  object-fit: contain;
+  object-position: center;
+}
+
+/* 유튜브 2x2 분할 */
+.project-image-area .youtube-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 0;
+  background: none;
+  align-content: center; 
+}
+
+.project-image-area .youtube-grid iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+  display: block;
+  border-radius: 10px;
 }

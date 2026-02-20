@@ -3,6 +3,7 @@
 ========================= */
 const scenes = document.querySelectorAll(".scene");
 let isScrolling = false;
+let isImageHovered = false;
 
 function isMobile() {
   return window.innerWidth <= 768;
@@ -76,7 +77,7 @@ const projects = Array.from(projectSections).map((section) => {
   return {
     section,
     steps: section.querySelectorAll(".step"),
-    images: section.querySelectorAll(".project-image-area img"),
+    media: section.querySelectorAll(".project-image-area .media"),
     index: 0,
     isTransitioning: false,
   };
@@ -94,18 +95,28 @@ if (!isMobile()) {
 function updateProjectView(project) {
   project.isTransitioning = true;
 
-  project.images.forEach((img, i) => {
-    img.classList.toggle("active", i === project.index);
+  project.media.forEach((el, i) => {
+    el.classList.toggle("active", i === project.index);
   });
 
   project.steps.forEach((step, i) => {
     step.classList.toggle("active", i === project.index);
   });
 
+  // hover caption
+  const captionBox = project.section.querySelector(".project-hover-caption");
+  const activeMedia = project.media[project.index];
+
+  if (captionBox && activeMedia && isImageHovered) {
+    captionBox.textContent = activeMedia.dataset.caption || "";
+    captionBox.classList.add("active");
+  }
+
   setTimeout(() => {
     project.isTransitioning = false;
   }, 450);
 }
+
 
 /* =========================
    WHEEL CONTROL (PROJECT LOCK – CLEAN)
@@ -438,15 +449,50 @@ window.addEventListener("resize", handleMobileHeader);
 handleMobileHeader();
 
 /* =========================
-   CONTACT WARNING ORBIT SETUP
+   PC IMAGE HOVER CAPTION (CUSTOM)
 ========================= */
-const orbitTracks = document.querySelectorAll(".footer-takeover .warning-track");
+if (!isMobile()) {
+  document.querySelectorAll(".project-sticky").forEach((section) => {
+    // ✅ img만 말고, 이미지+유튜브를 모두 잡기
+    const mediaItems = section.querySelectorAll(".project-image-area .media");
+    const captionBox = section.querySelector(".project-hover-caption");
+    if (!captionBox) return;
 
-orbitTracks.forEach((track) => {
-  const spans = track.querySelectorAll("span");
-  track.style.setProperty("--count", spans.length);
+    mediaItems.forEach((el) => {
+      el.addEventListener("mouseenter", () => {
+        isImageHovered = true;
 
-  spans.forEach((sp, i) => {
-    sp.style.setProperty("--i", i);
+        const text = el.dataset.caption || "";
+        captionBox.textContent = text;
+        captionBox.classList.add("active");
+      });
+
+      el.addEventListener("mouseleave", () => {
+        isImageHovered = false;
+        captionBox.classList.remove("active");
+      });
+    });
   });
-});
+}
+
+/* =========================
+   FIX: YOUTUBE IFRAME WHEEL PASS THROUGH (PC)
+========================= */
+
+if (!isMobile()) {
+  document.querySelectorAll(".youtube-grid iframe").forEach((iframe) => {
+    iframe.addEventListener("wheel", (e) => {
+      e.preventDefault();
+
+      // 부모 window에 강제로 wheel 전달
+      window.dispatchEvent(
+        new WheelEvent("wheel", {
+          deltaY: e.deltaY,
+          deltaX: e.deltaX,
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+    });
+  });
+}

@@ -2,8 +2,20 @@
    BASIC SETUP
 ========================= */
 const scenes = document.querySelectorAll(".scene");
-let isScrolling = false;
 let isImageHovered = false;
+let currentAnimation = null;
+let firstWheelFixDone = false;
+
+function isAlreadyInScene(index) {
+  if (index < 0 || index >= scenes.length) return true;
+
+  const scene = scenes[index];
+  const top = scene.offsetTop;
+  const bottom = top + scene.offsetHeight;
+  const middle = window.scrollY + window.innerHeight * 0.5;
+
+  return middle >= top && middle < bottom;
+}
 
 function isMobile() {
   return window.innerWidth <= 768;
@@ -23,13 +35,9 @@ function getCurrentSceneIndex() {
   return index;
 }
 
-let currentAnimation = null;
-
 function scrollToScene(index) {
   if (index < 0 || index >= scenes.length) return;
-  if (isScrolling) return;
-
-  isScrolling = true;
+  if (currentAnimation) return;
 
   const scene = scenes[index];
   const style = getComputedStyle(scene);
@@ -37,6 +45,7 @@ function scrollToScene(index) {
 
   const startY = window.scrollY;
   const targetY = scene.offsetTop - paddingTop;
+
   const distance = targetY - startY;
   const duration = 850;
   let startTime = null;
@@ -58,14 +67,12 @@ function scrollToScene(index) {
     if (progress < 1) {
       currentAnimation = requestAnimationFrame(animateScroll);
     } else {
-      isScrolling = false;
       currentAnimation = null;
     }
   }
 
   currentAnimation = requestAnimationFrame(animateScroll);
 }
-
 
 
 /* =========================
@@ -126,6 +133,19 @@ if (!isMobile()) {
   window.addEventListener(
     "wheel",
     (e) => {
+      // ✅ 첫 로딩 직후 1회: 브라우저가 먹는 2~3px 스크롤 슬립 제거
+      if (!firstWheelFixDone) {
+        const idx = getCurrentSceneIndex();
+        const scene = scenes[idx];
+        if (scene) window.scrollTo(0, scene.offsetTop);
+        firstWheelFixDone = true;
+      }
+      // ✅ 애니메이션 도는 중이면 wheel 입력을 막고 끝
+      if (currentAnimation) {
+        e.preventDefault();
+        return;
+      }
+
       if (Math.abs(e.deltaY) < 30) return;
       const currentSceneIndex = getCurrentSceneIndex();
       const currentScene = scenes[currentSceneIndex];
@@ -165,9 +185,15 @@ if (!isMobile()) {
       e.preventDefault();
 
       if (e.deltaY > 0) {
-        scrollToScene(currentSceneIndex + 1);
+        const nextIndex = currentSceneIndex + 1;
+        if (!isAlreadyInScene(nextIndex)) {
+          scrollToScene(nextIndex);
+        }
       } else {
-        scrollToScene(currentSceneIndex - 1);
+        const prevIndex = currentSceneIndex - 1;
+        if (!isAlreadyInScene(prevIndex)) {
+          scrollToScene(prevIndex);
+        }
       }
     },
     { passive: false }
@@ -230,10 +256,58 @@ if (heroUI && !isMobile()) {
 const splineViewer = document.querySelector("spline-viewer");
 const heroLoader = document.querySelector(".hero-loader");
 
+/* =========================
+   SPLINE PREWARM (PC ONLY)
+   hero가 화면에 없어도 spline을 미리 실행시키기
+========================= */
+if (splineViewer && !isMobile()) {
+  const heroSection = document.getElementById("hero");
+  const heroBg = document.querySelector("#hero .hero-bg");
+
+  // ✅ 화면에는 안 보이지만 "뷰포트 안"에 존재하는 예열 컨테이너
+  const prewarmBox = document.createElement("div");
+  prewarmBox.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+  `;
+  document.body.appendChild(prewarmBox);
+
+  function isHeroInView() {
+    const rect = heroSection.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom > 0;
+  }
+
+  function placeSpline() {
+    // hero가 보이면 hero-bg에 꽂고, 안 보이면 prewarmBox에 꽂아서 계속 실행
+    if (isHeroInView()) {
+      if (heroBg && splineViewer.parentElement !== heroBg) {
+        heroBg.appendChild(splineViewer);
+      }
+    } else {
+      if (splineViewer.parentElement !== prewarmBox) {
+        prewarmBox.appendChild(splineViewer);
+      }
+    }
+  }
+
+  window.addEventListener("scroll", placeSpline, { passive: true });
+  window.addEventListener("load", placeSpline);
+  placeSpline();
+}
+
 if (splineViewer && heroLoader) {
   window.addEventListener("load", () => {
     setTimeout(() => {
       heroLoader.classList.add("hidden");
+      // ✅ Spline 강제 초기화 트리거
+      window.dispatchEvent(new Event("resize"));
     }, 500);
   });
 }
@@ -297,20 +371,9 @@ const logo = document.querySelector(".logo");
 
 if (logo) {
   logo.addEventListener("click", () => {
-    // 이미 스크롤 중이면 무시
-    if (isScrolling) return;
+    if (currentAnimation) return;
 
-    isScrolling = true;
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
-    // 스크롤 종료 후 잠금 해제
-    setTimeout(() => {
-      isScrolling = false;
-    }, 700);
+    scrollToScene(0);
   });
 }
 
@@ -382,44 +445,24 @@ const modalBody = document.querySelector(".img-modal-body");
 const modalDim = document.querySelector(".img-modal-dim");
 const modalClose = document.querySelector(".img-modal-close");
 
-function openImageModal(projectSection, clickedSrc) {
+function openImageModal(clickedImg) {
   modalBody.innerHTML = "";
 
-  const imgs = projectSection.querySelectorAll(".project-image-area img");
+  if (!clickedImg) return;
 
-  imgs.forEach((img) => {
-    const wrapper = document.createElement("div");
+  const clone = clickedImg.cloneNode(true);
 
-    const clone = img.cloneNode(true);
+  clone.style.width = "auto";
+  clone.style.maxWidth = "100%";
+  clone.style.height = "auto";
+  clone.style.display = "block";
+  clone.style.margin = "0 auto";
 
-    // 캡션 예시 (나중에 커스텀 가능)
-    const caption = document.createElement("div");
-    caption.className = "modal-caption";
-    caption.innerHTML = `
-      • 프로젝트 이미지<br>
-      • 클릭 확대 가능
-    `;
-
-    wrapper.appendChild(clone);
-    wrapper.appendChild(caption);
-
-    modalBody.appendChild(wrapper);
-  });
+  modalBody.appendChild(clone);
 
   modal.classList.add("active");
-
-  // 클릭한 이미지 위치로 스크롤
-  const index = Array.from(imgs).findIndex(i => i.src === clickedSrc);
-  if (index > 0) {
-    const target = modalBody.children[index];
-    target?.scrollIntoView({ behavior: "auto" });
-  }
-
-  if (window.innerWidth <= 768) {
-    document.body.style.overflow = "hidden";
-  }
+  document.body.style.overflow = "hidden";
 }
-
 function closeImageModal() {
   modal.classList.remove("active");
   document.body.style.overflow = "";
@@ -432,21 +475,18 @@ window.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeImageModal();
 });
 
-/* 클릭 연결 */
-document.querySelectorAll(".project-image-area img").forEach((img) => {
-  img.addEventListener("click", () => {
-    if (window.innerWidth > 768) return; // ✅ PC에서는 무시
+document.addEventListener("click", (e) => {
 
-    const section = img.closest(".project-sticky");
-    openImageModal(section, img.src);
-  });
+  if (isMobile()) return; // 🔥 PC만 작동
+
+  const clickedImg = e.target.closest(".project-image-area img.media:not(.youtube-thumb)");
+  if (!clickedImg) return;
+
+  const section = clickedImg.closest(".project-sticky");
+
+  openImageModal(clickedImg);
+
 });
-
-
-
-window.addEventListener("scroll", handleMobileHeader);
-window.addEventListener("resize", handleMobileHeader);
-handleMobileHeader();
 
 /* =========================
    PC IMAGE HOVER CAPTION (CUSTOM)
@@ -476,23 +516,96 @@ if (!isMobile()) {
 }
 
 /* =========================
-   FIX: YOUTUBE IFRAME WHEEL PASS THROUGH (PC)
+   PC ONLY - YOUTUBE THUMBNAIL MODE
 ========================= */
 
 if (!isMobile()) {
-  document.querySelectorAll(".youtube-grid iframe").forEach((iframe) => {
-    iframe.addEventListener("wheel", (e) => {
-      e.preventDefault();
 
-      // 부모 window에 강제로 wheel 전달
-      window.dispatchEvent(
-        new WheelEvent("wheel", {
-          deltaY: e.deltaY,
-          deltaX: e.deltaX,
-          bubbles: true,
-          cancelable: true,
-        })
-      );
+  document.querySelectorAll(".youtube-grid").forEach((grid) => {
+
+    const iframes = grid.querySelectorAll("iframe");
+
+    grid.innerHTML = ""; // PC에서만 iframe 제거
+
+    iframes.forEach((iframe) => {
+      const src = iframe.src;
+      const videoId = (src.split("/embed/")[1] || "").split("?")[0];
+      const caption = iframe.dataset.caption || "";
+
+      const img = document.createElement("img");
+      img.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      img.className = "youtube-thumb";
+      img.dataset.video = videoId;
+      img.dataset.caption = caption;   // 🔥 여기 추가
+
+      grid.appendChild(img);
     });
+
+  });
+
+}
+
+/* =========================
+   PC ONLY - VIDEO MODAL (NO CONFLICT)
+========================= */
+
+if (!isMobile()) {
+  const videoModalEl = document.createElement("div");
+  videoModalEl.className = "video-modal";
+  videoModalEl.innerHTML = `
+    <div class="video-dim"></div>
+    <div class="video-content">
+      <button class="video-close" type="button">✕</button>
+      <div class="video-frame"></div>
+    </div>
+  `;
+  document.body.appendChild(videoModalEl);
+
+  const videoFrameBox = videoModalEl.querySelector(".video-frame");
+  const videoCloseBtn = videoModalEl.querySelector(".video-close");
+  const videoDimEl = videoModalEl.querySelector(".video-dim");
+
+  // 썸네일 클릭 → 모달 오픈
+  document.addEventListener("click", (e) => {
+
+    if (isMobile()) return;
+
+    const thumb = e.target.closest(".youtube-thumb");
+    if (!thumb) return;
+
+    // 🔥 현재 active media 안에 있는 썸네일인지 확인
+    const activeMedia = document.querySelector(
+      ".project-image-area .media.active"
+    );
+
+    if (!activeMedia || !activeMedia.contains(thumb)) return;
+
+    const id = thumb.dataset.video;
+    if (!id) return;
+
+    videoFrameBox.innerHTML = `
+    <iframe
+      src="https://www.youtube.com/embed/${id}?autoplay=1"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+      title="YouTube video"
+    ></iframe>
+  `;
+
+    videoModalEl.classList.add("active");
+    document.body.style.overflow = "hidden";
+  });
+
+  function closeVideoModal() {
+    videoModalEl.classList.remove("active");
+    videoFrameBox.innerHTML = ""; // iframe 제거 = 재생 중지
+    document.body.style.overflow = "";
+  }
+
+  videoCloseBtn.addEventListener("click", closeVideoModal);
+  videoDimEl.addEventListener("click", closeVideoModal);
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeVideoModal();
   });
 }

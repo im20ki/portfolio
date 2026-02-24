@@ -240,6 +240,7 @@
   max-width: 100%;
   max-height: 100%;
   transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 
 /* 실제 이미지/유튜브 썸네일만 클릭 허용 */
@@ -369,47 +370,91 @@
 /* content */
 .img-modal-content {
   position: relative;
-  width: 70%;
-  max-width: 1000px;
+  width: 92vw;
+  max-width: 1400px;
 
-  margin: 60px auto;
-  background: #111;
-  border-radius: 16px;
+  margin: 40px auto;
 
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
+  background: rgba(20, 20, 20, 0.75); /* 🔥 유리 느낌 */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  max-height: calc(100vh - 80px);
+  overflow: auto;
 }
 
 /* close */
 .img-modal-close {
-  position: sticky;
-  top: 12px;
-  right: 12px;
+  position: absolute;          /* 🔥 sticky 제거 */
+  top: 20px;                   /* 위 여백 */
+  right: 24px;                 /* 오른쪽 여백 */
 
-  display: block;
-  margin-left: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
   color: #fff;
 
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 42px;
+  height: 42px;
 
+  border-radius: 50%;
   cursor: pointer;
+
+  backdrop-filter: blur(10px);
+
+  transition: all 0.25s ease;
+  z-index: 20;                 /* 이미지 위에 오도록 */
+}
+
+.img-modal-close:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: rotate(90deg) scale(1.05);
 }
 
 /* body */
 .img-modal-body {
   padding: 40px;
+
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: center;   /* ✅ 가로 중앙 */
+  align-items: flex-start;   /* ✅ 세로는 위부터 (스크롤 자연스럽게) */
+
+  overflow: auto;            /* ✅ 내부 스크롤 허용 */
 }
 
 .img-modal-body img {
   max-width: 100%;
   max-height: 80vh;
   object-fit: contain;
+}
+
+/* =========================
+   PC MODAL SCROLL DESIGN
+========================= */
+
+/* 전체 모달 스크롤 */
+.img-modal-content::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.img-modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.img-modal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+.img-modal-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }

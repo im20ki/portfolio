@@ -140,6 +140,10 @@ if (!isMobile()) {
         if (scene) window.scrollTo(0, scene.offsetTop);
         firstWheelFixDone = true;
       }
+      // ✅ 모달이 열려 있으면 wheel 완전 차단
+      if (modal.classList.contains("active")) {
+        return;
+      }
       // ✅ 애니메이션 도는 중이면 wheel 입력을 막고 끝
       if (currentAnimation) {
         e.preventDefault();
@@ -445,6 +449,15 @@ const modalBody = document.querySelector(".img-modal-body");
 const modalDim = document.querySelector(".img-modal-dim");
 const modalClose = document.querySelector(".img-modal-close");
 
+const modalContent = document.querySelector(".img-modal-content");
+
+// ✅ 모달에서 굴린 휠이 window까지 올라가지 않게 차단 (모달 스크롤은 그대로)
+if (modalContent) {
+  modalContent.addEventListener("wheel", (e) => {
+    e.stopPropagation();
+  }, { passive: true });
+}
+
 function openImageModal(clickedImg) {
   modalBody.innerHTML = "";
 
@@ -452,17 +465,19 @@ function openImageModal(clickedImg) {
 
   const clone = clickedImg.cloneNode(true);
 
+  /* ✅ PC에서만 원본 사이즈 유지 */
   clone.style.width = "auto";
-  clone.style.maxWidth = "100%";
   clone.style.height = "auto";
+  clone.style.maxWidth = "none";
+  clone.style.maxHeight = "none";
   clone.style.display = "block";
-  clone.style.margin = "0 auto";
 
   modalBody.appendChild(clone);
 
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
 }
+
 function closeImageModal() {
   modal.classList.remove("active");
   document.body.style.overflow = "";
@@ -609,3 +624,4 @@ if (!isMobile()) {
     if (e.key === "Escape") closeVideoModal();
   });
 }
+

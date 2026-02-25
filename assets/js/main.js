@@ -463,16 +463,37 @@ function openImageModal(clickedImg) {
 
   if (!clickedImg) return;
 
-  const clone = clickedImg.cloneNode(true);
+  // ✅ PC는 기존처럼 한 장만
+  if (!isMobile()) {
+    const clone = clickedImg.cloneNode(true);
 
-  /* ✅ PC에서만 원본 사이즈 유지 */
-  clone.style.width = "auto";
-  clone.style.height = "auto";
-  clone.style.maxWidth = "none";
-  clone.style.maxHeight = "none";
-  clone.style.display = "block";
+    clone.style.display = "block";
+    clone.style.width = "auto";
+    clone.style.height = "auto";
+    clone.style.maxWidth = "none";
+    clone.style.maxHeight = "none";
 
-  modalBody.appendChild(clone);
+    modalBody.appendChild(clone);
+  }
+
+  // ✅ 모바일은 해당 프로젝트 이미지 전부
+  else {
+    const section = clickedImg.closest(".project-sticky");
+    const allImages = section.querySelectorAll(
+      ".project-image-area img.media:not(.youtube-thumb)"
+    );
+
+    allImages.forEach((img) => {
+      const clone = img.cloneNode(true);
+
+      clone.style.width = "100%";
+      clone.style.height = "auto";
+      clone.style.display = "block";
+      clone.style.marginBottom = "20px";
+
+      modalBody.appendChild(clone);
+    });
+  }
 
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
@@ -492,12 +513,8 @@ window.addEventListener("keydown", (e) => {
 
 document.addEventListener("click", (e) => {
 
-  if (isMobile()) return; // 🔥 PC만 작동
-
   const clickedImg = e.target.closest(".project-image-area img.media:not(.youtube-thumb)");
   if (!clickedImg) return;
-
-  const section = clickedImg.closest(".project-sticky");
 
   openImageModal(clickedImg);
 
@@ -625,3 +642,38 @@ if (!isMobile()) {
   });
 }
 
+/* =========================
+   MOBILE ONLY - YOUTUBE BLOCK MODE
+========================= */
+
+if (isMobile()) {
+
+  document.querySelectorAll(".youtube-grid").forEach((grid) => {
+
+    const iframes = Array.from(grid.querySelectorAll("iframe"));
+    const projectSection = grid.closest(".project-sticky");
+    const imageArea = grid.parentElement;
+
+    // 🔥 유튜브 전용 블록 생성
+    const youtubeArea = document.createElement("div");
+    youtubeArea.className = "project-youtube-area";
+
+    iframes.forEach((iframe) => {
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "youtube-single";
+
+      wrapper.appendChild(iframe);
+      youtubeArea.appendChild(wrapper);
+    });
+
+    // 🔥 이미지 영역 아래에 추가
+    imageArea.insertAdjacentElement("afterend", youtubeArea);
+
+    grid.remove(); // 기존 4분할 제거
+  });
+
+}
+
+window.addEventListener("scroll", handleMobileHeader);
+  window.addEventListener("load", handleMobileHeader);

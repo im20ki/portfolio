@@ -147,7 +147,6 @@
         opacity: 1;
         margin-bottom: 12px;
         background: #f9f9f9;
-        border-radius: 14px;
         padding: 20px 0px;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
     }
@@ -169,29 +168,29 @@
         /* 너무 길면 줄바꿈 */
     }
 
-    /* 이미지 영역 (PC sticky + absolute 해제 포함) */
     .project-image-area {
         position: relative;
-        /* PC sticky 해제 */
         top: auto;
-        height: auto;
 
         display: flex;
-        gap: 6px;
+        gap: 17px;
 
         overflow-x: auto !important;
-        overflow-y: hidden !important;
+        overflow-y: visible !important;
+
+        height: auto !important;
+
         justify-content: flex-start !important;
 
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        margin-bottom: 0px;
-        padding: 0 20px;
 
-        scrollbar-width: none;
-        /* Firefox */
-        -ms-overflow-style: none;
-        /* IE, Edge */
+        margin-bottom: 0px;
+
+        padding-left: 16px;
+        /* 🔥 복구 */
+        padding-right: 16px;
+        /* 🔥 유지 */
     }
 
     .project-image-area::-webkit-scrollbar {
@@ -228,6 +227,10 @@
      ========================= */
     #contact {
         padding-top: 80px;
+    }
+
+    body {
+        overflow-x: visible;
     }
 
     /* =========================
@@ -272,15 +275,13 @@
         background: rgba(0, 0, 0, 0.8);
     }
 
-    /* content */
     .img-modal-content {
         position: relative;
         width: 94%;
         max-width: 1100px;
 
         margin: 40px auto;
-        background: #111;
-        border-radius: 16px;
+        background: transparent;
 
         max-height: calc(100vh - 80px);
         overflow-y: auto;
@@ -305,6 +306,7 @@
 
         cursor: pointer;
         z-index: 10;
+        margin-bottom: 16px;
     }
 
     /* body */
@@ -319,7 +321,6 @@
     /* image */
     .img-modal-body img {
         width: 100%;
-        border-radius: 10px;
         background: #000;
     }
 
@@ -352,57 +353,97 @@
    PROJECT YOUTUBE GRID (MOBILE)
 ========================= */
 
-    /* ✅ 모바일: 이미지+유튜브(.media)를 모두 '가로 카드'로 통일 */
     .project-image-area .media {
-        position: relative !important;
-        inset: auto !important;
+        flex: 0 0 85%;
+        max-width: 85%;
+        width: 85%;
 
-        flex: 0 0 98%;
-        max-width: 98%;
-        width: 100% !important;
-
-        height: auto !important;
-        aspect-ratio: 1 / 1;
+        scroll-snap-align: start;
 
         opacity: 1 !important;
         pointer-events: auto !important;
-        z-index: auto !important;
-
-        scroll-snap-align: start;
-        border-radius: 14px;
-        overflow: hidden;
+        position: relative !important;
     }
+
 
     /* ✅ PC용 active가 붙어도 모바일은 항상 보여주기 */
     .project-image-area .media.active {
         opacity: 1 !important;
+
     }
 
     /* ✅ 이미지만 object-fit 적용 (유튜브 div에는 영향 없음) */
     .project-image-area img.media {
-        object-fit: cover;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        max-height: none !important;
+
+        width: 100%;
+        height: auto;
     }
 
-    /* 모바일은 가로 스크롤 "한 장"이니까, 유튜브도 동일 크기 */
     .project-image-area .youtube-grid {
-        flex: 0 0 98%;
-        max-width: 98%;
+        display: flex;
+        gap: 12px;
+
+        flex: 0 0 100%;
+        max-width: 100%;
         width: 100%;
-        aspect-ratio: 1 / 1;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        gap: 6px;
-        background: none;
-        /* 검정 제거 */
-        padding: 0;
-        /* 여백 제거 */
+
+        scroll-snap-align: start;
     }
 
-    .project-image-area .youtube-grid iframe {
+    /* =========================
+   MOBILE YOUTUBE RESPONSIVE FIX
+========================= */
+
+    /* =========================
+   MOBILE YOUTUBE = IMAGE SAME LOGIC
+========================= */
+
+    .project-image-area .youtube-single {
+        flex: 0 0 100%;
         width: 100%;
-        height: 100%;
-        border: 0;
+        margin-top: 24px;
+        /* 🔥 슬라이드와 분리 */
+        scroll-snap-align: none;
+        /* 슬라이드 대상에서 제외 */
     }
 
+    /* 유튜브도 이미지처럼 자연 높이 사용 */
+    .project-image-area .youtube-single iframe {
+        width: 100%;
+        height: auto;
+
+        display: block;
+
+        /* 🔥 이미지와 동일하게 안 잘리게 */
+        aspect-ratio: 16 / 9;
+    }
+
+}
+
+/* =========================
+   MOBILE YOUTUBE BLOCK MODE
+========================= */
+
+.project-youtube-area {
+    margin-top: 24px;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.project-youtube-area .youtube-single iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    display: block;
+
+    border: none;
+    /* 🔥 혹시 남은 라운드 제거 */
 }

@@ -1,428 +1,377 @@
 /* =========================
    MOBILE (≤ 768px) – CLEAN PACK
-   기능 절대 삭제 X / 중복만 정리
+   기능 절대 삭제 X / 순서 정리
    ========================= */
+
 @media (max-width: 768px) {
 
-    .scene {
-        display: block;
-        /* 🔥 flex 완전 해제 */
-        height: auto;
-        /* 100vh 해제 */
-        min-height: auto;
-        /* 안전 */
-    }
-
-    /* HEADER (mobile scroll state) */
-    .site-header {
-        transition: background 0.3s ease, backdrop-filter 0.3s ease;
-    }
-
-    body.mobile-header-scrolled .site-header {
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(8px);
-    }
-
-    /* CONTACT TRIGGER HEIGHT TUNE */
-    #contactTrigger {
-        height: 100vh;
-    }
-
-    /* RESPONSIVE UTILITIES */
-    .pc-only {
-        display: none;
-    }
-
-    .mobile-only {
-        display: inline;
-        letter-spacing: 0.2em;
-    }
-
-    #hero {
-        min-height: 100vh;
-        /* 🔥 히어로는 다시 풀스크린 */
-        display: block;
-    }
-
-    /* =========================
-     HERO (MOBILE)
-     ========================= */
-    .hero-content.cyber-ui {
-        bottom: 6%;
-        padding: 24px 28px;
-    }
-
-    .hero-title {
-        font-size: 2rem;
-        margin-bottom: 16px;
-    }
-
-    #about {
-        position: relative;
-    }
-
-    #about::before {
-        content: "";
-        display: block;
-        height: 80px;
-        background: #f6f6f6;
-    }
-
-    #about::after {
-        content: "";
-        display: block;
-        height: 80px;
-        /* 👈 아래쪽 숨 */
-        background: #f6f6f6;
-    }
-
-    /* =========================
-   ABOUT = PROJECT (MOBILE)
-   ========================= */
-
-    /* About 제목 → Project h3 */
-    #about h2 {
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-    }
-
-    /* About 모든 문단 → Project p */
-    #about .about-lead,
-    #about .about-desc {
-        font-size: 0.95rem;
-        line-height: 1.75;
-        color: rgba(0, 0, 0, 0.7);
-    }
-
-    /* 문단 사이 간격만 Project 카드 느낌 */
-    #about .about-lead {
-        margin-bottom: 12px;
-    }
-
-
-    /* =========================
- PROJECT (MOBILE – FINAL)
- ========================= */
-
-    .project-divider {
-        height: 1px;
-        width: calc(100% - 40px);
-        margin: 32px auto 0;
-
-        background: linear-gradient(to right,
-                transparent,
-                rgba(0, 0, 0, 0.25),
-                transparent);
-    }
-
-    .project-sticky {
-        display: block;
-        margin-bottom: 50px;
-        /* 👈 넉넉한 프로젝트 간 호흡 */
-    }
-
-    /* ABOUT 바로 다음 첫 프로젝트 */
-    #about+.project-sticky {
-        margin-top: 50px;
-    }
-
-    /* 텍스트 영역 */
-    .project-text-area {
-        position: relative;
-        top: auto;
-        height: auto;
-
-        padding: 0px;
-        /* ✅ 좌우만 */
-        margin-bottom: 32px;
-        /* ✅ 텍스트↔이미지 간격(모든 프로젝트 동일) */
-    }
-
-
-    .project-text-area .step {
-        position: relative;
-        inset: auto;
-        opacity: 1;
-        margin-bottom: 12px;
-        background: #f9f9f9;
-        padding: 20px 0px;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
-    }
-
-    .project-text-area .step h3 {
-        font-size: 0.95rem;
-        margin-bottom: 10px;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-    }
-
-    .project-text-area .step p {
-        font-size: 0.95rem;
-        line-height: 1.75;
-        color: rgba(0, 0, 0, 0.7);
-        word-break: keep-all;
-        /* 단어 쪼개지 않음 (특히 한글) */
-        overflow-wrap: break-word;
-        /* 너무 길면 줄바꿈 */
-    }
-
-    .project-image-area {
-        position: relative;
-        top: auto;
-
-        display: flex;
-        gap: 17px;
-
-        overflow-x: auto !important;
-        overflow-y: visible !important;
-
-        height: auto !important;
-
-        justify-content: flex-start !important;
-
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-
-        margin-bottom: 0px;
-
-        padding-left: 16px;
-        /* 🔥 복구 */
-        padding-right: 16px;
-        /* 🔥 유지 */
-    }
-
-    .project-image-area::-webkit-scrollbar {
-        display: none;
-        /* Chrome, Safari */
-    }
-
-    /* =========================
-     ABOUT (MOBILE)
-     ========================= */
-    #about .about-wrap {
-        width: 100%;
-        display: flex !important;
-        flex-direction: column !important;
-        grid-template-columns: none !important;
-        gap: 40px;
-        /* 🔥 텍스트와 스킬 박스 사이 간격 */
-    }
-
-    #about .about-meta {
-        width: 100%;
-        display: block;
-        /* ✅ flex 영향 제거 */
-    }
-
-    #about .meta-card {
-        width: 100%;
-        max-width: none;
-        margin: 0;
-    }
-
-    /* =========================
-     CONTACT (MOBILE)
-     ========================= */
-    #contact {
-        padding-top: 80px;
-    }
-
-    body {
-        overflow-x: visible;
-    }
-
-    /* =========================
-     MOBILE CONTACT HEADER (PC STYLE)
-     ========================= */
-    body.contact-open .site-header {
-        background: transparent;
-        backdrop-filter: none;
-    }
-
-    body.contact-open .project-nav {
-        display: none;
-    }
-
-    body.contact-open .logo {
-        opacity: 1;
-    }
-
-    /* =========================
-   IMAGE MODAL
-========================= */
-
-    .img-modal {
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
-
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-    }
-
-    .img-modal.active {
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    /* dim */
-    .img-modal-dim {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.8);
-    }
-
-    .img-modal-content {
-        position: relative;
-        width: 94%;
-        max-width: 1100px;
-
-        margin: 40px auto;
-        background: transparent;
-
-        max-height: calc(100vh - 80px);
-        overflow-y: auto;
-    }
-
-    /* close */
-    .img-modal-close {
-        position: sticky;
-        top: 12px;
-        right: 12px;
-
-        display: block;
-        margin-left: auto;
-
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        color: #fff;
-
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-
-        cursor: pointer;
-        z-index: 10;
-        margin-bottom: 16px;
-    }
-
-    /* body */
-
-    .img-modal-body {
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    /* image */
-    .img-modal-body img {
-        width: 100%;
-        background: #000;
-    }
-
-    /* caption */
-    .modal-caption {
-        color: rgba(255, 255, 255, 0.85);
-        font-size: 14px;
-        padding: 4px 6px 12px;
-        line-height: 1.6;
-    }
-
-
-
-    /* =========================
-   MOBILE CONTACT ORBIT FIX
-========================= */
-
-    .warning-line {
-        width: clamp(300px, 95vw, 420px);
-        height: clamp(300px, 95vw, 420px);
-    }
-
-    .orbit-text {
-        font-size: 13px;
-        /* 10px → 12px */
-        letter-spacing: 0.06em;
-    }
-
-    /* =========================
-   PROJECT YOUTUBE GRID (MOBILE)
-========================= */
-
-    .project-image-area .media {
-        flex: 0 0 85%;
-        max-width: 85%;
-        width: 85%;
-
-        scroll-snap-align: start;
-
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        position: relative !important;
-    }
-
-
-    /* ✅ PC용 active가 붙어도 모바일은 항상 보여주기 */
-    .project-image-area .media.active {
-        opacity: 1 !important;
-
-    }
-
-    /* ✅ 이미지만 object-fit 적용 (유튜브 div에는 영향 없음) */
-    .project-image-area img.media {
-        position: relative !important;
-        top: auto !important;
-        left: auto !important;
-        transform: none !important;
-        max-height: none !important;
-
-        width: 100%;
-        height: auto;
-    }
-
-    .project-image-area .youtube-grid {
-        display: flex;
-        gap: 12px;
-
-        flex: 0 0 100%;
-        max-width: 100%;
-        width: 100%;
-
-        scroll-snap-align: start;
-    }
-
-    /* =========================
-   MOBILE YOUTUBE RESPONSIVE FIX
-========================= */
-
-    /* =========================
-   MOBILE YOUTUBE = IMAGE SAME LOGIC
-========================= */
-
-    .project-image-area .youtube-single {
-        flex: 0 0 100%;
-        width: 100%;
-        margin-top: 24px;
-        /* 🔥 슬라이드와 분리 */
-        scroll-snap-align: none;
-        /* 슬라이드 대상에서 제외 */
-    }
-
-    /* 유튜브도 이미지처럼 자연 높이 사용 */
-    .project-image-area .youtube-single iframe {
-        width: 100%;
-        height: auto;
-
-        display: block;
-
-        /* 🔥 이미지와 동일하게 안 잘리게 */
-        aspect-ratio: 16 / 9;
-    }
-
+/* ==================================================
+   1. GLOBAL MOBILE RESET
+================================================== */
+
+.scene {
+    display: block;
+    height: auto;
+    min-height: auto;
+}
+
+body {
+    overflow-x: visible;
+}
+
+/* RESPONSIVE UTILITIES */
+.pc-only {
+    display: none;
+}
+
+.mobile-only {
+    display: inline;
+    letter-spacing: 0.2em;
+}
+
+/* ==================================================
+   2. HEADER (MOBILE)
+================================================== */
+
+.site-header {
+    transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+body.mobile-header-scrolled .site-header {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+}
+
+/* CONTACT TRIGGER HEIGHT */
+#contactTrigger {
+    height: 100vh;
+}
+
+/* ==================================================
+   3. HERO (MOBILE)
+================================================== */
+
+#hero {
+    min-height: 100vh;
+    display: block;
+}
+
+.hero-content.cyber-ui {
+    bottom: 6%;
+    padding: 24px 28px;
+}
+
+.hero-title {
+    font-size: 2rem;
+    margin-bottom: 16px;
+}
+
+/* ==================================================
+   4. ABOUT (MOBILE)
+================================================== */
+
+#about {
+    position: relative;
+}
+
+#about::before,
+#about::after {
+    content: "";
+    display: block;
+    height: 80px;
+    background: #f6f6f6;
+}
+
+#about h2 {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+#about .about-lead,
+#about .about-desc {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+#about .about-lead {
+    margin-bottom: 12px;
+}
+
+#about .about-wrap {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    gap: 40px;
+}
+
+#about .about-meta {
+    width: 100%;
+    display: block;
+}
+
+#about .meta-card {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+/* ==================================================
+   5. PROJECT (MOBILE)
+================================================== */
+
+.project-divider {
+    height: 1px;
+    width: calc(100% - 40px);
+    margin: 32px auto 0;
+    background: linear-gradient(to right,
+        transparent,
+        rgba(0, 0, 0, 0.25),
+        transparent);
+}
+
+.project-sticky {
+    display: block;
+    margin-bottom: 50px;
+}
+
+#about + .project-sticky {
+    margin-top: 50px;
+}
+
+/* TEXT */
+
+.project-text-area {
+    position: relative;
+    top: auto;
+    height: auto;
+    padding: 0px;
+    margin-bottom: 32px;
+}
+
+.project-text-area .step {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    margin-bottom: 12px;
+    background: #f9f9f9;
+    padding: 20px 0px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+}
+
+.project-text-area .step h3 {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.project-text-area .step p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: rgba(0, 0, 0, 0.7);
+    word-break: keep-all;
+    overflow-wrap: break-word;
+}
+
+/* IMAGE SLIDE */
+
+.project-image-area {
+    position: relative;
+    top: auto;
+
+    display: flex;
+    gap: 17px;
+
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+
+    height: auto !important;
+    justify-content: flex-start !important;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    margin-bottom: 0px;
+
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.project-image-area::-webkit-scrollbar {
+    display: none;
+}
+
+.project-image-area .media {
+    flex: 0 0 85%;
+    max-width: 85%;
+    width: 85%;
+
+    scroll-snap-align: start;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    position: relative !important;
+}
+
+.project-image-area .media.active {
+    opacity: 1 !important;
+}
+
+.project-image-area img.media {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    max-height: none !important;
+
+    width: 100%;
+    height: auto;
+}
+
+/* ==================================================
+   6. CONTACT (MOBILE)
+================================================== */
+
+#contact {
+    padding-top: 80px;
+}
+
+body.contact-open .site-header {
+    background: transparent;
+    backdrop-filter: none;
+}
+
+body.contact-open .project-nav {
+    display: none;
+}
+
+body.contact-open .logo {
+    opacity: 1;
+}
+
+/* ==================================================
+   7. IMAGE MODAL (MOBILE)
+================================================== */
+
+.img-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.img-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.img-modal-dim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.img-modal-content {
+    position: relative;
+    width: 94%;
+    max-width: 1100px;
+
+    margin: 40px auto;
+    background: transparent;
+
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+}
+
+.img-modal-close {
+    position: sticky;
+    top: 12px;
+    right: 12px;
+
+    display: block;
+    margin-left: auto;
+
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+
+    cursor: pointer;
+    z-index: 10;
+    margin-bottom: 16px;
+}
+
+.img-modal-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.img-modal-body img {
+    width: 100%;
+    background: #000;
+}
+
+.modal-caption {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 14px;
+    padding: 4px 6px 12px;
+    line-height: 1.6;
+}
+
+/* ==================================================
+   8. MOBILE CONTACT ORBIT FIX
+================================================== */
+
+.warning-line {
+    width: clamp(300px, 95vw, 420px);
+    height: clamp(300px, 95vw, 420px);
+}
+
+.orbit-text {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+}
+
+/* ==================================================
+   9. YOUTUBE (MOBILE)
+================================================== */
+
+.project-image-area .youtube-grid {
+    display: flex;
+    gap: 12px;
+
+    flex: 0 0 100%;
+    max-width: 100%;
+    width: 100%;
+
+    scroll-snap-align: start;
+}
+
+.project-image-area .youtube-single {
+    flex: 0 0 100%;
+    width: 100%;
+    margin-top: 24px;
+    scroll-snap-align: none;
+}
+
+.project-image-area .youtube-single iframe {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 9;
 }
 
 /* =========================
@@ -443,7 +392,7 @@
     height: auto;
     aspect-ratio: 16 / 9;
     display: block;
-
     border: none;
-    /* 🔥 혹시 남은 라운드 제거 */
+}
+
 }

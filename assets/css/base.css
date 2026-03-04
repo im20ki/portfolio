@@ -1,6 +1,6 @@
 /* =========================
-   RESET & BASE
-   ========================= */
+   1) RESET & BASE
+========================= */
 * {
   margin: 0;
   padding: 0;
@@ -20,8 +20,8 @@ body {
 }
 
 /* =========================
-   STATE (BODY / JS)
-   ========================= */
+   2) STATE (BODY / JS)
+========================= */
 body.contact-open .site-header {
   z-index: 300;
 }
@@ -31,22 +31,8 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
-   REVEAL ANIMATION (JS)
-   ========================= */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =========================
-   RESPONSIVE UTILITIES
-   ========================= */
+   3) UTILITIES
+========================= */
 .pc-only {
   display: inline;
 }
@@ -56,8 +42,8 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
-   HEADER (BASE)
-   ========================= */
+   4) HEADER (BASE)
+========================= */
 .site-header {
   position: fixed;
   top: 0;
@@ -76,9 +62,8 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
-   PROJECT NAV (BASE)
-   ========================= */
-
+   5) PROJECT NAV (BASE)
+========================= */
 .project-nav {
   display: flex;
   gap: 20px;
@@ -136,8 +121,8 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
-   HERO (BASE)
-   ========================= */
+   6) HERO (BASE)
+========================= */
 #hero {
   position: relative;
 }
@@ -254,9 +239,8 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
-   ABOUT (BASE)
-   ========================= */
-
+   7) ABOUT (BASE)
+========================= */
 #about h2 {
   font-size: 2rem;
   letter-spacing: 0.05em;
@@ -284,7 +268,8 @@ body.contact-open .site-header .logo {
 }
 
 .meta-card {
-  border: 1px solid #eee;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
   padding: 28px;
   margin-bottom: 20px;
 }
@@ -315,8 +300,8 @@ body.contact-open .site-header .logo {
 }
 
 /* =========================
-   CONTACT / FOOTER (BASE)
-   ========================= */
+   8) CONTACT / FOOTER
+========================= */
 .footer-takeover {
   position: fixed;
   inset: 0;
@@ -344,36 +329,21 @@ body.contact-open .site-header .logo {
   letter-spacing: 0.08em;
   color: rgba(255,255,255,0.85);
   margin-top: 12px;
+  margin-bottom: 20px;   /* 👈 추가 */
   user-select: text;
 }
 
-/* =========================
-   INDUSTRIAL WARNING CONTACT
-========================= */
-
-.contact-center {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-
-.contact-center h2 {
-  font-size: 1rem;
-  letter-spacing: 0.4em;
-  margin-bottom: 20px;
-  opacity: 0.6;
-}
-
-.contact-center .contact-email {
-  font-size: 1.2rem;
-  letter-spacing: 0.08em;
-  color: #fff;
+.portfolio-disclaimer {
+  margin-top: 28px;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.5;
 }
 
 /* =========================
-   CONTACT - CIRCULAR TEXT RING (CCW)
+   9) CONTACT ORBIT
 ========================= */
-
 .warning-line {
   position: absolute;
   left: 50%;
@@ -382,7 +352,6 @@ body.contact-open .site-header .logo {
   pointer-events: none;
   z-index: 1;
 
-  /* 링 크기 */
   width: clamp(260px, 55vw, 640px);
   height: clamp(260px, 55vw, 640px);
 
@@ -390,14 +359,11 @@ body.contact-open .site-header .logo {
   overflow: visible;
 }
 
-/* SVG가 링 전체를 차지 */
-/* SVG 전체 */
 .orbit-svg {
   width: 100%;
   height: 100%;
 }
 
-/* 원형 텍스트 스타일 */
 .orbit-text {
   fill: #f5c400;
   font-weight: 700;
@@ -405,19 +371,16 @@ body.contact-open .site-header .logo {
   font-size: 13px;
 }
 
-/* 안쪽 링 (반시계) */
 .inner-ring {
   animation: rotateInner 22s linear infinite;
   transform-origin: 50% 50%;
 }
 
-/* 바깥 링 (시계) */
 .outer-ring {
   animation: rotateOuter 30s linear infinite;
   transform-origin: 50% 50%;
 }
 
-/* 애니메이션 */
 @keyframes rotateInner {
   from { transform: rotate(0deg); }
   to   { transform: rotate(-360deg); }
@@ -428,13 +391,16 @@ body.contact-open .site-header .logo {
   to   { transform: rotate(360deg); }
 }
 
-.img-modal-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* =========================
+   10) REVEAL ANIMATION
+========================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.img-modal-body img {
-  max-height: 85vh;
-  object-fit: contain;
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }

@@ -1,6 +1,7 @@
-/* =========================
-   LAYOUT (PC ONLY)
-   ========================= */
+/* ==================================================
+   1. LAYOUT (PC ONLY)
+================================================== */
+
 .scene {
   height: 100vh;
   display: flex;
@@ -11,24 +12,21 @@
   padding: 0 10%;
 }
 
-/* =========================
-   ABOUT 50 : 50 (PC ALIGN FIX)
-   ========================= */
+/* ==================================================
+   2. ABOUT (PC 50 : 50 STRUCTURE)
+================================================== */
 
 #about .about-wrap {
   width: 100%;
   align-items: start;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  /* 정확히 반반 */
   gap: 0;
-  /* 간격 제거 */
 }
 
 #about .about-text,
 #about .about-meta {
   flex: 1;
-  /* 정확히 50 : 50 */
 }
 
 #about .about-meta {
@@ -38,12 +36,11 @@
 
 #about .meta-card {
   width: 100%;
-  /* 오른쪽 50% 칼럼을 꽉 채우기 */
   margin: 0;
-  /* 혹시 남아있는 바깥 여백 제거 */
 }
 
-/* About 제목 */
+/* About Typography */
+
 #about h2 {
   font-size: 1.8rem;
   font-weight: 500;
@@ -51,7 +48,6 @@
   margin-bottom: 28px;
 }
 
-/* About 리드 문장 */
 #about .about-lead {
   font-size: 1.05rem;
   font-weight: 500;
@@ -60,7 +56,6 @@
   color: rgba(0, 0, 0, 0.85);
 }
 
-/* About 본문 */
 #about .about-desc {
   font-size: 1.05rem;
   line-height: 1.9;
@@ -68,6 +63,9 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
+/* ==================================================
+   3. PROJECT STRUCTURE (STICKY SYSTEM)
+================================================== */
 
 .project-sticky {
   display: flex;
@@ -77,17 +75,17 @@
 }
 
 /* LEFT TEXT */
+
 .project-text-area {
   flex: 1;
   font-size: 1.4rem;
   line-height: 1.8;
-  /* ✅ 기본 행간 */
   letter-spacing: -0.01em;
-  /* 살짝 조밀 */
+
   position: sticky;
   top: 115px;
-
   height: calc(100vh - 160px);
+
   z-index: 1;
 }
 
@@ -121,104 +119,58 @@
 }
 
 /* RIGHT IMAGE */
+
 .project-image-area {
   flex: 1;
 
   position: sticky;
   top: 120px;
-
   height: calc(100vh - 160px);
 
   display: flex;
-  /* ✅ 추가 */
   justify-content: flex-end;
-  /* ✅ 오른쪽 정렬 */
+
   overflow: hidden;
-  /* ✅ 마스크 역할 */
   z-index: 5;
-  pointer-events: none;
+
+  pointer-events: auto;
+  /* ✅ 변경 */
 }
 
-/* =========================
-   CONTACT SCROLL TRIGGER (PC)
-   ========================= */
-#contactTrigger {
-  height: 100vh;
-  background: transparent;
-  pointer-events: none;
-  padding: 0 !important;
-  margin: 0;
-}
 
-/* 링크 스타일 초기화 */
-.portfolio-link {
-  color: inherit;
-  /* 파란색 제거 */
-  text-decoration: none;
-  /* 언더라인 제거 */
-}
+/* ==================================================
+   4. PROJECT MEDIA SYSTEM (IMG + YOUTUBE)
+================================================== */
 
-/* 필요하면 hover도 완전 동일하게 */
-.portfolio-link:hover {
-  color: inherit;
-  text-decoration: none;
-}
+/* media stacking */
 
-/* 하단 안내문 작게 */
-.site-notice {
-  font-size: 0.85em;
-  /* 본문 대비 작게 */
-  opacity: 0.7;
-  /* 정보성 문구 느낌 */
-}
-
-.project-hover-caption {
-
-  font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.6);
-
-  display: flex;
-  justify-content: flex-end;
-  /* 🔥 오른쪽 정렬 */
-
-  text-align: right;
-  /* 🔥 텍스트 오른쪽 */
-
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  padding-right: 40px;
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.project-hover-caption.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =========================
-   PROJECT MEDIA (IMG + YOUTUBE)
-========================= */
-
-/* img도 div도 동일하게 "한 장"처럼 겹치게 */
 .project-image-area .media {
   position: absolute;
   inset: 0;
+
   width: 100%;
   height: 100%;
+
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
+
   z-index: 0;
   transition: opacity 0.4s ease;
 }
 
-/* active면 보이게 */
 .project-image-area .media.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
   z-index: 1;
+  padding: 20px;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
 }
 
-/* active 상태일 때만 pointer */
+/* clickable states */
+
 .project-image-area .media.active img.media {
   cursor: pointer;
 }
@@ -227,45 +179,93 @@
   cursor: pointer;
 }
 
-/* 기존 img 스타일 유지(겹침 기준) */
+.project-image-area img {
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.project-image-area  img {
+  transition: transform 0.35s ease, filter 0.35s ease;
+}
+
+.project-image-area img:hover {
+  transform: scale(1.01);
+  filter: brightness(1.05);
+}
+/* image positioning */
+
 .project-image-area img.media {
   object-fit: contain;
   object-position: center;
+
   position: absolute;
-  inset: auto;            /* 기존 inset:0 무력화 */
+  inset: auto;
   top: 50%;
   left: 50%;
-  width: auto;            /* ✅ 박스가 이미지 크기에 맞게 */
+
+  width: auto;
   height: auto;
   max-width: 100%;
   max-height: 100%;
+
   transform: translate(-50%, -50%);
   cursor: pointer;
 }
 
-/* 실제 이미지/유튜브 썸네일만 클릭 허용 */
+/* ✅ 기본은 막고 */
 .project-image-area img.media,
 .project-image-area img.youtube-thumb {
+  pointer-events: none;
+}
+
+.project-image-area .image-quad {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+
+  padding: 20px;
+}
+
+.project-image-area .image-quad img {
+  position: relative !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-quad img {
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+
+/* ✅ active인 것만 열어준다 */
+.project-image-area .media.active img.media,
+.project-image-area .media.active img.youtube-thumb {
   pointer-events: auto;
 }
 
+/* youtube thumb */
 
-/* 유튜브 썸네일만 cover */
 .project-image-area .youtube-thumb {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
-/* 유튜브 2x2 분할 */
+/* youtube 2x2 grid */
+
 .project-image-area .youtube-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+
   padding: 0;
   background: none;
+
   align-content: center;
-  pointer-events: none !important;
+  pointer-events: auto !important;
 }
 
 .project-image-area .youtube-grid iframe {
@@ -276,23 +276,39 @@
   display: block;
 }
 
+/* youtube hover effect */
 
-/* =========================
-   PC ONLY VIDEO MODAL
-========================= */
+.youtube-thumb {
+  position: relative;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.youtube-thumb:hover {
+  transform: scale(1.05);
+  filter: brightness(0.7);
+}
+
+/* ==================================================
+   5. MODAL SYSTEM (PC)
+================================================== */
+
+/* ---------- VIDEO MODAL ---------- */
 
 @media (min-width: 769px) {
 
   .video-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.8);
+    background: rgba(0, 0, 0, 0.8);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     opacity: 0;
     pointer-events: none;
     transition: 0.3s ease;
+
     z-index: 9999;
   }
 
@@ -323,26 +339,9 @@
     font-size: 28px;
     cursor: pointer;
   }
-
 }
 
-/* =========================
-   YOUTUBE THUMB HOVER EFFECT
-========================= */
-
-.youtube-thumb {
-  position: relative;
-  transition: transform 0.4s ease, filter 0.4s ease;
-}
-
-.youtube-thumb:hover {
-  transform: scale(1.05);
-  filter: brightness(0.7);
-}
-
-/* =========================
-   IMAGE MODAL (PC)
-========================= */
+/* ---------- IMAGE MODAL ---------- */
 
 .img-modal {
   position: fixed;
@@ -359,18 +358,16 @@
   pointer-events: auto;
 }
 
-/* dim */
 .img-modal-dim {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.85);
 }
 
-/* content */
 .img-modal-content {
   position: relative;
-  width: 92vw;
-  max-width: 1400px;
+  width: 96vw;
+  max-width: 1700px;
   margin: 40px auto;
 
   background: transparent;
@@ -382,11 +379,10 @@
   overflow: auto;
 }
 
-/* close */
 .img-modal-close {
-  position: absolute;          /* 🔥 sticky 제거 */
-  top: 20px;                   /* 위 여백 */
-  right: 24px;                 /* 오른쪽 여백 */
+  position: absolute;
+  top: 20px;
+  right: 24px;
 
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -402,7 +398,7 @@
   backdrop-filter: blur(10px);
 
   transition: all 0.25s ease;
-  z-index: 20;                 /* 이미지 위에 오도록 */
+  z-index: 20;
 }
 
 .img-modal-close:hover {
@@ -410,15 +406,14 @@
   transform: rotate(90deg) scale(1.05);
 }
 
-/* body */
 .img-modal-body {
   padding: 40px;
 
   display: flex;
-  justify-content: center;   /* ✅ 가로 중앙 */
-  align-items: flex-start;   /* ✅ 세로는 위부터 (스크롤 자연스럽게) */
+  justify-content: center;
+  align-items: flex-start;
 
-  overflow: auto;            /* ✅ 내부 스크롤 허용 */
+  overflow: auto;
 }
 
 .img-modal-body img {
@@ -427,11 +422,8 @@
   object-fit: contain;
 }
 
-/* =========================
-   PC MODAL SCROLL DESIGN
-========================= */
+/* ---------- MODAL SCROLLBAR ---------- */
 
-/* 전체 모달 스크롤 */
 .img-modal-content::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -448,4 +440,59 @@
 
 .img-modal-content::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.5);
+}
+
+/* ==================================================
+   6. UI DETAILS
+================================================== */
+
+/* contact trigger (pc) */
+
+#contactTrigger {
+  height: 100vh;
+  background: transparent;
+  pointer-events: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+/* link reset */
+
+.portfolio-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.portfolio-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* small notice */
+
+.site-notice {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+/* hover caption */
+
+.project-hover-caption {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  padding-right: 30px;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.project-hover-caption.active {
+  opacity: 1;
+  transform: translateY(0);
 }

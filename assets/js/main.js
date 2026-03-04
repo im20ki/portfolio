@@ -1,10 +1,14 @@
 /* =========================
-   BASIC SETUP
+   1) BASIC SETUP / UTILS
 ========================= */
 const scenes = document.querySelectorAll(".scene");
 let isImageHovered = false;
 let currentAnimation = null;
 let firstWheelFixDone = false;
+
+function isMobile() {
+  return window.innerWidth <= 768;
+}
 
 function isAlreadyInScene(index) {
   if (index < 0 || index >= scenes.length) return true;
@@ -17,12 +21,8 @@ function isAlreadyInScene(index) {
   return middle >= top && middle < bottom;
 }
 
-function isMobile() {
-  return window.innerWidth <= 768;
-}
-
 /* =========================
-   SCENE HELPERS
+   2) SCENE HELPERS
 ========================= */
 function getCurrentSceneIndex() {
   let index = 0;
@@ -74,9 +74,9 @@ function scrollToScene(index) {
   currentAnimation = requestAnimationFrame(animateScroll);
 }
 
-
 /* =========================
-   PROJECT SECTIONS SETUP
+   3) PROJECT SECTIONS SETUP
+   (⚠️ wheel / view update가 의존하므로 순서 유지)
 ========================= */
 const projectSections = document.querySelectorAll(".project-sticky");
 
@@ -97,7 +97,7 @@ if (!isMobile()) {
 }
 
 /* =========================
-   PROJECT VIEW UPDATE
+   4) PROJECT VIEW UPDATE
 ========================= */
 function updateProjectView(project) {
   project.isTransitioning = true;
@@ -124,11 +124,11 @@ function updateProjectView(project) {
   }, 450);
 }
 
-
 /* =========================
-   WHEEL CONTROL (PROJECT LOCK – CLEAN)
+   5) WHEEL CONTROL (PC ONLY)
+   (⚠️ projects / modal 변수 의존 → 아래 modal 선언보다 위에 있지만,
+    기존 파일도 동일 구조였고 동작 정상. 그대로 유지)
 ========================= */
-
 if (!isMobile()) {
   window.addEventListener(
     "wheel",
@@ -140,10 +140,12 @@ if (!isMobile()) {
         if (scene) window.scrollTo(0, scene.offsetTop);
         firstWheelFixDone = true;
       }
+
       // ✅ 모달이 열려 있으면 wheel 완전 차단
       if (modal.classList.contains("active")) {
         return;
       }
+
       // ✅ 애니메이션 도는 중이면 wheel 입력을 막고 끝
       if (currentAnimation) {
         e.preventDefault();
@@ -154,9 +156,7 @@ if (!isMobile()) {
       const currentSceneIndex = getCurrentSceneIndex();
       const currentScene = scenes[currentSceneIndex];
 
-      const currentProject = projects.find(
-        (p) => p.section === currentScene
-      );
+      const currentProject = projects.find((p) => p.section === currentScene);
 
       /* ===== PROJECT SECTION ===== */
       if (currentProject && currentProject.steps.length > 0) {
@@ -204,10 +204,8 @@ if (!isMobile()) {
   );
 }
 
-
-
 /* =========================
-   REVEAL
+   6) REVEAL
 ========================= */
 const reveals = document.querySelectorAll(".reveal");
 
@@ -224,7 +222,7 @@ window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
 
 /* =========================
-   HERO MICRO MOVE (SMOOTH)
+   7) HERO MICRO MOVE (PC ONLY)
 ========================= */
 const heroUI = document.querySelector(".hero-content.cyber-ui");
 
@@ -240,7 +238,6 @@ if (heroUI && !isMobile()) {
   });
 
   function animateHero() {
-    // 👉 부드럽게 따라가게 만드는 핵심
     currentX += (targetX - currentX) * 0.08;
     currentY += (targetY - currentY) * 0.08;
 
@@ -253,22 +250,16 @@ if (heroUI && !isMobile()) {
   animateHero();
 }
 
-
 /* =========================
-   SPLINE LOADER
+   8) SPLINE LOADER / PREWARM (PC ONLY)
 ========================= */
 const splineViewer = document.querySelector("spline-viewer");
 const heroLoader = document.querySelector(".hero-loader");
 
-/* =========================
-   SPLINE PREWARM (PC ONLY)
-   hero가 화면에 없어도 spline을 미리 실행시키기
-========================= */
 if (splineViewer && !isMobile()) {
   const heroSection = document.getElementById("hero");
   const heroBg = document.querySelector("#hero .hero-bg");
 
-  // ✅ 화면에는 안 보이지만 "뷰포트 안"에 존재하는 예열 컨테이너
   const prewarmBox = document.createElement("div");
   prewarmBox.style.cssText = `
     position: fixed;
@@ -289,7 +280,6 @@ if (splineViewer && !isMobile()) {
   }
 
   function placeSpline() {
-    // hero가 보이면 hero-bg에 꽂고, 안 보이면 prewarmBox에 꽂아서 계속 실행
     if (isHeroInView()) {
       if (heroBg && splineViewer.parentElement !== heroBg) {
         heroBg.appendChild(splineViewer);
@@ -310,16 +300,14 @@ if (splineViewer && heroLoader) {
   window.addEventListener("load", () => {
     setTimeout(() => {
       heroLoader.classList.add("hidden");
-      // ✅ Spline 강제 초기화 트리거
       window.dispatchEvent(new Event("resize"));
     }, 500);
   });
 }
 
 /* =========================
-   PROJECT JUMP NAV
+   9) PROJECT JUMP NAV
 ========================= */
-
 const projectNavButtons = document.querySelectorAll(".project-nav button");
 
 projectNavButtons.forEach((btn) => {
@@ -329,7 +317,7 @@ projectNavButtons.forEach((btn) => {
     const targetProject = document.querySelectorAll(".project-sticky")[projectIndex];
     if (!targetProject) return;
 
-    setActiveProjectNav(projectIndex); // ✅ 추가
+    setActiveProjectNav(projectIndex);
 
     const header = document.querySelector(".site-header");
     const headerHeight = header ? header.offsetHeight : 0;
@@ -350,7 +338,6 @@ function setActiveProjectNav(index) {
 function updateProjectNavOnScroll() {
   const 기준선 = window.scrollY + window.innerHeight * 0.5;
 
-  // ✅ 먼저 전부 비활성화
   setActiveProjectNav(-1);
 
   projectSections.forEach((section, index) => {
@@ -366,25 +353,21 @@ function updateProjectNavOnScroll() {
 window.addEventListener("scroll", updateProjectNavOnScroll);
 updateProjectNavOnScroll();
 
-
 /* =========================
-   LOGO → SCROLL TO TOP
+   10) LOGO → SCROLL TO TOP
 ========================= */
-
 const logo = document.querySelector(".logo");
 
 if (logo) {
   logo.addEventListener("click", () => {
     if (currentAnimation) return;
-
     scrollToScene(0);
   });
 }
 
 /* =========================
-   CONTACT TAKEOVER CONTROL
+   11) CONTACT TAKEOVER CONTROL
 ========================= */
-
 const contactTakeover = document.getElementById("contactTakeover");
 const contactTrigger = document.getElementById("contactTrigger");
 
@@ -408,7 +391,6 @@ window.addEventListener("scroll", () => {
     return;
   }
 
-
   // ✅ PC
   if (!contactTrigger) return;
 
@@ -424,9 +406,8 @@ window.addEventListener("scroll", () => {
 });
 
 /* =========================
-   MOBILE HEADER SCROLL STATE
+   12) MOBILE HEADER SCROLL STATE
 ========================= */
-
 function handleMobileHeader() {
   if (window.innerWidth > 768) {
     document.body.classList.remove("mobile-header-scrolled");
@@ -441,14 +422,12 @@ function handleMobileHeader() {
 }
 
 /* =========================
-   IMAGE MODAL SYSTEM
+   13) IMAGE MODAL SYSTEM
 ========================= */
-
 const modal = document.getElementById("imageModal");
 const modalBody = document.querySelector(".img-modal-body");
 const modalDim = document.querySelector(".img-modal-dim");
 const modalClose = document.querySelector(".img-modal-close");
-
 const modalContent = document.querySelector(".img-modal-content");
 
 // ✅ 모달에서 굴린 휠이 window까지 올라가지 않게 차단 (모달 스크롤은 그대로)
@@ -460,7 +439,6 @@ if (modalContent) {
 
 function openImageModal(clickedImg) {
   modalBody.innerHTML = "";
-
   if (!clickedImg) return;
 
   // ✅ PC는 기존처럼 한 장만
@@ -475,7 +453,6 @@ function openImageModal(clickedImg) {
 
     modalBody.appendChild(clone);
   }
-
   // ✅ 모바일은 해당 프로젝트 이미지 전부
   else {
     const section = clickedImg.closest(".project-sticky");
@@ -512,49 +489,62 @@ window.addEventListener("keydown", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-
-  const clickedImg = e.target.closest(".project-image-area img.media:not(.youtube-thumb)");
+  const clickedImg = e.target.closest(".project-image-area img.media-img:not(.youtube-thumb)");
   if (!clickedImg) return;
 
   openImageModal(clickedImg);
-
 });
 
 /* =========================
-   PC IMAGE HOVER CAPTION (CUSTOM)
+   14) PC IMAGE & YOUTUBE HOVER CAPTION (EVENT DELEGATION)
 ========================= */
 if (!isMobile()) {
-  document.querySelectorAll(".project-sticky").forEach((section) => {
-    // ✅ img만 말고, 이미지+유튜브를 모두 잡기
-    const mediaItems = section.querySelectorAll(".project-image-area .media");
+
+  document.addEventListener("mouseover", (e) => {
+
+    const target = e.target.closest(
+      ".project-image-area img.media, .project-image-area .youtube-thumb"
+    );
+
+    if (!target) return;
+
+    const section = target.closest(".project-sticky");
+    if (!section) return;
+
     const captionBox = section.querySelector(".project-hover-caption");
     if (!captionBox) return;
 
-    mediaItems.forEach((el) => {
-      el.addEventListener("mouseenter", () => {
-        isImageHovered = true;
+    isImageHovered = true;
 
-        const text = el.dataset.caption || "";
-        captionBox.textContent = text;
-        captionBox.classList.add("active");
-      });
+    const text = target.dataset.caption || "";
+    captionBox.textContent = text;
+    captionBox.classList.add("active");
+  });
 
-      el.addEventListener("mouseleave", () => {
-        isImageHovered = false;
-        captionBox.classList.remove("active");
-      });
-    });
+  document.addEventListener("mouseout", (e) => {
+
+    const target = e.target.closest(
+      ".project-image-area img.media, .project-image-area .youtube-thumb"
+    );
+
+    if (!target) return;
+
+    const section = target.closest(".project-sticky");
+    if (!section) return;
+
+    const captionBox = section.querySelector(".project-hover-caption");
+    if (!captionBox) return;
+
+    isImageHovered = false;
+    captionBox.classList.remove("active");
   });
 }
 
 /* =========================
-   PC ONLY - YOUTUBE THUMBNAIL MODE
+   15) PC ONLY - YOUTUBE THUMBNAIL MODE
 ========================= */
-
 if (!isMobile()) {
-
   document.querySelectorAll(".youtube-grid").forEach((grid) => {
-
     const iframes = grid.querySelectorAll("iframe");
 
     grid.innerHTML = ""; // PC에서만 iframe 제거
@@ -568,19 +558,16 @@ if (!isMobile()) {
       img.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
       img.className = "youtube-thumb";
       img.dataset.video = videoId;
-      img.dataset.caption = caption;   // 🔥 여기 추가
+      img.dataset.caption = caption;
 
       grid.appendChild(img);
     });
-
   });
-
 }
 
 /* =========================
-   PC ONLY - VIDEO MODAL (NO CONFLICT)
+   16) PC ONLY - VIDEO MODAL (NO CONFLICT)
 ========================= */
-
 if (!isMobile()) {
   const videoModalEl = document.createElement("div");
   videoModalEl.className = "video-modal";
@@ -597,32 +584,26 @@ if (!isMobile()) {
   const videoCloseBtn = videoModalEl.querySelector(".video-close");
   const videoDimEl = videoModalEl.querySelector(".video-dim");
 
-  // 썸네일 클릭 → 모달 오픈
   document.addEventListener("click", (e) => {
-
     if (isMobile()) return;
 
     const thumb = e.target.closest(".youtube-thumb");
     if (!thumb) return;
 
-    // 🔥 현재 active media 안에 있는 썸네일인지 확인
-    const activeMedia = document.querySelector(
-      ".project-image-area .media.active"
-    );
-
+    const activeMedia = document.querySelector(".project-image-area .media.active");
     if (!activeMedia || !activeMedia.contains(thumb)) return;
 
     const id = thumb.dataset.video;
     if (!id) return;
 
     videoFrameBox.innerHTML = `
-    <iframe
-      src="https://www.youtube.com/embed/${id}?autoplay=1"
-      allow="autoplay; encrypted-media; picture-in-picture"
-      allowfullscreen
-      title="YouTube video"
-    ></iframe>
-  `;
+      <iframe
+        src="https://www.youtube.com/embed/${id}?autoplay=1"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen
+        title="YouTube video"
+      ></iframe>
+    `;
 
     videoModalEl.classList.add("active");
     document.body.style.overflow = "hidden";
@@ -630,7 +611,7 @@ if (!isMobile()) {
 
   function closeVideoModal() {
     videoModalEl.classList.remove("active");
-    videoFrameBox.innerHTML = ""; // iframe 제거 = 재생 중지
+    videoFrameBox.innerHTML = "";
     document.body.style.overflow = "";
   }
 
@@ -643,23 +624,17 @@ if (!isMobile()) {
 }
 
 /* =========================
-   MOBILE ONLY - YOUTUBE BLOCK MODE
+   17) MOBILE ONLY - YOUTUBE BLOCK MODE
 ========================= */
-
 if (isMobile()) {
-
   document.querySelectorAll(".youtube-grid").forEach((grid) => {
-
     const iframes = Array.from(grid.querySelectorAll("iframe"));
-    const projectSection = grid.closest(".project-sticky");
     const imageArea = grid.parentElement;
 
-    // 🔥 유튜브 전용 블록 생성
     const youtubeArea = document.createElement("div");
     youtubeArea.className = "project-youtube-area";
 
     iframes.forEach((iframe) => {
-
       const wrapper = document.createElement("div");
       wrapper.className = "youtube-single";
 
@@ -667,13 +642,25 @@ if (isMobile()) {
       youtubeArea.appendChild(wrapper);
     });
 
-    // 🔥 이미지 영역 아래에 추가
     imageArea.insertAdjacentElement("afterend", youtubeArea);
-
-    grid.remove(); // 기존 4분할 제거
+    grid.remove();
   });
-
 }
 
+/* =========================
+   IMAGE QUAD CLICK (P4)
+   기존 기능 변경 없음
+========================= */
+
+document.querySelectorAll(".image-quad img").forEach((img) => {
+  img.addEventListener("click", () => {
+    openImageModal(img);
+  });
+});
+
+/* =========================
+   18) INIT (event bind)
+========================= */
 window.addEventListener("scroll", handleMobileHeader);
-  window.addEventListener("load", handleMobileHeader);
+window.addEventListener("load", handleMobileHeader);
+

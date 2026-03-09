@@ -113,9 +113,16 @@ function updateProjectView(project) {
   // hover caption
   const captionBox = project.section.querySelector(".project-hover-caption");
   const activeMedia = project.media[project.index];
+  const activeImg = activeMedia ? activeMedia.querySelector("img") : null;
 
   if (captionBox && activeMedia && isImageHovered) {
-    captionBox.textContent = activeMedia.dataset.caption || "";
+
+    const textEl = captionBox.querySelector(".caption-text");
+
+    if (textEl) {
+      textEl.textContent = activeImg?.dataset.caption || "";
+    }
+
     captionBox.classList.add("active");
   }
 
@@ -502,42 +509,48 @@ if (!isMobile()) {
 
   document.addEventListener("mouseover", (e) => {
 
-    const target = e.target.closest(
-      ".project-image-area img.media, .project-image-area .youtube-thumb"
-    );
+    const img = e.target.closest(".project-image-area img");
+    if (!img) return;
 
-    if (!target) return;
-
-    const section = target.closest(".project-sticky");
+    const section = img.closest(".project-sticky");
     if (!section) return;
 
     const captionBox = section.querySelector(".project-hover-caption");
     if (!captionBox) return;
 
+    const textEl = captionBox.querySelector(".caption-text");
+
     isImageHovered = true;
 
-    const text = target.dataset.caption || "";
-    captionBox.textContent = text;
+    const text = img.dataset.caption || "";
+
+    if (textEl) textEl.textContent = text;
+
     captionBox.classList.add("active");
+
   });
 
   document.addEventListener("mouseout", (e) => {
 
-    const target = e.target.closest(
-      ".project-image-area img.media, .project-image-area .youtube-thumb"
-    );
+    const img = e.target.closest(".project-image-area img");
+    if (!img) return;
 
-    if (!target) return;
-
-    const section = target.closest(".project-sticky");
+    const section = img.closest(".project-sticky");
     if (!section) return;
 
     const captionBox = section.querySelector(".project-hover-caption");
     if (!captionBox) return;
 
+    const textEl = captionBox.querySelector(".caption-text");
+
     isImageHovered = false;
+
     captionBox.classList.remove("active");
+
+    if (textEl) textEl.textContent = "";
+
   });
+
 }
 
 /* =========================
@@ -559,6 +572,8 @@ if (!isMobile()) {
       img.className = "youtube-thumb";
       img.dataset.video = videoId;
       img.dataset.caption = caption;
+
+      img.classList.add("media-img");
 
       grid.appendChild(img);
     });

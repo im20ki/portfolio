@@ -497,15 +497,11 @@
   transform: translateY(0);
 }
 
-.project-hover-caption.active::after {
+.project-hover-caption.hover::after {
   transform: rotate(45deg) scale(1.15);
 }
 
 .caption-text {
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-.project-hover-caption.active .caption-text {
   opacity: 1;
+  transition: opacity 0.25s ease;
 }

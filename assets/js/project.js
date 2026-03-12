@@ -45,6 +45,30 @@ const stepImageCounts = [
     [1, 3, 1, 1]      // PROJECT 04
 ];
 
+function getFrameImageCount(frame) {
+    if (!frame) return 0;
+    return frame.querySelectorAll("img.media-img").length;
+}
+
+function updateMobileFrameHints() {
+    const frames = document.querySelectorAll(".project-image-area .media .frame");
+
+    frames.forEach((frame) => {
+        const count = getFrameImageCount(frame);
+        const hasMultiImages = isMobile() && count >= 2;
+
+        frame.classList.toggle("has-multi-images", hasMultiImages);
+
+        if (!hasMultiImages) {
+            frame.classList.remove("is-at-bottom");
+            return;
+        }
+
+        const maxScrollTop = frame.scrollHeight - frame.clientHeight;
+        frame.classList.toggle("is-at-bottom", maxScrollTop <= 8 || frame.scrollTop >= maxScrollTop - 8);
+    });
+}
+
 const projects = Array.from(projectSections).map((section, projectIndex) => {
     return {
         section,
@@ -83,7 +107,12 @@ function updateProjectView(project) {
 
     const captionBox = project.section.querySelector(".project-hover-caption");
     const activeMedia = project.media[project.stepIndex];
-    const activeImg = activeMedia ? activeMedia.querySelector("img") : null;
+    let activeImg = null;
+
+    if (activeMedia) {
+        const imgs = activeMedia.querySelectorAll("img");
+        activeImg = imgs[project.imageIndex] || imgs[0];
+    }
 
     if (captionBox && activeMedia) {
 
@@ -166,7 +195,6 @@ updateProjectNavOnScroll();
 if (!isMobile()) {
 
     document.addEventListener("mouseover", (e) => {
-
         const img = e.target.closest(".project-image-area img");
         if (!img) return;
 
@@ -177,18 +205,15 @@ if (!isMobile()) {
         if (!captionBox) return;
 
         const textEl = captionBox.querySelector(".caption-text");
-
         const text = img.dataset.caption || "";
 
         if (textEl) textEl.textContent = text;
 
         captionBox.classList.add("active");
         captionBox.classList.add("hover");
-
     });
 
     document.addEventListener("mouseout", (e) => {
-
         const img = e.target.closest(".project-image-area img");
         if (!img) return;
 
@@ -199,7 +224,30 @@ if (!isMobile()) {
         if (!captionBox) return;
 
         captionBox.classList.remove("hover");
-
     });
-
 }
+
+/* =========================
+   MOBILE FRAME HINTS
+========================= */
+
+if (isMobile()) {
+    const mobileProjectFrames = document.querySelectorAll(".project-image-area .media .frame");
+
+    mobileProjectFrames.forEach((frame) => {
+        frame.addEventListener("scroll", () => {
+            const maxScrollTop = frame.scrollHeight - frame.clientHeight;
+            frame.classList.toggle(
+                "is-at-bottom",
+                maxScrollTop <= 8 || frame.scrollTop >= maxScrollTop - 8
+            );
+        }, { passive: true });
+    });
+}
+
+window.addEventListener("load", updateMobileFrameHints);
+window.addEventListener("resize", updateMobileFrameHints);
+
+requestAnimationFrame(() => {
+    updateMobileFrameHints();
+});

@@ -5,394 +5,453 @@
 
 @media (max-width: 768px) {
 
-/* ==================================================
+    /* ==================================================
    1. GLOBAL MOBILE RESET
 ================================================== */
 
-.scene {
-    display: block;
-    height: auto;
-    min-height: auto;
-}
+    .scene {
+        display: block;
+        height: auto;
+        min-height: auto;
+    }
 
-body {
-    overflow-x: visible;
-}
+    body {
+        overflow-x: visible;
+    }
 
-/* RESPONSIVE UTILITIES */
-.pc-only {
-    display: none;
-}
+    /* RESPONSIVE UTILITIES */
+    .pc-only {
+        display: none;
+    }
 
-.mobile-only {
-    display: inline;
-    letter-spacing: 0.2em;
-}
+    .mobile-only {
+        display: inline;
+        letter-spacing: 0.2em;
+    }
 
-/* ==================================================
+    /* ==================================================
    2. HEADER (MOBILE)
 ================================================== */
 
-.site-header {
-    transition: background 0.3s ease, backdrop-filter 0.3s ease;
-}
+    .site-header {
+        transition: background 0.3s ease, backdrop-filter 0.3s ease;
+    }
 
-body.mobile-header-scrolled .site-header {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(8px);
-}
+    body.mobile-header-scrolled .site-header {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(8px);
+    }
 
-/* CONTACT TRIGGER HEIGHT */
-#contactTrigger {
-    height: 100vh;
-}
+    /* CONTACT TRIGGER HEIGHT */
+    #contactTrigger {
+        height: 100vh;
+    }
 
-/* ==================================================
+    /* ==================================================
    3. HERO (MOBILE)
 ================================================== */
 
-#hero {
-    min-height: 100vh;
-    display: block;
-}
+    #hero {
+        min-height: 100vh;
+        display: block;
+    }
 
-.hero-content.cyber-ui {
-    bottom: 6%;
-    padding: 24px 28px;
-}
+    .hero-content.cyber-ui {
+        bottom: 6%;
+        padding: 24px 28px;
+    }
 
-.hero-title {
-    font-size: 2rem;
-    margin-bottom: 16px;
-}
+    .hero-title {
+        font-size: 2rem;
+        margin-bottom: 16px;
+    }
 
-/* ==================================================
+    /* ==================================================
    4. ABOUT (MOBILE)
 ================================================== */
 
-#about {
-    position: relative;
-}
+    #about {
+        position: relative;
+    }
 
-#about::before,
-#about::after {
-    content: "";
-    display: block;
-    height: 80px;
-    background: #f6f6f6;
-}
+    #about::before,
+    #about::after {
+        content: "";
+        display: block;
+        height: 80px;
+        background: #f6f6f6;
+    }
 
-#about h2 {
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
+    #about h2 {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
 
-#about .about-lead,
-#about .about-desc {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: rgba(0, 0, 0, 0.7);
-}
+    #about .about-lead,
+    #about .about-desc {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        color: rgba(0, 0, 0, 0.7);
+    }
 
-#about .about-lead {
-    margin-bottom: 12px;
-}
+    #about .about-lead {
+        margin-bottom: 12px;
+    }
 
-#about .about-wrap {
-    width: 100%;
-    display: flex !important;
-    flex-direction: column !important;
-    grid-template-columns: none !important;
-    gap: 40px;
-}
+    #about .about-wrap {
+        width: 100%;
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        gap: 40px;
+    }
 
-#about .about-meta {
-    width: 100%;
-    display: block;
-}
+    #about .about-meta {
+        width: 100%;
+        display: block;
+    }
 
-#about .meta-card {
-    width: 100%;
-    max-width: none;
-    margin: 0;
-}
+    #about .meta-card {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
 
-/* ==================================================
+    /* ==================================================
    5. PROJECT (MOBILE)
 ================================================== */
 
-.project-divider {
-    height: 1px;
-    width: calc(100% - 40px);
-    margin: 32px auto 0;
-    background: linear-gradient(to right,
-        transparent,
-        rgba(0, 0, 0, 0.25),
-        transparent);
-}
+    .project-divider {
+        height: 1px;
+        width: calc(100% - 40px);
+        margin: 32px auto 0;
+        background: linear-gradient(to right,
+                transparent,
+                rgba(0, 0, 0, 0.25),
+                transparent);
+    }
 
-.project-sticky {
-    display: block;
-    margin-bottom: 50px;
-}
+    .project-sticky {
+        display: block;
+        margin-bottom: 50px;
+    }
 
-#about + .project-sticky {
-    margin-top: 50px;
-}
+    #about+.project-sticky {
+        margin-top: 50px;
+    }
 
-/* TEXT */
+    /* TEXT */
 
-.project-text-area {
-    position: relative;
-    top: auto;
-    height: auto;
-    padding: 0px;
-    margin-bottom: 32px;
-}
+    .project-text-area {
+        position: relative;
+        top: auto;
+        height: auto;
+        padding: 0px;
+        margin-bottom: 32px;
+    }
 
-.project-text-area .step {
-    position: relative;
-    inset: auto;
-    opacity: 1;
-    margin-bottom: 12px;
-    background: #f9f9f9;
-    padding: 20px 0px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
-}
+    .project-text-area .step {
+        position: relative;
+        inset: auto;
+        opacity: 1;
+        margin-bottom: 12px;
+        background: #f9f9f9;
+        padding: 20px 0px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    }
 
-.project-text-area .step h3 {
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
+    .project-text-area .step h3 {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+    }
 
-.project-text-area .step p {
-    font-size: 0.95rem;
-    line-height: 1.75;
-    color: rgba(0, 0, 0, 0.7);
-    word-break: keep-all;
-    overflow-wrap: break-word;
-}
+    .project-text-area .step p {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        color: rgba(0, 0, 0, 0.7);
+        word-break: keep-all;
+        overflow-wrap: break-word;
+    }
 
-/* IMAGE SLIDE */
+    /* IMAGE SLIDE */
 
-.project-image-area {
-    position: relative;
-    top: auto;
+    .project-image-area {
+        position: relative;
+        top: auto;
 
-    display: flex;
-    gap: 17px;
+        display: flex;
+        gap: 17px;
 
-    overflow-x: auto !important;
-    overflow-y: visible !important;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
 
-    height: auto !important;
-    justify-content: flex-start !important;
+        height: auto !important;
+        justify-content: flex-start !important;
 
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
 
-    margin-bottom: 0px;
+        margin-bottom: 0px;
 
-    padding-left: 16px;
-    padding-right: 16px;
-}
+        padding-left: 16px;
+        padding-right: 16px;
 
-.project-image-area::-webkit-scrollbar {
-    display: none;
-}
+        height: 70vh;
+    }
 
-.project-image-area .media {
-    flex: 0 0 85%;
-    max-width: 85%;
-    width: 85%;
+    .project-image-area::-webkit-scrollbar {
+        display: none;
+    }
 
-    scroll-snap-align: start;
+    .project-image-area .media {
+        flex: 0 0 92%;
+        max-width: 92%;
+        width: 92%;
 
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    position: relative !important;
-}
+        scroll-snap-align: start;
 
-.project-image-area .media.active {
-    opacity: 1 !important;
-}
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto !important;
+        position: relative !important;
 
-.project-image-area img.media {
-    position: relative !important;
-    top: auto !important;
-    left: auto !important;
-    transform: none !important;
-    max-height: none !important;
+        height: 70vh;
+    }
 
-    width: 100%;
-    height: auto;
-}
+    .project-image-area .media .frame {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        width: 100%;
+        height: 100%;
 
-/* ==================================================
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        scroll-snap-type: y mandatory;
+        scroll-padding-bottom: 20px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .project-image-area .media .frame::-webkit-scrollbar {
+        display: none;
+    }
+
+    .project-image-area .media .frame.has-multi-images {
+        padding-bottom: 18px;
+    }
+
+    .project-image-area .media .frame.has-multi-images::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 96px;
+        background: linear-gradient(to bottom,
+                rgba(249, 249, 249, 0),
+                rgba(249, 249, 249, 0.82) 58%,
+                rgba(249, 249, 249, 0.98) 100%);
+        pointer-events: none;
+        opacity: 1;
+        transition: opacity 0.25s ease;
+        z-index: 2;
+    }
+
+    .project-image-area .media .frame.has-multi-images.is-at-bottom::after {
+        opacity: 0;
+    }
+
+    .project-image-area .media .frame .media-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        flex: 0 0 100%;
+
+        object-fit: contain;
+        scroll-snap-align: start;
+    }
+
+    .project-image-area .media .frame.has-multi-images .media-img {
+        height: calc(100% - 56px);
+        flex-basis: calc(100% - 56px);
+    }
+
+    .project-image-area .media::-webkit-scrollbar {
+        display: none;
+    }
+
+    .project-image-area .media.active {
+        opacity: 1 !important;
+    }
+
+
+
+    /* ==================================================
    6. CONTACT (MOBILE)
 ================================================== */
 
-#contact {
-    padding-top: 80px;
-}
+    #contact {
+        padding-top: 80px;
+    }
 
-body.contact-open .site-header {
-    background: transparent;
-    backdrop-filter: none;
-}
+    body.contact-open .site-header {
+        background: transparent;
+        backdrop-filter: none;
+    }
 
-body.contact-open .project-nav {
-    display: none;
-}
+    body.contact-open .project-nav {
+        display: none;
+    }
 
-body.contact-open .logo {
-    opacity: 1;
-}
+    body.contact-open .logo {
+        opacity: 1;
+    }
 
-/* ==================================================
+    /* ==================================================
    7. IMAGE MODAL (MOBILE)
 ================================================== */
 
-.img-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
+    .img-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
 
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-}
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+    }
 
-.img-modal.active {
-    opacity: 1;
-    pointer-events: auto;
-}
+    .img-modal.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
 
-.img-modal-dim {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.8);
-}
+    .img-modal-dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+    }
 
-.img-modal-content {
-    position: relative;
-    width: 94%;
-    max-width: 1100px;
+    .img-modal-content {
+        position: relative;
+        width: 94%;
+        max-width: 1100px;
 
-    margin: 40px auto;
-    background: transparent;
+        margin: 40px auto;
+        background: transparent;
 
-    max-height: calc(100vh - 80px);
-    overflow-y: auto;
-}
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
 
-.img-modal-close {
-    position: sticky;
-    top: 12px;
-    right: 12px;
+    .img-modal-close {
+        position: sticky;
+        top: 12px;
+        right: 12px;
 
-    display: block;
-    margin-left: auto;
+        display: block;
+        margin-left: auto;
 
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: #fff;
 
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
 
-    cursor: pointer;
-    z-index: 10;
-    margin-bottom: 16px;
-}
+        cursor: pointer;
+        z-index: 10;
+        margin-bottom: 16px;
+    }
 
-.img-modal-body {
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+    .img-modal-body {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-.img-modal-body img {
-    width: 100%;
-    background: #000;
-}
+    .img-modal-body img {
+        width: 100%;
+        background: #000;
+    }
 
-.modal-caption {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 14px;
-    padding: 4px 6px 12px;
-    line-height: 1.6;
-}
+    .modal-caption {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 14px;
+        padding: 4px 6px 12px;
+        line-height: 1.6;
+    }
 
-/* ==================================================
+    /* ==================================================
    8. MOBILE CONTACT ORBIT FIX
 ================================================== */
 
-.warning-line {
-    width: clamp(300px, 95vw, 420px);
-    height: clamp(300px, 95vw, 420px);
-}
+    .warning-line {
+        width: clamp(300px, 95vw, 420px);
+        height: clamp(300px, 95vw, 420px);
+    }
 
-.orbit-text {
-    font-size: 13px;
-    letter-spacing: 0.06em;
-}
+    .orbit-text {
+        font-size: 13px;
+        letter-spacing: 0.06em;
+    }
 
-/* ==================================================
+    /* ==================================================
    9. YOUTUBE (MOBILE)
 ================================================== */
 
-.project-image-area .youtube-grid {
-    display: flex;
-    gap: 12px;
+    .project-image-area .youtube-grid {
+        display: flex;
+        gap: 12px;
 
-    flex: 0 0 100%;
-    max-width: 100%;
-    width: 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
 
-    scroll-snap-align: start;
-}
+        scroll-snap-align: start;
+    }
 
-.project-image-area .youtube-single {
-    flex: 0 0 100%;
-    width: 100%;
-    margin-top: 24px;
-    scroll-snap-align: none;
-}
+    .project-image-area .youtube-single {
+        flex: 0 0 100%;
+        width: 100%;
+        margin-top: 24px;
+        scroll-snap-align: none;
+    }
 
-.project-image-area .youtube-single iframe {
-    width: 100%;
-    height: auto;
-    display: block;
-    aspect-ratio: 16 / 9;
-}
+    .project-image-area .youtube-single iframe {
+        width: 100%;
+        height: auto;
+        display: block;
+        aspect-ratio: 16 / 9;
+    }
 
-/* =========================
+    /* =========================
    MOBILE YOUTUBE BLOCK MODE
 ========================= */
 
-.project-youtube-area {
-    margin-top: 24px;
-    padding: 0;
+    .project-youtube-area {
+        margin-top: 24px;
+        padding: 0;
 
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-.project-youtube-area .youtube-single iframe {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    display: block;
-    border: none;
-}
+    .project-youtube-area .youtube-single iframe {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        display: block;
+        border: none;
+    }
 
 }

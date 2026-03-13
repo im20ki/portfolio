@@ -253,12 +253,6 @@ body.contact-open .site-header .logo {
   margin-bottom: 20px;
 }
 
-.about-wrap {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 80px;
-}
-
 .about-desc {
   line-height: 1.8;
 }

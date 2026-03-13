@@ -45,29 +45,6 @@ const stepImageCounts = [
     [1, 3, 1, 1]      // PROJECT 04
 ];
 
-function getFrameImageCount(frame) {
-    if (!frame) return 0;
-    return frame.querySelectorAll("img.media-img").length;
-}
-
-function updateMobileFrameHints() {
-    const frames = document.querySelectorAll(".project-image-area .media .frame");
-
-    frames.forEach((frame) => {
-        const count = getFrameImageCount(frame);
-        const hasMultiImages = isMobile() && count >= 2;
-
-        frame.classList.toggle("has-multi-images", hasMultiImages);
-
-        if (!hasMultiImages) {
-            frame.classList.remove("is-at-bottom");
-            return;
-        }
-
-        const maxScrollTop = frame.scrollHeight - frame.clientHeight;
-        frame.classList.toggle("is-at-bottom", maxScrollTop <= 8 || frame.scrollTop >= maxScrollTop - 8);
-    });
-}
 
 const projects = Array.from(projectSections).map((section, projectIndex) => {
     return {
@@ -226,28 +203,55 @@ if (!isMobile()) {
         captionBox.classList.remove("hover");
     });
 }
-
 /* =========================
-   MOBILE FRAME HINTS
+   MOBILE ONLY
+   PROJECT1 - 3번 프레임만 첫 장 높이로 고정
 ========================= */
+function syncProject1ThirdFrameOnly() {
+    if (!isMobile()) return;
 
-if (isMobile()) {
-    const mobileProjectFrames = document.querySelectorAll(".project-image-area .media .frame");
+    const project1 = document.querySelector(".project-sticky");
+    if (!project1) return;
 
-    mobileProjectFrames.forEach((frame) => {
-        frame.addEventListener("scroll", () => {
-            const maxScrollTop = frame.scrollHeight - frame.clientHeight;
-            frame.classList.toggle(
-                "is-at-bottom",
-                maxScrollTop <= 8 || frame.scrollTop >= maxScrollTop - 8
-            );
-        }, { passive: true });
-    });
+    const firstImg = project1.querySelector(".project-image-area .media:nth-child(1) .frame .media-img");
+    const thirdFrame = project1.querySelector(".project-image-area .media:nth-child(3) .frame");
+
+    if (!firstImg || !thirdFrame) return;
+
+    const apply = () => {
+        const firstRect = firstImg.getBoundingClientRect();
+        if (!firstRect.width || !firstRect.height) return;
+
+        const thirdStyle = window.getComputedStyle(thirdFrame);
+        const paddingTop = parseFloat(thirdStyle.paddingTop) || 0;
+        const paddingBottom = parseFloat(thirdStyle.paddingBottom) || 0;
+
+        const innerHeight = Math.round(firstRect.height);
+        const outerHeight = Math.round(innerHeight + paddingTop + paddingBottom);
+
+        project1.style.setProperty("--project1-third-frame-inner-height", `${innerHeight}px`);
+        project1.style.setProperty("--project1-third-frame-height", `${outerHeight}px`);
+
+        thirdFrame.scrollTop = 0;
+    };
+
+    if (firstImg.complete) {
+        apply();
+    } else {
+        firstImg.addEventListener("load", apply, { once: true });
+    }
+
+    requestAnimationFrame(apply);
+    setTimeout(apply, 100);
+    setTimeout(apply, 300);
 }
 
-window.addEventListener("load", updateMobileFrameHints);
-window.addEventListener("resize", updateMobileFrameHints);
+document.addEventListener("DOMContentLoaded", syncProject1ThirdFrameOnly);
+window.addEventListener("load", syncProject1ThirdFrameOnly);
+window.addEventListener("resize", syncProject1ThirdFrameOnly);
+window.addEventListener("orientationchange", syncProject1ThirdFrameOnly);
 
-requestAnimationFrame(() => {
-    updateMobileFrameHints();
-});
+if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", syncProject1ThirdFrameOnly);
+}
+

@@ -221,31 +221,38 @@
     }
 
     .project-image-area .media .frame {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        width: 100%;
-        height: 100%;
+    position: relative;
+    width: 100%;
+    height: 100%;
 
-        overflow-y: auto;
-        overflow-x: hidden;
-
-        scroll-snap-type: y mandatory;
-        scroll-padding-bottom: 20px;
-        -webkit-overflow-scrolling: touch;
-        align-items: center;
-        justify-content: center;
-    }
+    display: block;
+    overflow: hidden;
+}
 
     .project-image-area .media .frame::-webkit-scrollbar {
         display: none;
     }
+.project-image-area .media .frame.has-multi-images {
+    touch-action: pan-x;
+}
 
-    .project-image-area .media .frame.has-multi-images {
-        padding-bottom: 18px;
-    }
+.project-image-area .media .frame.has-multi-images .multi-frame-track {
+    width: 100%;
+    height: 100%;
 
+    display: flex;
+    flex-direction: column;
+
+    transition: transform 0.32s ease;
+    will-change: transform;
+}
+
+.project-image-area .media .frame.has-multi-images .multi-frame-track .media-img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
     .project-image-area .media .frame.has-multi-images::after {
         content: "";
         position: absolute;
@@ -268,19 +275,11 @@
     }
 
     .project-image-area .media .frame .media-img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        flex: 0 0 100%;
-
-        object-fit: contain;
-        scroll-snap-align: start;
-    }
-
-    .project-image-area .media .frame.has-multi-images .media-img {
-        height: calc(100% - 56px);
-        flex-basis: calc(100% - 56px);
-    }
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
     .project-image-area .media::-webkit-scrollbar {
         display: none;

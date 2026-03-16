@@ -255,3 +255,65 @@ if (window.visualViewport) {
     window.visualViewport.addEventListener("resize", syncProject1ThirdFrameOnly);
 }
 
+/* =========================
+   MOBILE MULTI IMAGE VERTICAL SLIDER
+========================= */
+
+function setupMobileVerticalSliders() {
+
+    if (!isMobile()) return;
+
+    const frames = document.querySelectorAll(".project-image-area .media .frame");
+
+    frames.forEach(frame => {
+
+        const images = Array.from(frame.querySelectorAll(".media-img"));
+        if (images.length <= 1) return;
+
+        frame.classList.add("has-multi-images");
+
+        const track = document.createElement("div");
+        track.className = "multi-frame-track";
+
+        images.forEach(img => track.appendChild(img));
+
+        frame.appendChild(track);
+
+        let index = 0;
+        let startY = 0;
+        let deltaY = 0;
+
+        function update() {
+            track.style.transform = `translateY(-${index * 100}%)`;
+        }
+
+        frame.addEventListener("touchstart", (e) => {
+            startY = e.touches[0].clientY;
+            deltaY = 0;
+        }, { passive: true });
+
+        frame.addEventListener("touchmove", (e) => {
+            deltaY = e.touches[0].clientY - startY;
+        }, { passive: true });
+
+        frame.addEventListener("touchend", () => {
+
+            const threshold = 40;
+
+            if (deltaY < -threshold && index < images.length - 1) {
+                index++;
+            }
+
+            if (deltaY > threshold && index > 0) {
+                index--;
+            }
+
+            update();
+        });
+
+        update();
+
+    });
+}
+
+document.addEventListener("DOMContentLoaded", setupMobileVerticalSliders);

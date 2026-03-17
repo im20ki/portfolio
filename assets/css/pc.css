@@ -207,38 +207,6 @@
   filter: brightness(1.05);
 }
 
-/* ✅ 기본은 막고 */
-.project-image-area .image-quad {
-  position: absolute;
-  inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-}
-
-.project-image-area .image-quad .frame {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  width: 100%;
-  height: 100%;
-}
-
-.project-image-area .image-quad .frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.35s ease;
-}
-
-.image-quad img {
-  cursor: pointer;
-  pointer-events: auto !important;
-}
-
 /* ✅ active인 것만 열어준다 */
 .project-image-area .media.active img.media,
 .project-image-area .media.active img.youtube-thumb {

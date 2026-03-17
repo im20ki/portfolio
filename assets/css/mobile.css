@@ -221,65 +221,46 @@
     }
 
     .project-image-area .media .frame {
-    position: relative;
-    width: 100%;
-    height: 100%;
+        position: relative;
+        width: 100%;
+        height: 100%;
 
-    display: block;
-    overflow: hidden;
-}
+        display: block;
+        overflow: hidden;
+    }
 
     .project-image-area .media .frame::-webkit-scrollbar {
         display: none;
     }
-.project-image-area .media .frame.has-multi-images {
-    touch-action: pan-x;
-}
 
-.project-image-area .media .frame.has-multi-images .multi-frame-track {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-
-    transition: transform 0.32s ease;
-    will-change: transform;
-}
-
-.project-image-area .media .frame.has-multi-images .multi-frame-track .media-img {
-    flex: 0 0 100%;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-    .project-image-area .media .frame.has-multi-images::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 96px;
-        background: linear-gradient(to bottom,
-                rgba(249, 249, 249, 0),
-                rgba(249, 249, 249, 0.82) 58%,
-                rgba(249, 249, 249, 0.98) 100%);
-        pointer-events: none;
-        opacity: 1;
-        transition: opacity 0.25s ease;
-        z-index: 2;
+    .project-image-area .media .frame.has-multi-images {
+        touch-action: pan-x;
     }
 
-    .project-image-area .media .frame.has-multi-images.is-at-bottom::after {
-        opacity: 0;
+    .project-image-area .media .frame.has-multi-images .multi-frame-track {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        transition: transform 0.32s ease;
+        will-change: transform;
+    }
+
+    .project-image-area .media .frame.has-multi-images .multi-frame-track .media-img {
+        flex: 0 0 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
 
     .project-image-area .media .frame .media-img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
 
     .project-image-area .media::-webkit-scrollbar {
         display: none;
@@ -489,6 +470,45 @@
         aspect-ratio: 16 / 9;
         display: block;
         border: none;
+    }
+
+    .project-hover-caption {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+        min-height: calc(0.82rem * 1.6 * 2);
+        margin-top: 14px;
+        padding: 0 16px;
+        font-size: 0.82rem;
+        line-height: 1.6;
+        color: rgba(0, 0, 0, 0.68);
+        opacity: 0;
+        transition: opacity 0.25s ease;
+        box-sizing: border-box;
+    }
+
+    .project-hover-caption::after {
+        content: "+";
+        margin-left: 8px;
+        font-size: 14px;
+        opacity: 0.6;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: calc(0.82rem * 1.6);
+        line-height: calc(0.82rem * 1.6);
+        flex: 0 0 auto;
+    }
+
+    .project-hover-caption.active {
+        opacity: 1;
+    }
+
+    .caption-text {
+        display: block;
+        flex: 0 1 auto;
+        text-align: right;
+        min-height: calc(0.82rem * 1.6 * 2);
     }
 
 }

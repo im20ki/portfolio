@@ -84,11 +84,11 @@ function updateProjectView(project) {
 
     const captionBox = project.section.querySelector(".project-hover-caption");
     const activeMedia = project.media[project.stepIndex];
-    let activeImg = null;
+    let activeTarget = null;
 
     if (activeMedia) {
-        const imgs = activeMedia.querySelectorAll("img");
-        activeImg = imgs[project.imageIndex] || imgs[0];
+        const targets = activeMedia.querySelectorAll("img, iframe[data-caption]");
+        activeTarget = targets[project.imageIndex] || targets[0];
     }
 
     if (captionBox && activeMedia) {
@@ -96,7 +96,7 @@ function updateProjectView(project) {
         const textEl = captionBox.querySelector(".caption-text");
 
         if (textEl) {
-            textEl.textContent = activeImg?.dataset.caption || "";
+            textEl.textContent = activeTarget?.dataset.caption || "";
         }
 
         captionBox.classList.add("active");
@@ -203,80 +203,147 @@ if (!isMobile()) {
         captionBox.classList.remove("hover");
     });
 }
-/* =========================
-   MOBILE ONLY
-   PROJECT1 - 3번 프레임만 첫 장 높이로 고정
-========================= */
-function syncProject1ThirdFrameOnly() {
+
+function getMediaCaptionTargets(media) {
+    if (!media) return [];
+    return Array.from(media.querySelectorAll(".media-img, iframe[data-caption]"));
+}
+
+function getActiveCaptionFromMedia(media) {
+    const targets = getMediaCaptionTargets(media);
+    if (!targets.length) return "";
+
+    const activeByIndex = targets.find(
+        (el) => Number(el.dataset.mobileIndex || 0) === Number(media.dataset.activeInnerIndex || 0)
+    );
+
+    return (activeByIndex || targets[0]).dataset.caption || "";
+}
+
+function updateMobileProjectCaption(section, media) {
+    if (!isMobile() || !section) return;
+
+    const captionBox = section.querySelector(".project-hover-caption");
+    const textEl = captionBox?.querySelector(".caption-text");
+    if (!captionBox || !textEl) return;
+
+    const text = getActiveCaptionFromMedia(media);
+    textEl.textContent = text;
+    captionBox.classList.toggle("active", Boolean(text));
+}
+
+function updateMobileProjectActiveMedia(section) {
+    if (!isMobile() || !section) return;
+
+    const imageArea = section.querySelector(".project-image-area");
+    const mediaList = Array.from(section.querySelectorAll(".project-image-area .media"));
+    if (!imageArea || !mediaList.length) return;
+
+    const areaRect = imageArea.getBoundingClientRect();
+    const areaCenter = areaRect.left + areaRect.width * 0.5;
+
+    let activeMedia = mediaList[0];
+    let minDistance = Infinity;
+
+    mediaList.forEach((media) => {
+        const rect = media.getBoundingClientRect();
+        const mediaCenter = rect.left + rect.width * 0.5;
+        const distance = Math.abs(areaCenter - mediaCenter);
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            activeMedia = media;
+        }
+    });
+
+    mediaList.forEach((media) => {
+        media.classList.toggle("active", media === activeMedia);
+    });
+
+    updateMobileProjectCaption(section, activeMedia);
+}
+
+function setupMobileProjectCaptions() {
     if (!isMobile()) return;
 
-    const project1 = document.querySelector(".project-sticky");
-    if (!project1) return;
+    const sections = document.querySelectorAll(".project-sticky");
 
-    const firstImg = project1.querySelector(".project-image-area .media:nth-child(1) .frame .media-img");
-    const thirdFrame = project1.querySelector(".project-image-area .media:nth-child(3) .frame");
+    sections.forEach((section) => {
+        const imageArea = section.querySelector(".project-image-area");
+        if (!imageArea) return;
 
-    if (!firstImg || !thirdFrame) return;
+        let rafId = null;
 
-    const apply = () => {
-        const firstRect = firstImg.getBoundingClientRect();
-        if (!firstRect.width || !firstRect.height) return;
+        const requestUpdate = () => {
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = requestAnimationFrame(() => updateMobileProjectActiveMedia(section));
+        };
 
-        const thirdStyle = window.getComputedStyle(thirdFrame);
-        const paddingTop = parseFloat(thirdStyle.paddingTop) || 0;
-        const paddingBottom = parseFloat(thirdStyle.paddingBottom) || 0;
+        imageArea.addEventListener("scroll", requestUpdate, { passive: true });
+        window.addEventListener("resize", requestUpdate);
+        window.addEventListener("load", requestUpdate);
 
-        const innerHeight = Math.round(firstRect.height);
-        const outerHeight = Math.round(innerHeight + paddingTop + paddingBottom);
-
-        project1.style.setProperty("--project1-third-frame-inner-height", `${innerHeight}px`);
-        project1.style.setProperty("--project1-third-frame-height", `${outerHeight}px`);
-
-        thirdFrame.scrollTop = 0;
-    };
-
-    if (firstImg.complete) {
-        apply();
-    } else {
-        firstImg.addEventListener("load", apply, { once: true });
-    }
-
-    requestAnimationFrame(apply);
-    setTimeout(apply, 100);
-    setTimeout(apply, 300);
+        requestUpdate();
+    });
 }
-
-document.addEventListener("DOMContentLoaded", syncProject1ThirdFrameOnly);
-window.addEventListener("load", syncProject1ThirdFrameOnly);
-window.addEventListener("resize", syncProject1ThirdFrameOnly);
-window.addEventListener("orientationchange", syncProject1ThirdFrameOnly);
-
-if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", syncProject1ThirdFrameOnly);
-}
-
-/* =========================
-   MOBILE MULTI IMAGE VERTICAL SLIDER
-========================= */
 
 function setupMobileVerticalSliders() {
-
     if (!isMobile()) return;
 
     const frames = document.querySelectorAll(".project-image-area .media .frame");
 
-    frames.forEach(frame => {
+    frames.forEach((frame) => {
+        const media = frame.closest(".media");
+        const section = frame.closest(".project-sticky");
+        const captionTargets = Array.from(frame.querySelectorAll(".media-img, iframe[data-caption]"));
+
+        captionTargets.forEach((el, idx) => {
+            el.dataset.mobileIndex = idx;
+        });
+
+        if (captionTargets.length && media) {
+            media.dataset.activeInnerIndex = "0";
+        }
 
         const images = Array.from(frame.querySelectorAll(".media-img"));
-        if (images.length <= 1) return;
+const iframes = Array.from(frame.querySelectorAll("iframe[data-caption]"));
+
+if (images.length <= 1) {
+    if (iframes.length > 1) {
+        let rafId = null;
+
+        const updateIframeCaption = () => {
+            if (rafId) cancelAnimationFrame(rafId);
+
+            rafId = requestAnimationFrame(() => {
+                const pageHeight = Math.max(frame.clientHeight, 1);
+                let index = Math.round(frame.scrollTop / pageHeight);
+
+                index = Math.max(0, Math.min(iframes.length - 1, index));
+
+                if (media) media.dataset.activeInnerIndex = String(index);
+                updateMobileProjectCaption(section, media);
+            });
+        };
+
+        frame.addEventListener("scroll", updateIframeCaption, { passive: true });
+        window.addEventListener("resize", updateIframeCaption);
+        window.addEventListener("load", updateIframeCaption);
+
+        updateIframeCaption();
+        return;
+    }
+
+    updateMobileProjectCaption(section, media);
+    return;
+}
 
         frame.classList.add("has-multi-images");
 
         const track = document.createElement("div");
         track.className = "multi-frame-track";
 
-        images.forEach(img => track.appendChild(img));
-
+        images.forEach((img) => track.appendChild(img));
         frame.appendChild(track);
 
         let index = 0;
@@ -285,19 +352,28 @@ function setupMobileVerticalSliders() {
 
         function update() {
             track.style.transform = `translateY(-${index * 100}%)`;
+            if (media) media.dataset.activeInnerIndex = String(index);
+            updateMobileProjectCaption(section, media);
         }
 
-        frame.addEventListener("touchstart", (e) => {
-            startY = e.touches[0].clientY;
-            deltaY = 0;
-        }, { passive: true });
+        frame.addEventListener(
+            "touchstart",
+            (e) => {
+                startY = e.touches[0].clientY;
+                deltaY = 0;
+            },
+            { passive: true }
+        );
 
-        frame.addEventListener("touchmove", (e) => {
-            deltaY = e.touches[0].clientY - startY;
-        }, { passive: true });
+        frame.addEventListener(
+            "touchmove",
+            (e) => {
+                deltaY = e.touches[0].clientY - startY;
+            },
+            { passive: true }
+        );
 
         frame.addEventListener("touchend", () => {
-
             const threshold = 40;
 
             if (deltaY < -threshold && index < images.length - 1) {
@@ -312,8 +388,10 @@ function setupMobileVerticalSliders() {
         });
 
         update();
-
     });
 }
 
-document.addEventListener("DOMContentLoaded", setupMobileVerticalSliders);
+document.addEventListener("DOMContentLoaded", () => {
+    setupMobileVerticalSliders();
+    setupMobileProjectCaptions();
+});

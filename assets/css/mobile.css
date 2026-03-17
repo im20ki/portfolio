@@ -255,6 +255,34 @@
         object-fit: contain;
     }
 
+        .project-image-area .media .frame-indicator {
+        position: absolute;
+        top: 50%;
+        right: 6px;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+        z-index: 6;
+        pointer-events: none;
+    }
+
+    .project-image-area .media .frame-indicator-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
+        transition: transform 0.22s ease, background 0.22s ease, opacity 0.22s ease;
+        opacity: 1;
+    }
+
+    .project-image-area .media .frame-indicator-dot.active {
+        background: rgba(233, 233, 233, 0.85);
+        transform: scale(1.35);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+    }
+
     .project-image-area .media .frame .media-img {
         display: block;
         width: 100%;
@@ -278,6 +306,16 @@
 
     #contact {
         padding-top: 80px;
+    }
+
+    .contact-center {
+        text-align: center;
+    }
+    /* 하단 설명 텍스트 */
+    .footer-takeover .contact-desc,
+    .footer-takeover .contact-note,
+    .footer-takeover p {
+        font-size: 12px;
     }
 
     body.contact-open .site-header {

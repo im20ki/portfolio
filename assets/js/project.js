@@ -172,17 +172,17 @@ updateProjectNavOnScroll();
 if (!isMobile()) {
 
     document.addEventListener("mouseover", (e) => {
-        const img = e.target.closest(".project-image-area img");
-        if (!img) return;
+        const target = e.target.closest(".project-image-area img, .project-image-area iframe[data-caption]");
+        if (!target) return;
 
-        const section = img.closest(".project-sticky");
+        const section = target.closest(".project-sticky");
         if (!section) return;
 
         const captionBox = section.querySelector(".project-hover-caption");
         if (!captionBox) return;
 
         const textEl = captionBox.querySelector(".caption-text");
-        const text = img.dataset.caption || "";
+        const text = target.dataset.caption || "";
 
         if (textEl) textEl.textContent = text;
 
@@ -191,10 +191,10 @@ if (!isMobile()) {
     });
 
     document.addEventListener("mouseout", (e) => {
-        const img = e.target.closest(".project-image-area img");
-        if (!img) return;
+        const target = e.target.closest(".project-image-area img, .project-image-area iframe[data-caption]");
+        if (!target) return;
 
-        const section = img.closest(".project-sticky");
+        const section = target.closest(".project-sticky");
         if (!section) return;
 
         const captionBox = section.querySelector(".project-hover-caption");
@@ -245,16 +245,13 @@ function updateMobileProjectActiveMedia(section) {
     let activeMedia = mediaList[0];
     let minDistance = Infinity;
 
-    mediaList.forEach((media) => {
-        const rect = media.getBoundingClientRect();
-        const mediaCenter = rect.left + rect.width * 0.5;
-        const distance = Math.abs(areaCenter - mediaCenter);
+    const scrollLeft = imageArea.scrollLeft;
+    const containerWidth = imageArea.clientWidth;
 
-        if (distance < minDistance) {
-            minDistance = distance;
-            activeMedia = media;
-        }
-    });
+    const index = Math.round(scrollLeft / containerWidth);
+    const clampedIndex = Math.max(0, Math.min(mediaList.length - 1, index));
+
+    activeMedia = mediaList[clampedIndex];
 
     mediaList.forEach((media) => {
         media.classList.toggle("active", media === activeMedia);
@@ -273,17 +270,39 @@ function setupMobileProjectCaptions() {
         if (!imageArea) return;
 
         let rafId = null;
+        let scrollTimeout = null;
+        let isTicking = false;
+
+        const update = () => {
+            updateMobileProjectActiveMedia(section);
+        };
 
         const requestUpdate = () => {
-            if (rafId) cancelAnimationFrame(rafId);
-            rafId = requestAnimationFrame(() => updateMobileProjectActiveMedia(section));
+            // 🔥 RAF 중복 방지
+            if (!isTicking) {
+                rafId = requestAnimationFrame(() => {
+                    update();
+                    isTicking = false;
+                });
+                isTicking = true;
+            }
+
+            // 🔥 scroll 멈춤 보정
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(update, 120);
         };
 
         imageArea.addEventListener("scroll", requestUpdate, { passive: true });
-        window.addEventListener("resize", requestUpdate);
-        window.addEventListener("load", requestUpdate);
 
-        requestUpdate();
+        // 🔥 최초 1회만 실행
+        requestAnimationFrame(update);
+    });
+
+    // 🔥 전역 1회만 등록 (중복 제거)
+    window.addEventListener("resize", () => {
+        document.querySelectorAll(".project-sticky").forEach((section) => {
+            updateMobileProjectActiveMedia(section);
+        });
     });
 }
 
@@ -312,6 +331,31 @@ function setupMobileVerticalSliders() {
             if (iframes.length > 1) {
                 let rafId = null;
 
+                const indicator = document.createElement("div");
+                indicator.className = "frame-indicator";
+                indicator.setAttribute("aria-hidden", "true");
+
+                iframes.forEach((_, idx) => {
+                    const dot = document.createElement("span");
+                    dot.className = "frame-indicator-dot";
+
+                    if (idx === 0) {
+                        dot.classList.add("active");
+                    }
+
+                    indicator.appendChild(dot);
+                });
+
+                media.appendChild(indicator);;
+
+                const updateIframeIndicator = (activeIndex) => {
+                    const dots = indicator.querySelectorAll(".frame-indicator-dot");
+
+                    dots.forEach((dot, idx) => {
+                        dot.classList.toggle("active", idx === activeIndex);
+                    });
+                };
+
                 const updateIframeCaption = () => {
                     if (rafId) cancelAnimationFrame(rafId);
 
@@ -322,6 +366,8 @@ function setupMobileVerticalSliders() {
                         index = Math.max(0, Math.min(iframes.length - 1, index));
 
                         if (media) media.dataset.activeInnerIndex = String(index);
+
+                        updateIframeIndicator(index);
                         updateMobileProjectCaption(section, media);
                     });
                 };
@@ -361,11 +407,18 @@ function setupMobileVerticalSliders() {
             indicator.appendChild(dot);
         });
 
-        frame.appendChild(indicator);
+        media.appendChild(indicator);;
 
         let index = 0;
+
         let startY = 0;
         let deltaY = 0;
+        let rafId = null;
+
+        function applyTransform(offsetPercent = 0) {
+            const base = -index * 100;
+            track.style.transform = `translate3d(0, ${base + offsetPercent}%, 0)`;
+        }
 
         function updateIndicator() {
             const dots = indicator.querySelectorAll(".frame-indicator-dot");
@@ -375,7 +428,9 @@ function setupMobileVerticalSliders() {
         }
 
         function update() {
-            track.style.transform = `translateY(-${index * 100}%)`;
+            track.style.transition = "transform 0.25s cubic-bezier(0.22,1,0.36,1)";
+            applyTransform(0);
+
             if (media) media.dataset.activeInnerIndex = String(index);
             updateIndicator();
             updateMobileProjectCaption(section, media);
@@ -386,6 +441,7 @@ function setupMobileVerticalSliders() {
             (e) => {
                 startY = e.touches[0].clientY;
                 deltaY = 0;
+                track.style.transition = "none";
             },
             { passive: true }
         );
@@ -394,18 +450,39 @@ function setupMobileVerticalSliders() {
             "touchmove",
             (e) => {
                 deltaY = e.touches[0].clientY - startY;
+
+                if (Math.abs(deltaY) > 6) {
+                    e.preventDefault();
+                }
+
+                if (rafId) cancelAnimationFrame(rafId);
+
+                rafId = requestAnimationFrame(() => {
+                    const height = Math.max(frame.clientHeight, 1);
+                    const percent = (deltaY / height) * 100;
+                    const limited = Math.max(-25, Math.min(25, percent));
+                    applyTransform(limited);
+                });
             },
-            { passive: true }
+            { passive: false }
         );
 
         frame.addEventListener("touchend", () => {
-            const threshold = 40;
+            if (rafId) {
+                cancelAnimationFrame(rafId);
+                rafId = null;
+            }
 
-            if (deltaY < -threshold && index < images.length - 1) {
+            const height = Math.max(frame.clientHeight, 1);
+            const ratio = Math.abs(deltaY) / height;
+
+            const thresholdRatio = 0.18;
+
+            if (deltaY < 0 && ratio > thresholdRatio && index < images.length - 1) {
                 index++;
             }
 
-            if (deltaY > threshold && index > 0) {
+            if (deltaY > 0 && ratio > thresholdRatio && index > 0) {
                 index--;
             }
 

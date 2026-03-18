@@ -79,7 +79,7 @@
         content: "";
         display: block;
         height: 80px;
-        background: #f6f6f6;
+        background: #ffffff;
     }
 
     #about h2 {
@@ -233,10 +233,6 @@
         display: none;
     }
 
-    .project-image-area .media .frame.has-multi-images {
-        touch-action: pan-x;
-    }
-
     .project-image-area .media .frame.has-multi-images .multi-frame-track {
         width: 100%;
         height: 100%;
@@ -244,8 +240,14 @@
         display: flex;
         flex-direction: column;
 
-        transition: transform 0.32s ease;
+        transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
         will-change: transform;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+    }
+
+    .project-image-area .media .frame.has-multi-images.is-dragging-vertical .multi-frame-track {
+        transition: none;
     }
 
     .project-image-area .media .frame.has-multi-images .multi-frame-track .media-img {
@@ -255,7 +257,7 @@
         object-fit: contain;
     }
 
-        .project-image-area .media .frame-indicator {
+    .project-image-area .media .frame-indicator {
         position: absolute;
         top: 50%;
         right: 6px;
@@ -311,6 +313,7 @@
     .contact-center {
         text-align: center;
     }
+
     /* 하단 설명 텍스트 */
     .footer-takeover .contact-desc,
     .footer-takeover .contact-note,
@@ -547,6 +550,14 @@
         flex: 0 1 auto;
         text-align: right;
         min-height: calc(0.82rem * 1.6 * 2);
+    }
+
+    .project-image-area .media {
+        will-change: transform;
+    }
+
+    .multi-frame-track {
+        will-change: transform;
     }
 
 }

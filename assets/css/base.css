@@ -1,6 +1,4 @@
-/* =========================
-   1) RESET & BASE
-========================= */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -14,14 +12,12 @@ body {
 
 body {
   font-family: "Pretendard", -apple-system, BlinkMacSystemFont,
-               "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
+    "Segoe UI", Roboto, "Noto Sans KR", Arial, sans-serif;
   color: #111;
   overflow-x: hidden;
 }
 
-/* =========================
-   2) STATE (BODY / JS)
-========================= */
+/* STATE */
 body.contact-open .site-header {
   z-index: 300;
 }
@@ -30,9 +26,7 @@ body.contact-open .site-header .logo {
   color: rgba(255, 255, 255, 0.85);
 }
 
-/* =========================
-   3) UTILITIES
-========================= */
+/* UTIL */
 .pc-only {
   display: inline;
 }
@@ -41,19 +35,18 @@ body.contact-open .site-header .logo {
   display: none;
 }
 
-/* =========================
-   4) HEADER (BASE)
-========================= */
+/* HEADER */
 .site-header {
   position: fixed;
   top: 0;
   left: 0;
+  width: 100%;
   padding: 20px 40px;
   z-index: 100;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 }
 
 .logo {
@@ -61,9 +54,7 @@ body.contact-open .site-header .logo {
   cursor: pointer;
 }
 
-/* =========================
-   5) PROJECT NAV (BASE)
-========================= */
+/* NAV */
 .project-nav {
   display: flex;
   gap: 20px;
@@ -78,11 +69,10 @@ body.contact-open .site-header .logo {
   color: #111;
   cursor: pointer;
   opacity: 0.6;
-  position: relative;
   font-weight: 500;
+  position: relative;
 }
 
-/* bracket base */
 .project-nav button::before,
 .project-nav button::after {
   opacity: 0;
@@ -97,22 +87,14 @@ body.contact-open .site-header .logo {
   content: " ]";
 }
 
-/* hover */
 .project-nav button:hover {
   opacity: 1;
-}
-
-/* active */
-.project-nav button.active,
-.project-nav button.active::before,
-.project-nav button.active::after {
-  color: #111;
-  font-weight: 600;
 }
 
 .project-nav button.active {
   opacity: 1;
   letter-spacing: 0.22em;
+  font-weight: 600;
 }
 
 .project-nav button.active::before,
@@ -120,9 +102,7 @@ body.contact-open .site-header .logo {
   opacity: 1;
 }
 
-/* =========================
-   6) HERO (BASE)
-========================= */
+/* HERO */
 #hero {
   position: relative;
 }
@@ -132,11 +112,12 @@ body.contact-open .site-header .logo {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  z-index: 3;
+
   background:
     linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
   background-size: 40px 40px;
-  z-index: 3;
 }
 
 .hero-bg {
@@ -145,18 +126,20 @@ body.contact-open .site-header .logo {
   background: #e5e5e5;
 }
 
-/* hero loader */
 .hero-loader {
   position: absolute;
   inset: 0;
+  z-index: 5;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   background: #e5e5e5;
   color: rgba(0, 0, 0, 0.4);
   font-size: 0.75rem;
   letter-spacing: 0.4em;
-  z-index: 5;
+
   transition: opacity 0.4s ease;
 }
 
@@ -165,7 +148,6 @@ body.contact-open .site-header .logo {
   pointer-events: none;
 }
 
-/* spline */
 .hero-bg spline-viewer {
   width: 100%;
   height: 100%;
@@ -173,19 +155,20 @@ body.contact-open .site-header .logo {
   z-index: 2;
 }
 
-/* hero ui */
 .hero-content.cyber-ui {
   position: absolute;
   left: 50%;
   bottom: 12%;
   transform: translateX(-50%);
+  z-index: 3;
+
   text-align: center;
   pointer-events: none;
+
   padding: 32px 48px;
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(0, 0, 0, 0.18);
-  z-index: 3;
 }
 
 .hero-content.cyber-ui::before {
@@ -207,7 +190,6 @@ body.contact-open .site-header .logo {
   border-left: 2px solid rgba(0, 0, 0, 0.6);
 }
 
-/* hero text */
 .hero-eyebrow {
   display: block;
   font-size: 0.75rem;
@@ -238,16 +220,14 @@ body.contact-open .site-header .logo {
   text-transform: uppercase;
 }
 
-/* =========================
-   7) ABOUT (BASE)
-========================= */
+/* ABOUT */
 #about h2 {
   font-size: 2rem;
   letter-spacing: 0.05em;
   margin-bottom: 32px;
 }
 
-#about .about-lead {
+.about-lead {
   font-size: 1.1rem;
   font-weight: 500;
   margin-bottom: 20px;
@@ -293,22 +273,24 @@ body.contact-open .site-header .logo {
   flex-shrink: 0;
 }
 
-/* =========================
-   8) CONTACT / FOOTER
-========================= */
+/* CONTACT */
 .footer-takeover {
   position: fixed;
   inset: 0;
   z-index: 200;
+
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
   background: #111;
   color: #fff;
+
   opacity: 0;
   transform: scale(0.96);
   pointer-events: none;
+
   transition: opacity 0.5s ease, transform 0.6s ease;
 }
 
@@ -318,12 +300,12 @@ body.contact-open .site-header .logo {
   pointer-events: auto;
 }
 
-.footer-takeover .contact-email {
+.contact-email {
   font-size: 0.95rem;
   letter-spacing: 0.08em;
   color: rgba(255,255,255,0.85);
   margin-top: 12px;
-  margin-bottom: 20px;   /* 👈 추가 */
+  margin-bottom: 20px;
   user-select: text;
 }
 
@@ -335,22 +317,17 @@ body.contact-open .site-header .logo {
   line-height: 1.5;
 }
 
-/* =========================
-   9) CONTACT ORBIT
-========================= */
+/* ORBIT */
 .warning-line {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  pointer-events: none;
   z-index: 1;
+  pointer-events: none;
 
   width: clamp(260px, 55vw, 640px);
   height: clamp(260px, 55vw, 640px);
-
-  background: transparent;
-  overflow: visible;
 }
 
 .orbit-svg {
@@ -377,17 +354,15 @@ body.contact-open .site-header .logo {
 
 @keyframes rotateInner {
   from { transform: rotate(0deg); }
-  to   { transform: rotate(-360deg); }
+  to { transform: rotate(-360deg); }
 }
 
 @keyframes rotateOuter {
   from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* =========================
-   10) REVEAL ANIMATION
-========================= */
+/* REVEAL */
 .reveal {
   opacity: 0;
   transform: translateY(40px);

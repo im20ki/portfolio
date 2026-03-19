@@ -32,14 +32,14 @@ const projectMediaMap = [
     // PROJECT 04
     [
         [0],        // 프로젝트 소개
-        [1, 2],     // 기획 및 전략 수립
-        [3],        // 디자인 및 제작 실행
-        [4, 5]      // 운영 및 성과 관리
+        [1],     // 기획 및 전략 수립
+        [2],        // 디자인 및 제작 실행
+        [3]      // 운영 및 성과 관리
     ]
 ];
 
 const stepImageCounts = [
-    [1, 1, 3, 1],     // PROJECT 01
+    [1, 1, 4, 1],     // PROJECT 01
     [1, 4, 5, 2],     // PROJECT 02
     [1, 1, 1, 1],     // PROJECT 03
     [1, 3, 1, 4]      // PROJECT 04
@@ -245,13 +245,16 @@ function updateMobileProjectActiveMedia(section) {
     let activeMedia = mediaList[0];
     let minDistance = Infinity;
 
-    const scrollLeft = imageArea.scrollLeft;
-    const containerWidth = imageArea.clientWidth;
+    mediaList.forEach((media) => {
+        const rect = media.getBoundingClientRect();
+        const mediaCenter = rect.left + rect.width * 0.5;
+        const distance = Math.abs(areaCenter - mediaCenter);
 
-    const index = Math.round(scrollLeft / containerWidth);
-    const clampedIndex = Math.max(0, Math.min(mediaList.length - 1, index));
-
-    activeMedia = mediaList[clampedIndex];
+        if (distance < minDistance) {
+            minDistance = distance;
+            activeMedia = media;
+        }
+    });
 
     mediaList.forEach((media) => {
         media.classList.toggle("active", media === activeMedia);
@@ -331,31 +334,6 @@ function setupMobileVerticalSliders() {
             if (iframes.length > 1) {
                 let rafId = null;
 
-                const indicator = document.createElement("div");
-                indicator.className = "frame-indicator";
-                indicator.setAttribute("aria-hidden", "true");
-
-                iframes.forEach((_, idx) => {
-                    const dot = document.createElement("span");
-                    dot.className = "frame-indicator-dot";
-
-                    if (idx === 0) {
-                        dot.classList.add("active");
-                    }
-
-                    indicator.appendChild(dot);
-                });
-
-                media.appendChild(indicator);;
-
-                const updateIframeIndicator = (activeIndex) => {
-                    const dots = indicator.querySelectorAll(".frame-indicator-dot");
-
-                    dots.forEach((dot, idx) => {
-                        dot.classList.toggle("active", idx === activeIndex);
-                    });
-                };
-
                 const updateIframeCaption = () => {
                     if (rafId) cancelAnimationFrame(rafId);
 
@@ -366,8 +344,6 @@ function setupMobileVerticalSliders() {
                         index = Math.max(0, Math.min(iframes.length - 1, index));
 
                         if (media) media.dataset.activeInnerIndex = String(index);
-
-                        updateIframeIndicator(index);
                         updateMobileProjectCaption(section, media);
                     });
                 };
@@ -407,7 +383,7 @@ function setupMobileVerticalSliders() {
             indicator.appendChild(dot);
         });
 
-        media.appendChild(indicator);;
+        frame.appendChild(indicator);
 
         let index = 0;
 

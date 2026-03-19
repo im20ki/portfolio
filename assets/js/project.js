@@ -42,7 +42,7 @@ const stepImageCounts = [
     [1, 1, 4, 1],     // PROJECT 01
     [1, 4, 5, 2],     // PROJECT 02
     [1, 1, 1, 1],     // PROJECT 03
-    [1, 3, 1, 4]      // PROJECT 04
+    [1, 4, 1, 4]      // PROJECT 04
 ];
 
 

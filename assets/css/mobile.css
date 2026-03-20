@@ -466,6 +466,7 @@
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
+        pointer-events: none;
 
         height: auto !important;
         aspect-ratio: 16 / 9;
@@ -560,4 +561,65 @@
         will-change: transform;
     }
 
+    .video-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1001;
+
+        display: flex;
+        /* 🔥 추가 */
+        align-items: center;
+        /* 🔥 세로 중앙 */
+        justify-content: center;
+        /* 🔥 가로 중앙 */
+
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+    }
+
+    .video-modal.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .video-modal-dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.88);
+    }
+
+    .video-close {
+        display: block;
+        margin-left: auto;
+        margin-bottom: 12px;
+
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .video-body iframe {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: 0;
+        background: #000;
+    }
+
+    .video-content {
+        position: relative;
+        z-index: 1;
+        width: min(94vw, 960px);
+    }
+
+    .video-body {
+        width: 100%;
+    }
 }

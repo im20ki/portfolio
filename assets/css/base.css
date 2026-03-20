@@ -1,4 +1,7 @@
-/* RESET */
+/* ==================================================
+   1. RESET / BASE
+================================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -17,16 +20,10 @@ body {
   overflow-x: hidden;
 }
 
-/* STATE */
-body.contact-open .site-header {
-  z-index: 300;
-}
+/* ==================================================
+   2. UTILITIES
+================================================== */
 
-body.contact-open .site-header .logo {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* UTIL */
 .pc-only {
   display: inline;
 }
@@ -35,7 +32,22 @@ body.contact-open .site-header .logo {
   display: none;
 }
 
-/* HEADER */
+/* ==================================================
+   3. STATE (GLOBAL)
+================================================== */
+
+body.contact-open .site-header {
+  z-index: 300;
+}
+
+body.contact-open .site-header .logo {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ==================================================
+   4. HEADER / NAV
+================================================== */
+
 .site-header {
   position: fixed;
   top: 0;
@@ -55,6 +67,7 @@ body.contact-open .site-header .logo {
 }
 
 /* NAV */
+
 .project-nav {
   display: flex;
   gap: 20px;
@@ -102,7 +115,10 @@ body.contact-open .site-header .logo {
   opacity: 1;
 }
 
-/* HERO */
+/* ==================================================
+   5. HERO
+================================================== */
+
 #hero {
   position: relative;
 }
@@ -126,6 +142,15 @@ body.contact-open .site-header .logo {
   background: #e5e5e5;
 }
 
+.hero-bg spline-viewer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+/* loader */
+
 .hero-loader {
   position: absolute;
   inset: 0;
@@ -148,12 +173,7 @@ body.contact-open .site-header .logo {
   pointer-events: none;
 }
 
-.hero-bg spline-viewer {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  z-index: 2;
-}
+/* hero UI */
 
 .hero-content.cyber-ui {
   position: absolute;
@@ -220,7 +240,10 @@ body.contact-open .site-header .logo {
   text-transform: uppercase;
 }
 
-/* ABOUT */
+/* ==================================================
+   6. ABOUT
+================================================== */
+
 #about h2 {
   font-size: 2rem;
   letter-spacing: 0.05em;
@@ -273,7 +296,10 @@ body.contact-open .site-header .logo {
   flex-shrink: 0;
 }
 
-/* CONTACT */
+/* ==================================================
+   7. CONTACT
+================================================== */
+
 .footer-takeover {
   position: fixed;
   inset: 0;
@@ -317,7 +343,10 @@ body.contact-open .site-header .logo {
   line-height: 1.5;
 }
 
-/* ORBIT */
+/* ==================================================
+   8. UI EFFECTS (ORBIT / ANIMATION)
+================================================== */
+
 .warning-line {
   position: absolute;
   left: 50%;
@@ -362,7 +391,10 @@ body.contact-open .site-header .logo {
   to { transform: rotate(360deg); }
 }
 
-/* REVEAL */
+/* ==================================================
+   9. SCROLL REVEAL
+================================================== */
+
 .reveal {
   opacity: 0;
   transform: translateY(40px);

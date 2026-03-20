@@ -172,7 +172,7 @@ updateProjectNavOnScroll();
 if (!isMobile()) {
 
     document.addEventListener("mouseover", (e) => {
-        const target = e.target.closest(".project-image-area img, .project-image-area iframe[data-caption]");
+        const target = e.target.closest(".project-image-area img, .project-image-area iframe[data-caption], .project-image-area .youtube-thumb-overlay[data-caption]");
         if (!target) return;
 
         const section = target.closest(".project-sticky");
@@ -191,7 +191,7 @@ if (!isMobile()) {
     });
 
     document.addEventListener("mouseout", (e) => {
-        const target = e.target.closest(".project-image-area img, .project-image-area iframe[data-caption]");
+        const target = e.target.closest(".project-image-area img, .project-image-area iframe[data-caption], .project-image-area .youtube-thumb-overlay[data-caption]");
         if (!target) return;
 
         const section = target.closest(".project-sticky");
@@ -332,6 +332,23 @@ function setupMobileVerticalSliders() {
 
         if (images.length <= 1) {
             if (iframes.length > 1) {
+                const indicator = document.createElement("div");
+                indicator.className = "frame-indicator";
+                indicator.setAttribute("aria-hidden", "true");
+
+                iframes.forEach((_, idx) => {
+                    const dot = document.createElement("span");
+                    dot.className = "frame-indicator-dot";
+
+                    if (idx === 0) {
+                        dot.classList.add("active");
+                    }
+
+                    indicator.appendChild(dot);
+                });
+
+                media.appendChild(indicator);
+
                 let rafId = null;
 
                 const updateIframeCaption = () => {
@@ -343,7 +360,15 @@ function setupMobileVerticalSliders() {
 
                         index = Math.max(0, Math.min(iframes.length - 1, index));
 
-                        if (media) media.dataset.activeInnerIndex = String(index);
+                        if (media) {
+                            media.dataset.activeInnerIndex = String(index);
+                        }
+
+                        const dots = indicator.querySelectorAll(".frame-indicator-dot");
+                        dots.forEach((dot, idx) => {
+                            dot.classList.toggle("active", idx === index);
+                        });
+
                         updateMobileProjectCaption(section, media);
                     });
                 };
@@ -383,7 +408,7 @@ function setupMobileVerticalSliders() {
             indicator.appendChild(dot);
         });
 
-        frame.appendChild(indicator);
+        media.appendChild(indicator);
 
         let index = 0;
 
@@ -425,9 +450,11 @@ function setupMobileVerticalSliders() {
         frame.addEventListener(
             "touchmove",
             (e) => {
+                if (!e.touches || !e.touches.length) return;
+
                 deltaY = e.touches[0].clientY - startY;
 
-                if (Math.abs(deltaY) > 6) {
+                if (Math.abs(deltaY) > 6 && e.cancelable) {
                     e.preventDefault();
                 }
 
@@ -473,3 +500,44 @@ document.addEventListener("DOMContentLoaded", () => {
     setupMobileVerticalSliders();
     setupMobileProjectCaptions();
 });
+
+function getYoutubeIdFromSrc(src = "") {
+    const match = src.match(/embed\/([^?&"/]+)/);
+    return match ? match[1] : "";
+}
+
+window.getYoutubeIdFromSrc = getYoutubeIdFromSrc;
+
+function buildPcYoutubeThumbOverlays() {
+    if (isMobile()) return;
+
+    const youtubeIframes = document.querySelectorAll(
+        ".project-image-area .youtube-grid iframe"
+    );
+
+    youtubeIframes.forEach((iframe) => {
+        if (iframe.closest(".yt-thumb-wrap")) return;
+
+        const videoId = getYoutubeIdFromSrc(iframe.src);
+        if (!videoId) return;
+
+        const wrap = document.createElement("div");
+        wrap.className = "yt-thumb-wrap";
+
+        const overlay = document.createElement("button");
+        overlay.type = "button";
+        overlay.className = "youtube-thumb-overlay";
+        overlay.dataset.videoId = videoId;
+        overlay.dataset.caption = iframe.dataset.caption || "";
+        overlay.setAttribute("aria-label", iframe.title || "유튜브 영상 보기");
+        overlay.style.backgroundImage = `url(https://i.ytimg.com/vi/${videoId}/hqdefault.jpg)`;
+
+        iframe.parentNode.insertBefore(wrap, iframe);
+        wrap.appendChild(iframe);
+        wrap.appendChild(overlay);
+    });
+}
+
+if (!isMobile()) {
+    buildPcYoutubeThumbOverlays();
+}

@@ -8,6 +8,11 @@ const modalDim = document.querySelector(".img-modal-dim");
 const modalClose = document.querySelector(".img-modal-close");
 const modalContent = document.querySelector(".img-modal-content");
 
+let videoModal = null;
+let videoModalDim = null;
+let videoModalClose = null;
+let videoModalBody = null;
+
 let mobileModalTarget = null;
 
 // 모달 안에서 굴린 휠이 window까지 전달되지 않게 차단
@@ -107,17 +112,101 @@ function closeImageModal() {
   }
 }
 
+function ensureVideoModal() {
+  if (videoModal) return;
+
+  const modalEl = document.createElement("div");
+  modalEl.id = "videoModal";
+  modalEl.className = "video-modal";
+  modalEl.innerHTML = `
+    <div class="video-modal-dim"></div>
+    <div class="video-content">
+      <button class="video-close" type="button" aria-label="영상 닫기">✕</button>
+      <div class="video-body"></div>
+    </div>
+  `;
+
+  document.body.appendChild(modalEl);
+
+  videoModal = modalEl;
+  videoModalDim = modalEl.querySelector(".video-modal-dim");
+  videoModalClose = modalEl.querySelector(".video-close");
+  videoModalBody = modalEl.querySelector(".video-body");
+
+  if (videoModalDim) videoModalDim.addEventListener("click", closeVideoModal);
+  if (videoModalClose) videoModalClose.addEventListener("click", closeVideoModal);
+}
+
+function openVideoModal(videoId) {
+  if (!videoId) return;
+
+  ensureVideoModal();
+  if (!videoModal || !videoModalBody) return;
+
+  videoModalBody.innerHTML = `
+    <iframe
+      src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0"
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  `;
+
+  videoModal.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeVideoModal() {
+  if (!videoModal || !videoModalBody) return;
+
+  videoModal.classList.remove("active");
+  videoModalBody.innerHTML = "";
+  document.body.style.overflow = "";
+}
+
 if (modalDim) modalDim.addEventListener("click", closeImageModal);
 if (modalClose) modalClose.addEventListener("click", closeImageModal);
 
 window.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeImageModal();
+  if (e.key !== "Escape") return;
+
+  closeImageModal();
+  closeVideoModal();
 });
 
 document.addEventListener("click", (e) => {
-  const clickedImg = e.target.closest(
-    ".project-image-area img.media-img:not(.youtube-thumb)"
+  const clickedThumb = e.target.closest(
+    ".project-image-area .youtube-thumb-overlay[data-video-id]"
   );
+
+  if (clickedThumb) {
+    openVideoModal(clickedThumb.dataset.videoId);
+    return;
+  }
+
+  if (isMobile()) {
+    const clickedYoutubeFrame = e.target.closest(
+      ".project-image-area .youtube-grid .frame"
+    );
+
+    if (clickedYoutubeFrame) {
+      const activeMedia = clickedYoutubeFrame.closest(".media.youtube-grid");
+      const activeIndex = Number(activeMedia?.dataset.activeInnerIndex || 0);
+      const iframes = Array.from(
+        clickedYoutubeFrame.querySelectorAll("iframe[data-caption]")
+      );
+      const activeIframe = iframes[activeIndex] || iframes[0];
+      const videoId = activeIframe ? getYoutubeIdFromSrc(activeIframe.src) : "";
+
+      if (videoId) {
+        openVideoModal(videoId);
+        return;
+      }
+    }
+  }
+
+  const clickedImg = e.target.closest(".project-image-area img.media-img");
+
   if (!clickedImg) return;
 
   openImageModal(clickedImg);

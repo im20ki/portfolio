@@ -13,7 +13,7 @@
 }
 
 /* ==================================================
-   2. ABOUT (PC 50 : 50 STRUCTURE)
+   2. ABOUT
 ================================================== */
 
 #about .about-wrap {
@@ -39,7 +39,7 @@
   margin: 0;
 }
 
-/* About Typography */
+/* typography */
 
 #about h2 {
   font-size: 1.8rem;
@@ -64,7 +64,7 @@
 }
 
 /* ==================================================
-   3. PROJECT STRUCTURE (STICKY SYSTEM)
+   3. PROJECT STRUCTURE
 ================================================== */
 
 .project-sticky {
@@ -74,7 +74,7 @@
   margin-bottom: 120px;
 }
 
-/* LEFT TEXT */
+/* TEXT */
 
 .project-text-area {
   flex: 0 0 50%;
@@ -99,7 +99,6 @@
 
   opacity: 0;
   transition: opacity 0.4s ease;
-
   pointer-events: none;
 }
 
@@ -122,11 +121,10 @@
   word-break: keep-all;
 }
 
-/* RIGHT IMAGE */
+/* IMAGE AREA */
 
 .project-image-area {
   flex: 0 0 50%;
-
   position: sticky;
   top: 120px;
   height: calc(100vh - 160px);
@@ -141,9 +139,20 @@
   min-width: 320px;
 }
 
+.project-image-area img {
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.35s ease;
+}
+
+.project-image-area img:hover {
+  transform: scale(1.005);
+}
+
+/* FRAME */
+
 .project-image-area .frame {
   display: inline-block;
-
   padding: 20px;
   border: 1px solid #e8e8e8;
   border-radius: 10px;
@@ -156,10 +165,8 @@
 }
 
 /* ==================================================
-   4. PROJECT MEDIA SYSTEM (IMG + YOUTUBE)
+   4. MEDIA SYSTEM
 ================================================== */
-
-/* media stacking */
 
 .project-image-area .media {
   position: absolute;
@@ -167,16 +174,16 @@
   width: 100%;
   height: 100%;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 
   z-index: 0;
   transition: opacity 0.4s ease;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .project-image-area .media.active {
@@ -186,7 +193,12 @@
   z-index: 1;
 }
 
-/* clickable states */
+/* clickable */
+
+.project-image-area .media.active img.media,
+.project-image-area .media.active img.youtube-thumb {
+  pointer-events: auto;
+}
 
 .project-image-area .media.active img.media {
   cursor: pointer;
@@ -194,22 +206,6 @@
 
 .project-image-area .media.active .youtube-thumb {
   cursor: pointer;
-}
-
-.project-image-area img {
-  pointer-events: auto;
-  cursor: pointer;
-  transition: transform 0.35s ease;
-}
-
-.project-image-area img:hover {
-  transform: scale(1.005);
-}
-
-/* ✅ active인 것만 열어준다 */
-.project-image-area .media.active img.media,
-.project-image-area .media.active img.youtube-thumb {
-  pointer-events: auto;
 }
 
 /* youtube thumb */
@@ -220,14 +216,18 @@
   object-fit: cover;
 }
 
-/* youtube 2x2 grid */
+.youtube-thumb {
+  position: relative;
+  transition: transform 0.35s ease;
+}
+
+/* youtube grid */
 
 .project-image-area .youtube-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 
-  /* 🔥 핵심 수정 */
   align-content: stretch;
 
   pointer-events: auto !important;
@@ -274,20 +274,9 @@
   transform: scale(1.005);
 }
 
-
-
-/* youtube hover effect */
-
-.youtube-thumb {
-  position: relative;
-  transition: transform 0.35s ease;
-}
-
 /* ==================================================
-   5. MODAL SYSTEM (PC)
+   5. VIDEO MODAL (PC)
 ================================================== */
-
-/* ---------- VIDEO MODAL ---------- */
 
 @media (min-width: 769px) {
 
@@ -312,10 +301,27 @@
     pointer-events: auto;
   }
 
+  .video-modal-dim {
+    position: absolute;
+    inset: 0;
+  }
+
   .video-content {
     width: 70%;
     max-width: 1000px;
     position: relative;
+    z-index: 1;
+  }
+
+  .video-body {
+    width: 100%;
+  }
+
+  .video-body iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    display: block;
   }
 
   .video-content iframe {
@@ -334,30 +340,11 @@
     font-size: 28px;
     cursor: pointer;
   }
-
-  .video-modal-dim {
-  position: absolute;
-  inset: 0;
 }
 
-.video-content {
-  position: relative;
-  z-index: 1;
-}
-
-.video-body {
-  width: 100%;
-}
-
-.video-body iframe {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 0;
-  display: block;
-}
-}
-
-/* ---------- IMAGE MODAL ---------- */
+/* ==================================================
+   6. IMAGE MODAL
+================================================== */
 
 .img-modal {
   position: fixed;
@@ -412,7 +399,6 @@
   cursor: pointer;
 
   backdrop-filter: blur(10px);
-
   transition: all 0.25s ease;
   z-index: 20;
 }
@@ -438,7 +424,7 @@
   object-fit: contain;
 }
 
-/* ---------- MODAL SCROLLBAR ---------- */
+/* scrollbar */
 
 .img-modal-content::-webkit-scrollbar {
   width: 8px;
@@ -459,10 +445,8 @@
 }
 
 /* ==================================================
-   6. UI DETAILS
+   7. UI DETAILS
 ================================================== */
-
-/* contact trigger (pc) */
 
 #contactTrigger {
   height: 100vh;
@@ -471,8 +455,6 @@
   padding: 0 !important;
   margin: 0;
 }
-
-/* link reset */
 
 .portfolio-link {
   color: inherit;
@@ -485,14 +467,12 @@
   text-decoration: none;
 }
 
-/* small notice */
-
 .site-notice {
   font-size: 0.85em;
   opacity: 0.7;
 }
 
-/* hover caption */
+/* caption */
 
 .project-hover-caption {
   font-size: 0.9rem;
@@ -529,18 +509,28 @@
   transition: opacity 0.25s ease;
 }
 
-/* ===============================
-   Project 01 - 4th frame YouTube layout fix
-   PC only / mobile untouched
-================================ */
+/* ==================================================
+   8. YOUTUBE FIX (PC ONLY)
+================================================== */
+
 @media (min-width: 769px) {
+
   .project-image-area .media.youtube-grid {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    padding: 0;
   }
 
-@media (min-width: 769px) {
+  .project-image-area .media.youtube-grid iframe {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    display: block;
+    border: 0;
+  }
+
   .project-image-area .media.youtube-grid .frame {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -555,26 +545,4 @@
     box-sizing: border-box;
     overflow: visible;
   }
-}
-
-  .project-image-area .media.youtube-grid iframe {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    display: block;
-    border: 0;
-  }
-}
-
-
-/* ===============================
-   YouTube double border fix (PC only)
-================================ */
-@media (min-width: 769px) {
-
-  .project-image-area .media.youtube-grid {
-    border: none; /* 바깥 border 제거 */
-    padding: 0;   /* 여백도 제거 (겹침 방지) */
-  }
-
 }

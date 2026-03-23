@@ -1,8 +1,39 @@
 /* =========================
-   REVEAL
+   1. DOM CACHE
 ========================= */
 
 const reveals = document.querySelectorAll(".reveal");
+
+const heroUI = document.querySelector(".hero-content.cyber-ui");
+
+const splineViewer = document.querySelector("spline-viewer");
+const heroLoader = document.querySelector(".hero-loader");
+
+const heroSection = document.getElementById("hero");
+const heroBg = document.querySelector("#hero .hero-bg");
+
+/* =========================
+   2. STATE
+========================= */
+
+let targetX = 0;
+let targetY = 0;
+
+let currentX = 0;
+let currentY = 0;
+
+/* =========================
+   3. UTIL
+========================= */
+
+function isHeroInView() {
+  const rect = heroSection.getBoundingClientRect();
+  return rect.top < window.innerHeight && rect.bottom > 0;
+}
+
+/* =========================
+   4. REVEAL
+========================= */
 
 function revealOnScroll() {
 
@@ -18,16 +49,8 @@ window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
 
 /* =========================
-   HERO MICRO MOVE
+   5. HERO MICRO MOVE
 ========================= */
-
-const heroUI = document.querySelector(".hero-content.cyber-ui");
-
-let targetX = 0;
-let targetY = 0;
-
-let currentX = 0;
-let currentY = 0;
 
 if (heroUI && !isMobile()) {
 
@@ -53,16 +76,10 @@ if (heroUI && !isMobile()) {
 }
 
 /* =========================
-   SPLINE
+   6. SPLINE SYSTEM
 ========================= */
 
-const splineViewer = document.querySelector("spline-viewer");
-const heroLoader = document.querySelector(".hero-loader");
-
 if (splineViewer && !isMobile()) {
-
-  const heroSection = document.getElementById("hero");
-  const heroBg = document.querySelector("#hero .hero-bg");
 
   const prewarmBox = document.createElement("div");
 
@@ -79,13 +96,6 @@ if (splineViewer && !isMobile()) {
   `;
 
   document.body.appendChild(prewarmBox);
-
-  function isHeroInView() {
-
-    const rect = heroSection.getBoundingClientRect();
-
-    return rect.top < window.innerHeight && rect.bottom > 0;
-  }
 
   function placeSpline() {
 
@@ -108,6 +118,10 @@ if (splineViewer && !isMobile()) {
 
   placeSpline();
 }
+
+/* =========================
+   7. SPLINE LOADER
+========================= */
 
 if (splineViewer && heroLoader) {
 

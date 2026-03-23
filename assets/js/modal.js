@@ -1,5 +1,5 @@
 /* =========================
-   IMAGE MODAL SYSTEM
+   1. DOM CACHE
 ========================= */
 
 const modal = document.getElementById("imageModal");
@@ -8,6 +8,10 @@ const modalDim = document.querySelector(".img-modal-dim");
 const modalClose = document.querySelector(".img-modal-close");
 const modalContent = document.querySelector(".img-modal-content");
 
+/* =========================
+   2. STATE
+========================= */
+
 let videoModal = null;
 let videoModalDim = null;
 let videoModalClose = null;
@@ -15,7 +19,10 @@ let videoModalBody = null;
 
 let mobileModalTarget = null;
 
-// 모달 안에서 굴린 휠이 window까지 전달되지 않게 차단
+/* =========================
+   3. BASE EVENT (SCROLL BLOCK)
+========================= */
+
 if (modalContent) {
   modalContent.addEventListener(
     "wheel",
@@ -25,6 +32,10 @@ if (modalContent) {
     { passive: true }
   );
 }
+
+/* =========================
+   4. IMAGE MODAL
+========================= */
 
 function openImageModal(clickedImg) {
   if (!modal || !modalBody) return;
@@ -38,9 +49,7 @@ function openImageModal(clickedImg) {
 
   if (!clickedImg) return;
 
-  /* ======================
-     PC : 클릭한 이미지 1장
-  ====================== */
+  /* ---------- PC ---------- */
   if (!isMobile()) {
     const clone = clickedImg.cloneNode(true);
 
@@ -53,9 +62,7 @@ function openImageModal(clickedImg) {
     modalBody.appendChild(clone);
   }
 
-  /* ======================
-     MOBILE : 프로젝트 전체 이미지
-  ====================== */
+  /* ---------- MOBILE ---------- */
   else {
     const section = clickedImg.closest(".project-sticky");
     if (!section) return;
@@ -87,9 +94,7 @@ function openImageModal(clickedImg) {
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
 
-  /* ======================
-     모바일 스크롤 위치 맞추기
-  ====================== */
+  /* 모바일 위치 보정 */
   if (isMobile() && modalContent && mobileModalTarget) {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -112,12 +117,17 @@ function closeImageModal() {
   }
 }
 
+/* =========================
+   5. VIDEO MODAL
+========================= */
+
 function ensureVideoModal() {
   if (videoModal) return;
 
   const modalEl = document.createElement("div");
   modalEl.id = "videoModal";
   modalEl.className = "video-modal";
+
   modalEl.innerHTML = `
     <div class="video-modal-dim"></div>
     <div class="video-content">
@@ -133,8 +143,13 @@ function ensureVideoModal() {
   videoModalClose = modalEl.querySelector(".video-close");
   videoModalBody = modalEl.querySelector(".video-body");
 
-  if (videoModalDim) videoModalDim.addEventListener("click", closeVideoModal);
-  if (videoModalClose) videoModalClose.addEventListener("click", closeVideoModal);
+  if (videoModalDim) {
+    videoModalDim.addEventListener("click", closeVideoModal);
+  }
+
+  if (videoModalClose) {
+    videoModalClose.addEventListener("click", closeVideoModal);
+  }
 }
 
 function openVideoModal(videoId) {
@@ -164,8 +179,21 @@ function closeVideoModal() {
   document.body.style.overflow = "";
 }
 
-if (modalDim) modalDim.addEventListener("click", closeImageModal);
-if (modalClose) modalClose.addEventListener("click", closeImageModal);
+/* =========================
+   6. EVENT BINDING
+========================= */
+
+/* image modal */
+
+if (modalDim) {
+  modalDim.addEventListener("click", closeImageModal);
+}
+
+if (modalClose) {
+  modalClose.addEventListener("click", closeImageModal);
+}
+
+/* ESC */
 
 window.addEventListener("keydown", (e) => {
   if (e.key !== "Escape") return;
@@ -174,7 +202,11 @@ window.addEventListener("keydown", (e) => {
   closeVideoModal();
 });
 
+/* GLOBAL CLICK */
+
 document.addEventListener("click", (e) => {
+
+  /* youtube thumb (PC/Mobile 공통) */
   const clickedThumb = e.target.closest(
     ".project-image-area .youtube-thumb-overlay[data-video-id]"
   );
@@ -184,6 +216,7 @@ document.addEventListener("click", (e) => {
     return;
   }
 
+  /* mobile youtube grid */
   if (isMobile()) {
     const clickedYoutubeFrame = e.target.closest(
       ".project-image-area .youtube-grid .frame"
@@ -192,11 +225,16 @@ document.addEventListener("click", (e) => {
     if (clickedYoutubeFrame) {
       const activeMedia = clickedYoutubeFrame.closest(".media.youtube-grid");
       const activeIndex = Number(activeMedia?.dataset.activeInnerIndex || 0);
+
       const iframes = Array.from(
         clickedYoutubeFrame.querySelectorAll("iframe[data-caption]")
       );
+
       const activeIframe = iframes[activeIndex] || iframes[0];
-      const videoId = activeIframe ? getYoutubeIdFromSrc(activeIframe.src) : "";
+
+      const videoId = activeIframe
+        ? getYoutubeIdFromSrc(activeIframe.src)
+        : "";
 
       if (videoId) {
         openVideoModal(videoId);
@@ -205,6 +243,7 @@ document.addEventListener("click", (e) => {
     }
   }
 
+  /* image click */
   const clickedImg = e.target.closest(".project-image-area img.media-img");
 
   if (!clickedImg) return;

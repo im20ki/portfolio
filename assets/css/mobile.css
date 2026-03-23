@@ -1,13 +1,12 @@
-/* =========================
-   MOBILE (≤ 768px) – CLEAN PACK
-   기능 절대 삭제 X / 순서 정리
-   ========================= */
-
 @media (max-width: 768px) {
 
     /* ==================================================
-   1. GLOBAL MOBILE RESET
+   1. GLOBAL / BASE
 ================================================== */
+
+    body {
+        overflow-x: visible;
+    }
 
     .scene {
         display: block;
@@ -15,11 +14,6 @@
         min-height: auto;
     }
 
-    body {
-        overflow-x: visible;
-    }
-
-    /* RESPONSIVE UTILITIES */
     .pc-only {
         display: none;
     }
@@ -30,7 +24,7 @@
     }
 
     /* ==================================================
-   2. HEADER (MOBILE)
+   2. HEADER
 ================================================== */
 
     .site-header {
@@ -42,13 +36,25 @@
         backdrop-filter: blur(8px);
     }
 
-    /* CONTACT TRIGGER HEIGHT */
+    body.contact-open .site-header {
+        background: transparent;
+        backdrop-filter: none;
+    }
+
+    body.contact-open .logo {
+        opacity: 1;
+    }
+
+    body.contact-open .project-nav {
+        display: none;
+    }
+
     #contactTrigger {
         height: 100vh;
     }
 
     /* ==================================================
-   3. HERO (MOBILE)
+   3. HERO
 ================================================== */
 
     #hero {
@@ -67,7 +73,7 @@
     }
 
     /* ==================================================
-   4. ABOUT (MOBILE)
+   4. ABOUT
 ================================================== */
 
     #about {
@@ -89,17 +95,6 @@
         text-transform: uppercase;
     }
 
-    #about .about-lead,
-    #about .about-desc {
-        font-size: 0.95rem;
-        line-height: 1.75;
-        color: rgba(0, 0, 0, 0.7);
-    }
-
-    #about .about-lead {
-        margin-bottom: 12px;
-    }
-
     #about .about-wrap {
         width: 100%;
         display: flex !important;
@@ -119,8 +114,19 @@
         margin: 0;
     }
 
+    #about .about-lead,
+    #about .about-desc {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        color: rgba(0, 0, 0, 0.7);
+    }
+
+    #about .about-lead {
+        margin-bottom: 12px;
+    }
+
     /* ==================================================
-   5. PROJECT (MOBILE)
+   5. PROJECT LAYOUT
 ================================================== */
 
     .project-divider {
@@ -142,7 +148,9 @@
         margin-top: 50px;
     }
 
-    /* TEXT */
+    /* ==================================================
+   6. PROJECT TEXT
+================================================== */
 
     .project-text-area {
         position: relative;
@@ -177,31 +185,44 @@
         overflow-wrap: break-word;
     }
 
-    /* IMAGE SLIDE */
+    /* ==================================================
+   7. PROJECT IMAGE AREA
+================================================== */
 
     .project-image-area {
         position: relative;
         top: auto;
-
         display: flex;
         gap: 17px;
-
         overflow-x: auto !important;
         overflow-y: visible !important;
-
         height: auto !important;
         justify-content: flex-start !important;
-
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-
         margin-bottom: 0px;
-
         padding-left: 16px;
         padding-right: 16px;
     }
 
-    .project-image-area::-webkit-scrollbar {
+    .project-image-area iframe,
+    .project-youtube-area iframe {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        border: 0;
+    }
+
+    .project-image-area .youtube-grid iframe {
+        pointer-events: none;
+        justify-self: stretch;
+        align-self: center;
+        scroll-snap-align: center;
+    }
+
+    .project-image-area::-webkit-scrollbar,
+    .project-image-area *::-webkit-scrollbar {
         display: none;
     }
 
@@ -209,37 +230,45 @@
         flex: 0 0 92%;
         max-width: 92%;
         width: 92%;
-
         scroll-snap-align: start;
-
         opacity: 1 !important;
         visibility: visible !important;
         pointer-events: auto !important;
         position: relative !important;
-
         height: 43vh;
+        will-change: transform;
+    }
+
+    .project-image-area .media.active {
+        opacity: 1 !important;
     }
 
     .project-image-area .media .frame {
         position: relative;
         width: 100%;
         height: 100%;
-
         display: block;
         overflow: hidden;
     }
 
-    .project-image-area .media .frame::-webkit-scrollbar {
-        display: none;
+    .project-image-area .media .frame .media-img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* MULTI FRAME */
+
+    .multi-frame-track {
+        will-change: transform;
     }
 
     .project-image-area .media .frame.has-multi-images .multi-frame-track {
         width: 100%;
         height: 100%;
-
         display: flex;
         flex-direction: column;
-
         transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
         will-change: transform;
         transform: translate3d(0, 0, 0);
@@ -256,6 +285,8 @@
         height: 100%;
         object-fit: contain;
     }
+
+    /* INDICATOR */
 
     .project-image-area .media .frame-indicator {
         position: absolute;
@@ -285,145 +316,9 @@
         box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
     }
 
-    .project-image-area .media .frame .media-img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .project-image-area .media::-webkit-scrollbar {
-        display: none;
-    }
-
-    .project-image-area .media.active {
-        opacity: 1 !important;
-    }
-
-
-
     /* ==================================================
-   6. CONTACT (MOBILE)
+   8. YOUTUBE
 ================================================== */
-
-    #contact {
-        padding-top: 80px;
-    }
-
-    .contact-center {
-        text-align: center;
-    }
-
-    /* 하단 설명 텍스트 */
-    .footer-takeover .contact-desc,
-    .footer-takeover .contact-note,
-    .footer-takeover p {
-        font-size: 12px;
-    }
-
-    body.contact-open .site-header {
-        background: transparent;
-        backdrop-filter: none;
-    }
-
-    body.contact-open .project-nav {
-        display: none;
-    }
-
-    body.contact-open .logo {
-        opacity: 1;
-    }
-
-    /* ==================================================
-   7. IMAGE MODAL (MOBILE)
-================================================== */
-
-    .img-modal {
-        position: fixed;
-        inset: 0;
-        z-index: 1000;
-
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-    }
-
-    .img-modal.active {
-        opacity: 1;
-        pointer-events: auto;
-    }
-
-    .img-modal-dim {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.8);
-    }
-
-    .img-modal-content {
-        position: relative;
-        width: 94%;
-        max-width: 1100px;
-
-        margin: 40px auto;
-        background: transparent;
-
-        max-height: calc(100vh - 80px);
-        overflow-y: auto;
-    }
-
-    .img-modal-close {
-        position: sticky;
-        top: 12px;
-        right: 12px;
-
-        display: block;
-        margin-left: auto;
-
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        color: #fff;
-
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-
-        cursor: pointer;
-        z-index: 10;
-        margin-bottom: 16px;
-    }
-
-    .img-modal-body {
-        padding: 16px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .img-modal-body img {
-        width: 100%;
-        background: #000;
-    }
-
-    .modal-caption {
-        color: rgba(255, 255, 255, 0.85);
-        font-size: 14px;
-        padding: 4px 6px 12px;
-        line-height: 1.6;
-    }
-
-    /* ==================================================
-   8. MOBILE CONTACT ORBIT FIX
-================================================== */
-
-    .warning-line {
-        width: clamp(300px, 95vw, 420px);
-        height: clamp(300px, 95vw, 420px);
-    }
-
-    .orbit-text {
-        font-size: 13px;
-        letter-spacing: 0.06em;
-    }
 
     .project-image-area .youtube-grid {
         display: block !important;
@@ -439,44 +334,17 @@
         grid-template-columns: 1fr !important;
         grid-auto-rows: 100% !important;
         gap: 0 !important;
-
         width: 100%;
         height: 100%;
-
         padding: 0 !important;
         border: none !important;
         border-radius: 0 !important;
         box-sizing: border-box;
-
         overflow-y: auto;
         overflow-x: hidden;
-
         scroll-snap-type: y mandatory;
         -webkit-overflow-scrolling: touch;
-
         place-items: center;
-    }
-
-    .project-image-area .youtube-grid .frame::-webkit-scrollbar {
-        display: none;
-    }
-
-    .project-image-area .youtube-grid iframe {
-        display: block;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        pointer-events: none;
-
-        height: auto !important;
-        aspect-ratio: 16 / 9;
-        border: 0;
-
-        justify-self: stretch;
-        align-self: center;
-
-        /* 여기만 변경 */
-        scroll-snap-align: center;
     }
 
     .project-image-area .youtube-single {
@@ -486,33 +354,17 @@
         scroll-snap-align: none;
     }
 
-    .project-image-area .youtube-single iframe {
-        width: 100%;
-        height: auto;
-        display: block;
-        aspect-ratio: 16 / 9;
-    }
-
-    /* =========================
-   MOBILE YOUTUBE BLOCK MODE
-========================= */
-
     .project-youtube-area {
         margin-top: 24px;
         padding: 0;
-
         display: flex;
         flex-direction: column;
         gap: 20px;
     }
 
-    .project-youtube-area .youtube-single iframe {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 16 / 9;
-        display: block;
-        border: none;
-    }
+    /* ==================================================
+   9. CAPTION
+================================================== */
 
     .project-hover-caption {
         display: flex;
@@ -553,26 +405,117 @@
         min-height: calc(0.82rem * 1.6 * 2);
     }
 
-    .project-image-area .media {
-        will-change: transform;
+    /* ==================================================
+   10. CONTACT
+================================================== */
+
+    #contact {
+        padding-top: 80px;
     }
 
-    .multi-frame-track {
-        will-change: transform;
+    .contact-center {
+        text-align: center;
     }
+
+    .footer-takeover .contact-desc,
+    .footer-takeover .contact-note,
+    .footer-takeover p {
+        font-size: 12px;
+    }
+
+    /* ORBIT */
+
+    .warning-line {
+        width: clamp(300px, 95vw, 420px);
+        height: clamp(300px, 95vw, 420px);
+    }
+
+    .orbit-text {
+        font-size: 13px;
+        letter-spacing: 0.06em;
+    }
+
+    /* ==================================================
+   11. IMAGE MODAL
+================================================== */
+
+    .img-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+    }
+
+    .img-modal.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .img-modal-dim {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+    }
+
+    .img-modal-content {
+        position: relative;
+        width: 94%;
+        max-width: 1100px;
+        margin: 40px auto;
+        background: transparent;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+
+    .img-modal-close {
+        position: sticky;
+        top: 12px;
+        right: 12px;
+        display: block;
+        margin-left: auto;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: #fff;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        margin-bottom: 16px;
+    }
+
+    .img-modal-body {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .img-modal-body img {
+        width: 100%;
+        background: #000;
+    }
+
+    .modal-caption {
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 14px;
+        padding: 4px 6px 12px;
+        line-height: 1.6;
+    }
+
+    /* ==================================================
+   12. VIDEO MODAL
+================================================== */
 
     .video-modal {
         position: fixed;
         inset: 0;
         z-index: 1001;
-
         display: flex;
-        /* 🔥 추가 */
         align-items: center;
-        /* 🔥 세로 중앙 */
         justify-content: center;
-        /* 🔥 가로 중앙 */
-
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.25s ease;
@@ -589,20 +532,14 @@
         background: rgba(0, 0, 0, 0.88);
     }
 
-    .video-close {
-        display: block;
-        margin-left: auto;
-        margin-bottom: 12px;
+    .video-content {
+        position: relative;
+        z-index: 1;
+        width: min(94vw, 960px);
+    }
 
-        width: 36px;
-        height: 36px;
-        border: none;
-        border-radius: 50%;
-
-        background: rgba(255, 255, 255, 0.12);
-        color: #fff;
-        font-size: 20px;
-        cursor: pointer;
+    .video-body {
+        width: 100%;
     }
 
     .video-body iframe {
@@ -613,13 +550,17 @@
         background: #000;
     }
 
-    .video-content {
-        position: relative;
-        z-index: 1;
-        width: min(94vw, 960px);
-    }
-
-    .video-body {
-        width: 100%;
+    .video-close {
+        display: block;
+        margin-left: auto;
+        margin-bottom: 12px;
+        width: 36px;
+        height: 36px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.12);
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
     }
 }

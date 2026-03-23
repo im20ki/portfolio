@@ -1,68 +1,43 @@
 /* =========================
-   PROJECT SYSTEM
+   1. DOM & DATA
 ========================= */
 
 const projectSections = document.querySelectorAll(".project-sticky");
 
 const projectMediaMap = [
-    // PROJECT 01
-    [
-        [0],        // step 0 -> media 0
-        [1],        // step 1 -> media 1
-        [2],        // step 2 -> media 2
-        [3]         // step 3 -> media 3
-    ],
-
-    // PROJECT 02
-    [
-        [0],
-        [1],
-        [2],
-        [3]
-    ],
-
-    // PROJECT 03
-    [
-        [0],
-        [1],
-        [2],
-        [3]
-    ],
-
-    // PROJECT 04
-    [
-        [0],        // 프로젝트 소개
-        [1],     // 기획 및 전략 수립
-        [2],        // 디자인 및 제작 실행
-        [3]      // 운영 및 성과 관리
-    ]
+    [[0],[1],[2],[3]],
+    [[0],[1],[2],[3]],
+    [[0],[1],[2],[3]],
+    [[0],[1],[2],[3]]
 ];
 
 const stepImageCounts = [
-    [1, 1, 4, 1],     // PROJECT 01
-    [1, 4, 5, 2],     // PROJECT 02
-    [1, 1, 1, 1],     // PROJECT 03
-    [1, 4, 1, 4]      // PROJECT 04
+    [1,1,4,1],
+    [1,4,5,2],
+    [1,1,1,1],
+    [1,4,1,4]
 ];
 
+const projects = Array.from(projectSections).map((section, projectIndex) => ({
+    section,
+    steps: section.querySelectorAll(".step"),
+    media: section.querySelectorAll(".project-image-area .media"),
+    mediaMap: projectMediaMap[projectIndex] || [],
+    stepImageCounts: stepImageCounts[projectIndex] || [],
+    stepIndex: 0,
+    imageIndex: 0,
+    imageCount: [],
+    isTransitioning: false,
+}));
 
-const projects = Array.from(projectSections).map((section, projectIndex) => {
-    return {
-        section,
-        steps: section.querySelectorAll(".step"),
-        media: section.querySelectorAll(".project-image-area .media"),
-        mediaMap: projectMediaMap[projectIndex] || [],
-        stepImageCounts: stepImageCounts[projectIndex] || [],   // ⭐ 이 줄 추가
-        stepIndex: 0,
-        imageIndex: 0,
-        imageCount: [],
-        isTransitioning: false,
-    };
-});
+/* =========================
+   2. PROJECT CORE
+========================= */
 
 function updateProjectView(project) {
 
     project.isTransitioning = true;
+
     project.media.forEach((el, i) => {
         el.classList.toggle("active", i === project.stepIndex);
     });
@@ -84,6 +59,7 @@ function updateProjectView(project) {
 
     const captionBox = project.section.querySelector(".project-hover-caption");
     const activeMedia = project.media[project.stepIndex];
+
     let activeTarget = null;
 
     if (activeMedia) {
@@ -92,13 +68,10 @@ function updateProjectView(project) {
     }
 
     if (captionBox && activeMedia) {
-
         const textEl = captionBox.querySelector(".caption-text");
-
         if (textEl) {
             textEl.textContent = activeTarget?.dataset.caption || "";
         }
-
         captionBox.classList.add("active");
     }
 
@@ -107,24 +80,29 @@ function updateProjectView(project) {
     }, 450);
 }
 
+/* 초기 렌더 */
+
 if (!isMobile()) {
-    projects.forEach((project) => {
-        updateProjectView(project);
-    });
+    projects.forEach(updateProjectView);
 }
 
 /* =========================
-   PROJECT NAV
+   3. PROJECT NAV
 ========================= */
 
 const projectNavButtons = document.querySelectorAll(".project-nav button");
+
+function setActiveProjectNav(index) {
+    projectNavButtons.forEach((btn, i) => {
+        btn.classList.toggle("active", i === index);
+    });
+}
 
 projectNavButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
 
         const projectIndex = Number(btn.dataset.project);
-
-        const targetProject = document.querySelectorAll(".project-sticky")[projectIndex];
+        const targetProject = projectSections[projectIndex];
         if (!targetProject) return;
 
         setActiveProjectNav(projectIndex);
@@ -139,12 +117,6 @@ projectNavButtons.forEach((btn) => {
     });
 });
 
-function setActiveProjectNav(index) {
-    projectNavButtons.forEach((btn, i) => {
-        btn.classList.toggle("active", i === index);
-    });
-}
-
 function updateProjectNavOnScroll() {
 
     const 기준선 = window.scrollY + window.innerHeight * 0.5;
@@ -152,7 +124,6 @@ function updateProjectNavOnScroll() {
     setActiveProjectNav(-1);
 
     projectSections.forEach((section, index) => {
-
         const top = section.offsetTop;
         const bottom = top + section.offsetHeight;
 
@@ -166,7 +137,7 @@ window.addEventListener("scroll", updateProjectNavOnScroll);
 updateProjectNavOnScroll();
 
 /* =========================
-   HOVER CAPTION
+   4. CAPTION (PC HOVER)
 ========================= */
 
 if (!isMobile()) {
@@ -186,8 +157,7 @@ if (!isMobile()) {
 
         if (textEl) textEl.textContent = text;
 
-        captionBox.classList.add("active");
-        captionBox.classList.add("hover");
+        captionBox.classList.add("active", "hover");
     });
 
     document.addEventListener("mouseout", (e) => {
@@ -203,6 +173,10 @@ if (!isMobile()) {
         captionBox.classList.remove("hover");
     });
 }
+
+/* =========================
+   5. MOBILE CAPTION CORE
+========================= */
 
 function getMediaCaptionTargets(media) {
     if (!media) return [];
@@ -231,6 +205,10 @@ function updateMobileProjectCaption(section, media) {
     textEl.textContent = text;
     captionBox.classList.toggle("active", Boolean(text));
 }
+
+/* =========================
+   6. MOBILE ACTIVE MEDIA
+========================= */
 
 function updateMobileProjectActiveMedia(section) {
     if (!isMobile() || !section) return;
@@ -263,12 +241,15 @@ function updateMobileProjectActiveMedia(section) {
     updateMobileProjectCaption(section, activeMedia);
 }
 
+/* =========================
+   7. MOBILE CAPTION SETUP
+========================= */
+
 function setupMobileProjectCaptions() {
     if (!isMobile()) return;
 
-    const sections = document.querySelectorAll(".project-sticky");
+    projectSections.forEach((section) => {
 
-    sections.forEach((section) => {
         const imageArea = section.querySelector(".project-image-area");
         if (!imageArea) return;
 
@@ -281,7 +262,7 @@ function setupMobileProjectCaptions() {
         };
 
         const requestUpdate = () => {
-            // 🔥 RAF 중복 방지
+
             if (!isTicking) {
                 rafId = requestAnimationFrame(() => {
                     update();
@@ -290,24 +271,23 @@ function setupMobileProjectCaptions() {
                 isTicking = true;
             }
 
-            // 🔥 scroll 멈춤 보정
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(update, 120);
         };
 
         imageArea.addEventListener("scroll", requestUpdate, { passive: true });
 
-        // 🔥 최초 1회만 실행
         requestAnimationFrame(update);
     });
 
-    // 🔥 전역 1회만 등록 (중복 제거)
     window.addEventListener("resize", () => {
-        document.querySelectorAll(".project-sticky").forEach((section) => {
-            updateMobileProjectActiveMedia(section);
-        });
+        projectSections.forEach(updateMobileProjectActiveMedia);
     });
 }
+
+/* =========================
+   8. MOBILE VERTICAL SLIDER
+========================= */
 
 function setupMobileVerticalSliders() {
     if (!isMobile()) return;
@@ -315,8 +295,10 @@ function setupMobileVerticalSliders() {
     const frames = document.querySelectorAll(".project-image-area .media .frame");
 
     frames.forEach((frame) => {
+
         const media = frame.closest(".media");
         const section = frame.closest(".project-sticky");
+
         const captionTargets = Array.from(frame.querySelectorAll(".media-img, iframe[data-caption]"));
 
         captionTargets.forEach((el, idx) => {
@@ -330,127 +312,114 @@ function setupMobileVerticalSliders() {
         const images = Array.from(frame.querySelectorAll(".media-img"));
         const iframes = Array.from(frame.querySelectorAll("iframe[data-caption]"));
 
-        if (images.length <= 1) {
-            if (iframes.length > 1) {
-                const indicator = document.createElement("div");
-                indicator.className = "frame-indicator";
-                indicator.setAttribute("aria-hidden", "true");
+        /* ---------- iframe vertical ---------- */
 
-                iframes.forEach((_, idx) => {
-                    const dot = document.createElement("span");
-                    dot.className = "frame-indicator-dot";
+        if (images.length <= 1 && iframes.length > 1) {
 
-                    if (idx === 0) {
-                        dot.classList.add("active");
-                    }
+            const indicator = document.createElement("div");
+            indicator.className = "frame-indicator";
+            indicator.setAttribute("aria-hidden", "true");
 
-                    indicator.appendChild(dot);
-                });
+            iframes.forEach((_, idx) => {
+                const dot = document.createElement("span");
+                dot.className = "frame-indicator-dot";
+                if (idx === 0) dot.classList.add("active");
+                indicator.appendChild(dot);
+            });
 
-                media.appendChild(indicator);
+            media.appendChild(indicator);
 
-                let rafId = null;
+            let rafId = null;
 
-                const updateIframeCaption = () => {
-                    if (rafId) cancelAnimationFrame(rafId);
+            const updateIframeCaption = () => {
 
-                    rafId = requestAnimationFrame(() => {
-                        const pageHeight = Math.max(frame.clientHeight, 1);
-                        let index = Math.round(frame.scrollTop / pageHeight);
+                if (rafId) cancelAnimationFrame(rafId);
 
-                        index = Math.max(0, Math.min(iframes.length - 1, index));
+                rafId = requestAnimationFrame(() => {
 
-                        if (media) {
-                            media.dataset.activeInnerIndex = String(index);
-                        }
+                    const pageHeight = Math.max(frame.clientHeight, 1);
+                    let index = Math.round(frame.scrollTop / pageHeight);
 
-                        const dots = indicator.querySelectorAll(".frame-indicator-dot");
-                        dots.forEach((dot, idx) => {
-                            dot.classList.toggle("active", idx === index);
-                        });
+                    index = Math.max(0, Math.min(iframes.length - 1, index));
 
-                        updateMobileProjectCaption(section, media);
+                    media.dataset.activeInnerIndex = String(index);
+
+                    const dots = indicator.querySelectorAll(".frame-indicator-dot");
+                    dots.forEach((dot, idx) => {
+                        dot.classList.toggle("active", idx === index);
                     });
-                };
 
-                frame.addEventListener("scroll", updateIframeCaption, { passive: true });
-                window.addEventListener("resize", updateIframeCaption);
-                window.addEventListener("load", updateIframeCaption);
+                    updateMobileProjectCaption(section, media);
+                });
+            };
 
-                updateIframeCaption();
-                return;
-            }
+            frame.addEventListener("scroll", updateIframeCaption, { passive: true });
+            window.addEventListener("resize", updateIframeCaption);
+            window.addEventListener("load", updateIframeCaption);
 
-            updateMobileProjectCaption(section, media);
+            updateIframeCaption();
             return;
         }
 
-        frame.classList.add("has-multi-images");
+        /* ---------- image vertical ---------- */
 
-        const track = document.createElement("div");
-        track.className = "multi-frame-track";
+        if (images.length > 1) {
 
-        images.forEach((img) => track.appendChild(img));
-        frame.appendChild(track);
+            frame.classList.add("has-multi-images");
 
-        const indicator = document.createElement("div");
-        indicator.className = "frame-indicator";
-        indicator.setAttribute("aria-hidden", "true");
+            const track = document.createElement("div");
+            track.className = "multi-frame-track";
 
-        images.forEach((_, idx) => {
-            const dot = document.createElement("span");
-            dot.className = "frame-indicator-dot";
+            images.forEach((img) => track.appendChild(img));
+            frame.appendChild(track);
 
-            if (idx === 0) {
-                dot.classList.add("active");
+            const indicator = document.createElement("div");
+            indicator.className = "frame-indicator";
+
+            images.forEach((_, idx) => {
+                const dot = document.createElement("span");
+                dot.className = "frame-indicator-dot";
+                if (idx === 0) dot.classList.add("active");
+                indicator.appendChild(dot);
+            });
+
+            media.appendChild(indicator);
+
+            let index = 0;
+            let startY = 0;
+            let deltaY = 0;
+            let rafId = null;
+
+            function applyTransform(offsetPercent = 0) {
+                const base = -index * 100;
+                track.style.transform = `translate3d(0, ${base + offsetPercent}%, 0)`;
             }
 
-            indicator.appendChild(dot);
-        });
+            function updateIndicator() {
+                const dots = indicator.querySelectorAll(".frame-indicator-dot");
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle("active", idx === index);
+                });
+            }
 
-        media.appendChild(indicator);
+            function update() {
+                track.style.transition = "transform 0.25s cubic-bezier(0.22,1,0.36,1)";
+                applyTransform(0);
 
-        let index = 0;
+                media.dataset.activeInnerIndex = String(index);
+                updateIndicator();
+                updateMobileProjectCaption(section, media);
+            }
 
-        let startY = 0;
-        let deltaY = 0;
-        let rafId = null;
-
-        function applyTransform(offsetPercent = 0) {
-            const base = -index * 100;
-            track.style.transform = `translate3d(0, ${base + offsetPercent}%, 0)`;
-        }
-
-        function updateIndicator() {
-            const dots = indicator.querySelectorAll(".frame-indicator-dot");
-            dots.forEach((dot, idx) => {
-                dot.classList.toggle("active", idx === index);
-            });
-        }
-
-        function update() {
-            track.style.transition = "transform 0.25s cubic-bezier(0.22,1,0.36,1)";
-            applyTransform(0);
-
-            if (media) media.dataset.activeInnerIndex = String(index);
-            updateIndicator();
-            updateMobileProjectCaption(section, media);
-        }
-
-        frame.addEventListener(
-            "touchstart",
-            (e) => {
+            frame.addEventListener("touchstart", (e) => {
                 startY = e.touches[0].clientY;
                 deltaY = 0;
                 track.style.transition = "none";
-            },
-            { passive: true }
-        );
+            }, { passive: true });
 
-        frame.addEventListener(
-            "touchmove",
-            (e) => {
-                if (!e.touches || !e.touches.length) return;
+            frame.addEventListener("touchmove", (e) => {
+
+                if (!e.touches?.length) return;
 
                 deltaY = e.touches[0].clientY - startY;
 
@@ -466,40 +435,34 @@ function setupMobileVerticalSliders() {
                     const limited = Math.max(-25, Math.min(25, percent));
                     applyTransform(limited);
                 });
-            },
-            { passive: false }
-        );
 
-        frame.addEventListener("touchend", () => {
-            if (rafId) {
-                cancelAnimationFrame(rafId);
-                rafId = null;
-            }
+            }, { passive: false });
 
-            const height = Math.max(frame.clientHeight, 1);
-            const ratio = Math.abs(deltaY) / height;
+            frame.addEventListener("touchend", () => {
 
-            const thresholdRatio = 0.18;
+                if (rafId) cancelAnimationFrame(rafId);
 
-            if (deltaY < 0 && ratio > thresholdRatio && index < images.length - 1) {
-                index++;
-            }
+                const height = Math.max(frame.clientHeight, 1);
+                const ratio = Math.abs(deltaY) / height;
+                const thresholdRatio = 0.18;
 
-            if (deltaY > 0 && ratio > thresholdRatio && index > 0) {
-                index--;
-            }
+                if (deltaY < 0 && ratio > thresholdRatio && index < images.length - 1) index++;
+                if (deltaY > 0 && ratio > thresholdRatio && index > 0) index--;
+
+                update();
+            });
 
             update();
-        });
+            return;
+        }
 
-        update();
+        updateMobileProjectCaption(section, media);
     });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    setupMobileVerticalSliders();
-    setupMobileProjectCaptions();
-});
+/* =========================
+   9. YOUTUBE UTIL
+========================= */
 
 function getYoutubeIdFromSrc(src = "") {
     const match = src.match(/embed\/([^?&"/]+)/);
@@ -507,6 +470,10 @@ function getYoutubeIdFromSrc(src = "") {
 }
 
 window.getYoutubeIdFromSrc = getYoutubeIdFromSrc;
+
+/* =========================
+   10. YOUTUBE OVERLAY (PC)
+========================= */
 
 function buildPcYoutubeThumbOverlays() {
     if (isMobile()) return;
@@ -516,6 +483,7 @@ function buildPcYoutubeThumbOverlays() {
     );
 
     youtubeIframes.forEach((iframe) => {
+
         if (iframe.closest(".yt-thumb-wrap")) return;
 
         const videoId = getYoutubeIdFromSrc(iframe.src);
@@ -541,3 +509,12 @@ function buildPcYoutubeThumbOverlays() {
 if (!isMobile()) {
     buildPcYoutubeThumbOverlays();
 }
+
+/* =========================
+   11. INIT
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+    setupMobileVerticalSliders();
+    setupMobileProjectCaptions();
+});

@@ -49,7 +49,6 @@ function openImageModal(clickedImg) {
 
   if (!clickedImg) return;
 
-  /* ---------- PC ---------- */
   if (!isMobile()) {
     const clone = clickedImg.cloneNode(true);
 
@@ -60,10 +59,7 @@ function openImageModal(clickedImg) {
     clone.style.maxHeight = "none";
 
     modalBody.appendChild(clone);
-  }
-
-  /* ---------- MOBILE ---------- */
-  else {
+  } else {
     const section = clickedImg.closest(".project-sticky");
     if (!section) return;
 
@@ -94,7 +90,6 @@ function openImageModal(clickedImg) {
   modal.classList.add("active");
   document.body.style.overflow = "hidden";
 
-  /* 모바일 위치 보정 */
   if (isMobile() && modalContent && mobileModalTarget) {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
@@ -183,8 +178,6 @@ function closeVideoModal() {
    6. EVENT BINDING
 ========================= */
 
-/* image modal */
-
 if (modalDim) {
   modalDim.addEventListener("click", closeImageModal);
 }
@@ -193,8 +186,6 @@ if (modalClose) {
   modalClose.addEventListener("click", closeImageModal);
 }
 
-/* ESC */
-
 window.addEventListener("keydown", (e) => {
   if (e.key !== "Escape") return;
 
@@ -202,11 +193,8 @@ window.addEventListener("keydown", (e) => {
   closeVideoModal();
 });
 
-/* GLOBAL CLICK */
-
 document.addEventListener("click", (e) => {
 
-  /* youtube thumb (PC/Mobile 공통) */
   const clickedThumb = e.target.closest(
     ".project-image-area .youtube-thumb-overlay[data-video-id]"
   );
@@ -216,7 +204,6 @@ document.addEventListener("click", (e) => {
     return;
   }
 
-  /* mobile youtube grid */
   if (isMobile()) {
     const clickedYoutubeFrame = e.target.closest(
       ".project-image-area .youtube-grid .frame"
@@ -243,7 +230,6 @@ document.addEventListener("click", (e) => {
     }
   }
 
-  /* image click */
   const clickedImg = e.target.closest(".project-image-area img.media-img");
 
   if (!clickedImg) return;

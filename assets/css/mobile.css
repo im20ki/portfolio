@@ -18,6 +18,10 @@
         display: none;
     }
 
+    .pc-br {
+        display: none;
+    }
+
     .mobile-only {
         display: inline;
         letter-spacing: 0.2em;
@@ -171,7 +175,7 @@
     }
 
     .project-text-area .step h3 {
-        font-size: 0.95rem;
+        font-size: 1.25rem;
         margin-bottom: 10px;
         letter-spacing: 0.12em;
         text-transform: uppercase;
@@ -375,7 +379,7 @@
         padding: 0 16px;
         font-size: 0.82rem;
         line-height: 1.6;
-        color: rgba(0, 0, 0, 0.68);
+        color: rgba(0,0,0,0.4);
         opacity: 0;
         transition: opacity 0.25s ease;
         box-sizing: border-box;

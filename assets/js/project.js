@@ -80,8 +80,6 @@ function updateProjectView(project) {
     }, 450);
 }
 
-/* 초기 렌더 */
-
 if (!isMobile()) {
     projects.forEach(updateProjectView);
 }
@@ -312,8 +310,6 @@ function setupMobileVerticalSliders() {
         const images = Array.from(frame.querySelectorAll(".media-img"));
         const iframes = Array.from(frame.querySelectorAll("iframe[data-caption]"));
 
-        /* ---------- iframe vertical ---------- */
-
         if (images.length <= 1 && iframes.length > 1) {
 
             const indicator = document.createElement("div");
@@ -360,8 +356,6 @@ function setupMobileVerticalSliders() {
             updateIframeCaption();
             return;
         }
-
-        /* ---------- image vertical ---------- */
 
         if (images.length > 1) {
 

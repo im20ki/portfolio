@@ -17,7 +17,6 @@ if (!isMobile()) {
         "wheel",
         (e) => {
 
-            /* 최초 위치 보정 */
             if (!firstWheelFixDone) {
                 const idx = getCurrentSceneIndex();
                 const scene = scenes[idx];
@@ -25,19 +24,16 @@ if (!isMobile()) {
                 firstWheelFixDone = true;
             }
 
-            /* 모달 열림 상태 차단 */
             if (modal && modal.classList.contains("active")) return;
 
             const activeVideoModal = document.querySelector(".video-modal.active");
             if (activeVideoModal) return;
 
-            /* 애니메이션 중 차단 */
             if (currentAnimation) {
                 e.preventDefault();
                 return;
             }
 
-            /* 미세 스크롤 무시 */
             if (Math.abs(e.deltaY) < 30) return;
 
             const currentSceneIndex = getCurrentSceneIndex();
@@ -47,17 +43,12 @@ if (!isMobile()) {
                 (p) => p.section === currentScene
             );
 
-            /* ======================
-               PROJECT INTERACTION
-            ====================== */
-
             if (currentProject && currentProject.steps.length > 0) {
 
                 e.preventDefault();
 
                 if (currentProject.isTransitioning) return;
 
-                /* ---------- DOWN ---------- */
                 if (e.deltaY > 0) {
 
                     const maxImages =
@@ -83,7 +74,6 @@ if (!isMobile()) {
                     return;
                 }
 
-                /* ---------- UP ---------- */
                 if (e.deltaY < 0) {
 
                     if (currentProject.imageIndex > 0) {
@@ -110,10 +100,6 @@ if (!isMobile()) {
                     return;
                 }
             }
-
-            /* ======================
-               SCENE NAVIGATION
-            ====================== */
 
             e.preventDefault();
 
@@ -159,7 +145,6 @@ function handleContactTakeover() {
 
     const triggerTop = contactTrigger.getBoundingClientRect().top;
 
-    /* MOBILE */
     if (window.innerWidth <= 768) {
 
         if (triggerTop <= window.innerHeight * 0.8) {
@@ -173,7 +158,6 @@ function handleContactTakeover() {
         return;
     }
 
-    /* PC */
     if (triggerTop <= window.innerHeight * 0.3) {
         contactTakeover.classList.add("active");
         document.body.classList.add("contact-open");

@@ -2,15 +2,20 @@
    1. DOM CACHE
 ========================= */
 
+// Reveal elements
 const reveals = document.querySelectorAll(".reveal");
 
+// Hero UI
 const heroUI = document.querySelector(".hero-content.cyber-ui");
 
+// Spline & Loader
 const splineViewer = document.querySelector("spline-viewer");
 const heroLoader = document.querySelector(".hero-loader");
 
+// Hero section
 const heroSection = document.getElementById("hero");
 const heroBg = document.querySelector("#hero .hero-bg");
+
 
 /* =========================
    2. STATE
@@ -22,6 +27,7 @@ let targetY = 0;
 let currentX = 0;
 let currentY = 0;
 
+
 /* =========================
    3. UTIL
 ========================= */
@@ -31,12 +37,12 @@ function isHeroInView() {
   return rect.top < window.innerHeight && rect.bottom > 0;
 }
 
+
 /* =========================
-   4. REVEAL
+   4. REVEAL ON SCROLL
 ========================= */
 
 function revealOnScroll() {
-
   const triggerPoint = window.innerHeight * 0.85;
 
   reveals.forEach((el) => {
@@ -48,21 +54,19 @@ function revealOnScroll() {
 window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
 
+
 /* =========================
-   5. HERO MICRO MOVE
+   5. HERO MICRO MOVEMENT
 ========================= */
 
 if (heroUI && !isMobile()) {
 
   window.addEventListener("mousemove", (e) => {
-
     targetX = (e.clientX / window.innerWidth - 0.5) * 12;
     targetY = (e.clientY / window.innerHeight - 0.5) * 12;
-
   });
 
   function animateHero() {
-
     currentX += (targetX - currentX) * 0.08;
     currentY += (targetY - currentY) * 0.08;
 
@@ -75,12 +79,14 @@ if (heroUI && !isMobile()) {
   animateHero();
 }
 
+
 /* =========================
    6. SPLINE SYSTEM
 ========================= */
 
 if (splineViewer && !isMobile()) {
 
+  // Hidden prewarm container
   const prewarmBox = document.createElement("div");
 
   prewarmBox.style.cssText = `
@@ -101,12 +107,14 @@ if (splineViewer && !isMobile()) {
 
     if (isHeroInView()) {
 
+      // Move spline into hero when visible
       if (heroBg && splineViewer.parentElement !== heroBg) {
         heroBg.appendChild(splineViewer);
       }
 
     } else {
 
+      // Move spline to hidden container when not visible
       if (splineViewer.parentElement !== prewarmBox) {
         prewarmBox.appendChild(splineViewer);
       }
@@ -118,6 +126,7 @@ if (splineViewer && !isMobile()) {
 
   placeSpline();
 }
+
 
 /* =========================
    7. SPLINE LOADER
@@ -131,9 +140,11 @@ if (splineViewer && heroLoader) {
 
       heroLoader.classList.add("hidden");
 
+      // Force layout refresh
       window.dispatchEvent(new Event("resize"));
 
     }, 500);
 
   });
+
 }

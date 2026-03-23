@@ -63,12 +63,9 @@ function scrollToScene(index) {
   const targetY = scene.offsetTop;
 
   const distance = targetY - startY;
-
   const duration = 850;
 
   let startTime = null;
-
-  /* easing */
 
   function easeInOutCubic(t) {
     return t < 0.5
@@ -86,11 +83,8 @@ function scrollToScene(index) {
     window.scrollTo(0, startY + distance * eased);
 
     if (progress < 1) {
-
       currentAnimation = requestAnimationFrame(animateScroll);
-
     } else {
-
       currentAnimation = null;
     }
   }
